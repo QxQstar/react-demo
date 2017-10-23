@@ -1,0 +1,117 @@
+.content{
+    margin: 20px 20px 0;
+    border-radius: 4px;
+    border: 1px solid #b7c8d0;
+    overflow: auto;
+}
+.listHeader{
+    height: 50px;
+    line-height: 50px;
+    background: #f2f5f9;
+    border-radius: 4px 4px 0 0;
+    padding: 0 0 0 20px;
+    border-bottom: 1px solid #e9eef1;
+}
+.listHeader .switch{
+    height: 100%;
+}
+.listHeader .icon{
+    vertical-align: top;
+    width: 50px;
+    text-align: center;
+    height: 100%;
+    line-height: 50px;
+    cursor: pointer;
+    border-left: 1px solid #b7c8d0;
+    color: #8899a9;
+}
+.listHeader .icon.active{
+    background: #ffffff;
+    color: #25c870;
+}
+.list{
+    padding-bottom: 10px;
+}
+.list .cartItem{
+    float: left;
+    width: 280px;
+    margin: 10px 0 0 10px;
+    padding: 10px;
+    font-size: 14px;
+    border-radius: 4px;
+    border: 1px solid #dee6ea;
+    -webkit-box-shadow: 1px 1px 5px #dee6ea;
+    box-shadow: 1px 1px 5px #dee6ea;
+}
+.cartItem .headimg{
+    cursor: pointer;
+}
+.list .cartItem .name{
+    cursor: pointer;
+}
+.list .cartItem .name:hover{
+    color: #24c875;
+}
+.list .cartItem .tel{
+    margin-left: 10px;
+}
+.cartItem .leader{
+    padding: 1px;
+    color: #ffffff;
+    font-size: 12px;
+    background: #25c870;
+}
+.heart.like{
+    color: #25c870;
+}
+.heart,.del{
+    position: absolute;
+    right: 0;
+    color: #8899a9;
+    cursor: pointer;
+    height: 16px;
+    top:0;
+    bottom: 0;
+    margin: auto;
+}
+.del{
+    color: #8899a9;
+    right: 30px;
+    font-size: 16px;
+
+}
+.listRow {
+    height: 48px;
+    padding-left: 20px;
+    line-height: 48px;
+    border-bottom: 1px solid #b7c8d0;
+}
+.listRow:hover{
+    background: rgba(36, 238, 145, 0.1);
+}
+.listRow .heart{
+    right: 80px;
+}
+.listRow .col{
+    height: 100%;
+}
+.listRow .col.col-1{
+    color: #24c875;
+    cursor: pointer;
+}
+.listRow .col .leader{
+    background: #24c875;
+    color: #ffffff;
+    font-size: 12px;
+    margin-left: 5px;
+    padding: 1px 2px;
+}
+.m-empty{
+    padding-top: 200px;
+    text-align: center;
+}
+.m-empty .word{
+    font-size: 14px;
+    margin-top: 20px;
+    color: #b8e0c8;
+}

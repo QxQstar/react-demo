@@ -1,0 +1,20 @@
+.g-layout{
+    height: 100%;
+}
+.g-clearfix:after{
+    content: '';
+    height: 0;
+    overflow: hidden;
+    display: block;
+    clear: both;
+    visibility: hidden;
+}
+.g-layout .g-left{
+    height: 100%;
+    float: left;
+    width: 200px;
+}
+.g-layout .g-right{
+    display: table-cell;
+    width: 9999px;
+}

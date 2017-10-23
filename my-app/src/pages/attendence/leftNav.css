@@ -1,0 +1,24 @@
+.m-leftNav{
+    height: 100%;
+    background: #e9eef1;
+    padding-top: 30px;
+    overflow: auto;
+}
+.m-leftNav .nav{
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+
+    cursor: pointer;
+}
+.m-leftNav .link{
+    padding-left: 1em;
+    display: block;
+    height: 100%;
+}
+.m-leftNav .nav:hover{
+    background: #f6f6f6;
+}
+.m-leftNav .nav a{
+    color: #282828;
+}

@@ -1,0 +1,70 @@
+body {
+  margin: 0;
+  padding: 0;
+  font-family: sans-serif;
+}
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    list-style: none;
+}
+input:focus{
+    outline: none;
+    padding-left: 1em;
+}
+.warp{
+    width: 400px;
+    margin: auto;
+    margin-top: 100px;
+    border: 1px solid #ebebeb;
+    box-shadow: 0 0 10px #ebebeb;
+    border-radius: 8px;
+    padding:20px;
+}
+.warp .header{
+    text-align: center;
+    color: #333;
+    font-size: 16px;
+    font-weight: normal;
+    margin-bottom: 20px;
+}
+.warp .inputBox .input{
+    height: 40px;
+    width: 360px;
+    border: 1px solid #999;
+    font-size: 14px;
+    color: #333333;
+}
+.warp .inputBox .batchDel{
+    cursor: pointer;
+    font-size: 12px;
+    margin-left: 20px;
+    color: #333333;
+}
+.warp .inputBox label{
+   color: #333333;
+    font-size: 12px;
+}
+.warp .inputBox .ctr{
+    margin-top: 10px;
+}
+.warp .info{
+    color: #999999;
+    font-size: 12px;
+}
+.warp .list li{
+    position: relative;
+    height: 40px;
+    line-height: 40px;
+    color: #555;
+    font-size: 13px;
+    border-bottom: 1px solid #ebebeb;
+}
+.warp .list li .del{
+    position: absolute;
+    right: 0;
+    color: #333333;
+    font-size: 16px;
+    cursor: pointer;
+}

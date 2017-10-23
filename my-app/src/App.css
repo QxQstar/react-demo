@@ -1,0 +1,136 @@
+@import '~antd/dist/antd.css';
+.g-header{
+    width: 100%;
+    padding: 13px 20px;
+    border-bottom: 1px solid #ebebeb;
+}
+.g-search{
+    width: 200px;
+}
+.g-filter-letter{
+    position: relative;
+}
+.g-filter-letter .list{
+    position: absolute;
+    width: 400px;
+    top:35px;
+    left: 0;
+    background: #ffffff;
+    padding: 5px 10px;
+    border-radius: 4px;
+    box-shadow: 0 0 4px #e1e1e1;
+}
+.g-filter-letter li{
+    cursor: pointer;
+    font-size: 14px;
+    padding: 5px 8px;
+    border-radius: 2px;
+}
+.g-filter-letter li.active{
+    background: #19be6b;
+    color: #ffffff;
+}
+.g-filter-letter li:hover{
+    background: #f3f3f3;
+}
+.g-navActive{
+    color: #19be6b !important;
+}
+.g-navActive{
+    background: #f6f6f6 !important;
+}
+.g-breadcrumd{
+    height: 50px;
+    line-height: 50px;
+    border-bottom: 1px solid #cadeee;
+    padding-left: 20px;
+    font-size: 13px;
+}
+.g-breadcrumd a{
+    color: #19be6b;
+}
+.g-breadcrumd .separator{
+    margin: 0 5px;
+}
+.g-from{
+    font-size: 14px;
+}
+.g-from tr{
+    padding-bottom: 20px;
+}
+.g-from .in-star{
+    font-size: 14px;
+    color: #ff6533;
+}
+.g-from .in-h{
+    color: #8899a9;
+    padding-right: 40px;
+    text-align: right;
+}
+.g-from button:focus{
+    outline: none;
+}
+.g-from .input{
+    width: 256px;
+    height: 35px;
+    padding-left: .5em;
+    border: none;
+    border-bottom: 1px solid #e9e9e9;
+    margin-bottom: 10px;
+}
+.g-from .input:focus{
+    border-bottom: 1px solid #24c875;
+}
+.g-from .cancel{
+    border: 1px solid #8899a9;
+    color: #8899a9;
+    background: #ffffff;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.g-from .submit{
+    border: none;
+    color: #ffffff;
+    background: #24c875;
+    border-radius: 4px;
+    padding: 5px 10px;
+    font-size: 12px;
+    cursor: pointer;
+}
+.g-top-col{
+     border-bottom: 1px solid #cadeee;
+        padding: 10px 0 10px 20px;
+}
+.ant-btn-primary{
+    background: #24c875;
+    border: none;
+}
+.ant-btn-primary:hover,
+.ant-btn-primary:focus{
+    background: #24c875;
+    border: none;
+}
+.ant-btn-default:hover,
+.ant-btn-default:focus{
+    color: #555;
+    border: 1px solid #8899a9;
+}
+.f-di{
+    display: inline-block;
+}
+.f-fr{
+    float: right;
+}
+.f-fl{
+    float: left;
+}
+.f-clearFix:after{
+    content: '';
+    display: block;
+    clear: both;
+    overflow: hidden;
+    height: 0;
+    visibility: 0;
+}

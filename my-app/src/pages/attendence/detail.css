@@ -1,0 +1,42 @@
+.m-detail{
+    font-size: 14px;
+}
+.m-detail .img{
+    width: 120px;
+    height: 120px;
+    float: left;
+    font-size: 28px;
+}
+.m-detail .add{
+    padding: 30px;
+    padding-left: 100px;
+}
+.m-detail .base{
+    padding: 30px;
+    padding-left: 100px;
+    border-bottom: 1px solid #f2f5f9;
+}
+.m-detail .word{
+    float:left;
+    margin-top: 10px;
+    margin-left: 20px;
+}
+.m-detail .word .name{
+    display: block;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+.m-detail .word p{
+    margin-bottom: 10px;
+}
+.m-detail .title{
+    font-size: 14px;
+    color: #8899a9;
+    margin-right: 10px;
+}
+.m-detail .add p{
+    margin-bottom: 10px;
+}
+.m-detail .add .title{
+    margin-right: 40px;
+}

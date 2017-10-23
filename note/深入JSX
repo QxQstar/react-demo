@@ -1,0 +1,54 @@
+1.jsx只是React.createElement(element,props,children)的语法糖;
+    <MyButton color='red' num={2}>Click me</MyButton>
+    会被编译成
+    React.createElement(MyButton,{
+       color:'red',
+       num:2
+    },'Click me');
+    自闭和元素：<div color='red'/>,会被编译成
+    React.createElement('div',{
+        color:'red'
+    },null)
+2.jsx的第一部分决定了react组件的类型。大写的类型表明jsx标签指的是一个react组件。这些标签被编译到直接引用的命名变量中，所以如果使用jsx<MyButton/>表达式，
+MyButton必须在作用域内，因为编译jsx要使用React.createElement,所以React也必须在作用域范围内
+3.React组件可以是一个对象的属性，如下：
+const allComponents = {
+    MyButton:function(props){
+        return <button>hi</button>
+    }
+}
+<allComponents.MyButton/>
+4.自定义的组件必须以大写开头。如果一个元素以小写字母开头，那么react会认为它是一个内置的组件(如:div,p等)，这种情况React.createElement的第一个参数是字符串
+5.不能使用一个表达式作为React 元素类型。但是可以先将这个表达式的值保存到一个以大写字母开头的变量中
+const typesElement = {
+    One:function One(props) {
+        return <p>one</p>
+    },
+    Two:function Two(props) {
+        return <p>two</p>
+    }
+};
+function MyButton(props) {
+    const Com = typesElement[props.type];
+    return <Com/>
+}
+function Jsx(props) {
+    return <MyButton type='One'/>
+}
+6.在jsx中有多种指定props的方式
+    1).js表达式：<MyButton num={1+2+3}/>
+    2).纯字符串: <MyButton string="hi"/>
+    3).如果没有给prop赋值，那么这个prop默认为true:<MyButton show/>
+    4).扩展运算符
+    const props = {first:'one','second':'two'}
+    <MyButton {...props}/> 等价于 <MyButton first='one' second='two'/>
+7.jsx表达式中开标签核闭标签之间的内容将作为一个特殊的prop——props.children开标签与闭标签之间可以是字符串，其他组件，js表达式或者函数(props.children
+和其他的props一样可以传递任何类型的数据)。当props.children为布尔值，null,undefined时，props.children会被忽略
+<div/> == <div>{true}</div> == <div>{false}</div> == <div>{null}</div> == <div>{undefined时}</div>,这种特性对条件渲染是很有用的，如下
+<myButton>
+    {show && <Header/>}
+    <Text/>
+</MyButton>
+当show为true时,<Header/>才会被显示
+如果想让null,false,true,undefined被输出，先要把它们转换为字符串
+<myButton>I am is {show.toString()}</myButton>

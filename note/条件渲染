@@ -1,0 +1,63 @@
+1.可以将元素保存到一个变量中，通过为变量赋不同的值去渲染不同的元素，例如
+function LoginButton(props){
+    return <button onClick={props.handleClick}>Login</button>
+}
+function LogoutButton(props){
+    return <button onClick={props.handleClick}>Logout</button>
+}
+class LoginCtr extend React.Component{
+    constructor(props){
+        super(props);
+        this.state={isLogin:false}
+    }
+    logOut(){
+        this.setSate({
+            isLogin:false
+        })
+    }
+    logIn(){
+        this.setState({
+            isLogin:true
+        });
+    }
+    render(){
+        let button;
+        if(this.state.isLogin){
+            button = <LogoutButton handleClick={this.logOut.bind(this)}/>
+        } else {
+            button = <LogInButton handleClick={this.logIn.bind(this)}/>
+        }
+        return (<div>{button}</div>);
+    }
+};
+2.阻止组件渲染
+在少数情况下，你可能想让组件隐藏它自己而非被渲染到其他组件中，可以通过return null达到这种效果。如下：
+function Waring(props){
+    if(!props.waring){
+       return null;
+    }
+    return <div>this is a waring</div>
+}
+class waringCtr extend React.Component{
+    constructor(props){
+        super(props);
+        this.state = {hasWarn:false}
+    }
+    handle(){
+        let hasWarn = this.state.hasWarn;
+        hasWarn = !hasWarn;
+        this.setState({
+            hasWarn:hasWarn
+        });
+    }
+    render(){
+        return (
+            <div>
+                <button onClick={this.handle.bind(this)}>{this.state.hasWarn ? 'hideWarn':'showWarn'}</button>
+                <Waring waring={this.state.hasWarn}/>
+            </div>
+        )
+    }
+};
+在组件的render方法中返回null，并不会影响组件生命周期函数的调用，所以Waring组件的componentWillUpdate方法和componentDidUpdate方法还是会
+被调用

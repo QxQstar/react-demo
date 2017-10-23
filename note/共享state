@@ -1,0 +1,62 @@
+1.通常，一些组件需要反映相同的数据更改，这种情况推荐将共享state移动到它们最近的公共祖先上。
+在这里有一个例子：有一个温度计算器计算在给定温度是否能让水沸腾，用户可以输入华氏温度也能输入摄氏温度，当改变一种温度时另一种温度也要跟着改变
+在这里摄氏温度输入框的值与华氏温度输入框的值要相互关联，所以这两个输入框都引用了同一个状态，所以这个共享的状态要位于他们最近的公共祖先上。具体代码如下：
+class TemperatureInput extends React.Component{
+    handleChange(event){
+        this.props.change(this.props.scale,event.target.value);
+    }
+    render(){
+        return <p>
+            <label>{this.props.scale === 'c' ? '摄氏温度' : '华氏温度'}:</label>
+            <input type='text' value={this.props.value} onChange={this.handleChange.bind(this)}/>
+        </p>
+    }
+}
+class ShowBoil extends React.Component{
+    render(){
+        if(this.props.temperature >= 100){
+            return <p>The water would boil</p>
+        } else {
+            return <p>The water would not boil</p>
+        }
+
+    }
+}
+class Calculator  extends React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            scale:'c',
+            temperature:''
+        };
+    }
+    changeState(scale,temperature){
+       this.setState({scale,temperature});
+    }
+    covertTemperature(scale,temperature){
+        if(Number.isNaN(parseFloat(temperature))){
+            return ''
+        }
+        // 把摄氏温度转换为华氏温度
+        if(scale === 'c'){
+            return ((temperature * 9 / 5) + 32) + '';
+        }
+        // 将华氏温度转换为摄氏温度
+        else {
+            return ((temperature - 32) * 5 / 9 ) + '';
+        }
+    }
+    render(){
+        const scale = this.state.scale;
+        const temperature = this.state.temperature;
+        const cTemperature = scale === 'f'?this.covertTemperature(scale,temperature):temperature;
+        const fTemperature = scale ==='c'?this.covertTemperature(scale,temperature):temperature;
+        return (
+            <div>
+                <TemperatureInput change={this.changeState.bind(this)} value={cTemperature} scale='c'/>
+                <TemperatureInput change={this.changeState.bind(this)} value={fTemperature} scale='f'/>
+                <ShowBoil temperature={cTemperature}/>
+            </div>
+        )
+    }
+}

@@ -1,0 +1,113 @@
+1.要使用state就必须使用类的形式定义组件，接下来我们使用类的形式定义组件
+2.state是组件私有的，并且完全由组件自己控制
+3.通过类形式定义一个组件Clock
+   (1) class Clock extend React.Component{
+        render(){
+            return (
+                <div>
+                    <h1>Hello,world</h1>
+                    <p>It is {{this.state.date.toLocaleTimeString()}}</p>
+                </div>
+            )
+        }
+    };
+    (2)添加构造函数初始化state
+    class Clock extend React.Component{
+        constructor(props){
+            super(props);
+            this.state = {date:new Date()};
+        },
+        render(){
+            return (
+                <div>
+                    <h1>Hello,world</h1>
+                    <p>It is {{this.state.date.toLocaleTimeString()}}</p>
+                </div>
+            )
+        }
+    };
+    类形式的组件应该将props作为构造函数的参数
+    (3)将Clock组件显示到页面上
+    ReactDOM.render(<Clock />,document.getElementById('root'));
+4.组件的生命周期
+我们可以给组件类添加一些特定的方法，这些方法在组件的不同时期会被调用。
+(1)componentDidMount()钩子函数会在组件输出被渲染到DOM中时调用，如果想给Clock组件设置一个timer这是一个好时机
+    componentDidMount(){
+        this.timer = setInterval(() => {
+            this.tick();
+        },1000);
+    }
+    如果你要存储一些不会被用于输出的变量，你可以手动的为类添加额外的字段，没有在render中使用的变量，不应该出现在state中
+(2)可以在componentWillMount()中卸载timer
+componentWillMount(){
+    clearInterval(this.timer);
+}
+(3)接下来实现tick方法，组件的state要使用this.setState()更新
+Clock组件完整的代码，如下：
+class Clock extend React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            date:new Date()
+        };
+    },
+    render(){
+        return (
+            <div>
+                <h1>Hello world</h1>
+                <p>It is {this.state.date}</p>
+            </div>
+        )
+    },
+    componentDidMount(){
+       this.timer = setInterval(() => {
+          this.tick();
+       },1000);
+    },
+    componentWillMount(){
+       clearInterval(this.timer);
+    },
+    tick(){
+        this.setState({
+           date:new Date()
+        });
+    }
+};
+ReactDOM.render(<Clock />,docoment.getElementById('root'));
+解释代码被执行的顺序：
+    step1.当<Clock />被传递到ReactDOM.render()中时，Clock组件的构造函数会被调用，在构造函数中会初始化组件的State
+    step2.React调用组件的render()方法，React去研究哪些内容应该被显示到屏幕上，然后React更新DOM去捕获Clock组件的输出
+    step3.当Clock组件的输出被插入到DOM中后，react会调用componentDidMount()钩子函数,在这个函数中Clock组件让浏览器每秒钟调用tick()方法
+    step4.浏览器每隔一秒钟就调用tick()方法，在这个函数中会通过调用setState()去更新state，调用setState()后，React就知道state被改变了，
+    然后调用render再次去研究哪些内容应该被显示到屏幕上
+    step5.当Clock组件从DOM中移除，React调用componentWillMount()钩子函数移除定时器
+5.不要直接去修改state，只有在构造函数中才能直接给this.state赋值,在其他地方通过给state直接赋值的方式修改state，并不会引起组件的重新渲染
+只能通过this.setState()方法修改state
+6.state的更新可能时异步的
+    为了提高性能，React会将多次对setState()的调用合并成一个state的更新。因为this.props和this.state是异步更新的，所以不要依靠它们的值
+    去计算下一个state。如
+        // wrong
+        this.setState({
+            conter:this.state.conter + this.props.num
+        })
+7.setState()除了可以接受一个对象作为参数，还能接受一个函数作为参数。当setState的参数是一个函数时（可以是一个箭头函数），这个函数的第一个
+是之前的state，第二个参数为此时的props
+    this.setState((prevState,props) => {
+        return {conter:prevState.conter + props.num}
+    })
+8.组件能够将他的state作为子组件的props传递给子组件。如
+<FormattedDate date={this.state.date}/>
+FormattedDate组件在他的props上接受date，并且FormattedDate并不知道date来自于Clock的state，props还是手动添加的类型。
+这被称为从上到下的数据流。任何state都是特定组件私有的，从state派生出的数据和UI只能影响当前组件下面的组件
+9.组件之间是相互独立的
+    funtion App(props){
+        return (
+            <div>
+                <Clock/>
+                <Clock/>
+            </div>
+        )
+    }
+    ReactDOM.render(<App/>,document.getElementById('root'));
+    每一个Clock组件都会设置它自己的定时器并且会相互独立的更新
+

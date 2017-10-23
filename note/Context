@@ -1,0 +1,77 @@
+1.在React中，通过React组件跟踪数据流是很简单的，当你查看租件的时候，你能很清楚的知道那些props被传递。在一些情况中，你可能想通过组件树传递数据，
+但是不想在每一层手动的传递props。这种情况可以使用'Context'API
+2.不推荐使用Context API
+3.使用Context的方法
+假设有如下的组件，当不使用context，代码如下：
+class Button extends React.component{
+    render(){
+        return <button style={{color:this.props.color}}>{this.props.children}</button>
+    }
+}
+class Message extends React.component{
+    render(){
+        return <li>{this.props.text} <Button color={this.props.color}>del</Button></li>
+    }
+}
+class MessageList extends React.component{
+    render(){
+        const color = 'red'
+        const list = this.props.list.map((item,index) => {
+            return <Message key={index} color={color} text={item.text}/>
+        })
+        return <ul>{list}</ul>
+    }
+}
+在上述代码中，将<MessageList/>中的color传递到<Button/>,我们手动将color作为props逐层向下传递。如果使用context就不需要手动传递了。接着我们将上面
+的代码改写成使用context的形式。
+import propTypes from 'prop-types'
+class Button extends React.component{
+    tender(){
+        return <button style={{color:this.context.color}}>{this.props.children}</button>
+    }
+}
+Button.contextTypes = {
+    color:propTypes.string
+}
+class Message extends React.component{
+    render(){
+        return <li>{this.props.text}<Button>del</Button></li>
+    }
+}
+class MessageList extends React.component{
+    getChildContext(){
+        return {
+            color:'red'
+        }
+    }
+    render(){
+        const list = this.props.list.map((item,index) => {
+            return <Message text={item.text} key={index}/>
+        })
+        return <ul>{list}</ul>
+    }
+}
+MessageList.childContextTypes = {
+    color:propTypes.string
+}
+我们给MessageList添加了getChildContext和childContextTypes。这样以来，React会自动的向下传递信息并且子树中只要定义了contextTypes的组件
+就可以访问到context数据。如果组件没有定义contextTypes，那么在这个组件中context为一个空对象
+4.在生命周期函数中引用context
+如果在组件中定义了contextTypes，那么在这个组件的一些生命周期函数中会将context对象作为一个可选的参数
+constructor(props,context)
+componentWillReceiveProps(nextProps,nextContext)
+shouldComponentUpdate(nextProps,nextState,nextContext)
+componentWillUpdate(nextProps,nextState,nextContext)
+componentDidUpdate(prevProps,prevState,prevContext)
+5.在函数类型组件中引用context。
+如果将contextTypes定义为函数的属性，那么就可以在函数类型的组件中应用context。下面我们重写Button组件
+import PropTypes from 'prop-types'
+function Button(props,context){
+    return <button style={{color:context.color}}>{props.children}</button>
+}
+Button.contextTypes = {
+    color:PropTypes.color
+}
+6.更新context
+当state或者props被改变，getChildContext方法就会被调用，通过setState改变state，将会触发新的context，并且这一改变会被传递
+到子组件中。但是，如果在中间层组件的shouldComponentUpdate钩子上返回了false，那么在后代组件上使用的context值并不会被更新

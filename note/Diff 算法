@@ -1,0 +1,53 @@
+1.不同类型的元素
+如果树的根元素是不同的类型，那么React会拆掉整个旧的书并且用新的树替换。当树被拆掉，DOM节点会被销毁，组件实例会调用componentWillUnmount钩子函数。
+当创建出一个新的树，新的DOM节点会被插入到DOM中。组件实例调用componentWillMount钩子和componentDidMount钩子
+2.相同类型的DOM元素
+当比较两个相同类型的React DOM元素，React会查看它们两个的属性，React仅仅更新被改变的属性，并不会更新底层的DOM节点。当处理完根DOM节点之后，
+React又会递归的比较它们的子元素
+3.相同类型的组件元素
+当组件更新时，实例保持不变，以至于state被保持。React更新下面组件实例的props，下面的组件实例调用componentWillReceiveProps钩子和componentWillUpdate
+钩子。接下来调用render方法并且diff算法在之前的结果和新的结果上递归
+4.在子元素上递归
+默认情况，当在DOM节点的子元素上递归，React会同时遍历两个列表上的子元素，并且当发现它们不同就会生成一个变化，如下的例子：
+    将
+<ul>
+  <li>first</li>
+  <li>second</li>
+</ul>
+   变为
+<ul>
+  <li>first</li>
+  <li>second</li>
+  <li>third</li>
+</ul>
+React会捕获到两个<li>first</li>，两个<li>second</li>，然后将<li>third</li>插入。如果在列表中最开始插入了一个元素，那么性能就会很不好，如下：
+将
+<ul>
+  <li>Duke</li>
+  <li>Villanova</li>
+</ul>
+变为
+<ul>
+  <li>Connecticut</li>
+  <li>Duke</li>
+  <li>Villanova</li>
+</ul>
+这种情况React会改变每一个子元素。可以通过给元素设置key来解决这个问题
+5.key
+如果给上面列表中的li设置key
+将
+<ul>
+  <li key='1'>Duke</li>
+  <li key='2'>Villanova</li>
+</ul>
+变为
+<ul>
+  <li key='3'>Connecticut</li>
+  <li key='1'>Duke</li>
+  <li key='2'>Villanova</li>
+</ul>
+React能够知道<li key='3'>Connecticut</li>是新插入的，并且元素 <li key='1'>Duke</li>和<li key='2'>Villanova</li>仅仅被移动
+兄弟元素之间的key需要是唯一的，但是不需要全局唯一
+注：
+1.diff算法不会匹配两个不同组件类型的子树，如果你发现你在两个具有非常相似输出的不同组件之间进行交互，你可以把它们写成一个组件
+2.key应该是稳定的，可预测的，唯一的。不稳定的key（如：通过Math.random()产生的key）可能会导致组件实例和DOM节点做一些不必要的重建

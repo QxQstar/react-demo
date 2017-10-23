@@ -1,0 +1,75 @@
+1.组件的生命周期函数
+每一个组件都有一些生命周期函数。
+当组件实例被创建并且会插入到DOM中，下面这些函数会被调用
+constructor
+componentWillMount
+render
+componentDidMount
+改变组件的state或props会导致更新，当重新渲染组件时会调用下面这些方法
+componentWillReceiveProps
+shouldComponentUpdate
+componentWillUpdate
+render
+componentDidUpdate
+当组件从DOM中移除，会调用下面的方法
+componentWillUnmount
+2.render方法
+render方法是必须的，render的返回值是下面的类型：
+(1)react元素：要么是自定义的组件要么是原生的DOM组件
+(2)字符串或者数字:会被渲染成DOM中的文本节点
+(3)Portals:通过ReactDOM.createPortal创建
+(4)null:什么都不会渲染
+(5)Boolean:什么都不渲染
+(6)包含多个元素的数组
+render(){
+    return [
+        <li key='1'>1</li>,
+        <li key='2'>2</li>
+    ]
+}
+render方法应该是简单的，在render中不能修改组件的state，每一次调用render都会返回一个新的结果。并且在render中也不能
+与浏览器进行交互，如果需要与浏览器交互，就在componentDidMount或者其他生命周期函数中执行。
+3.constructor(props)
+react组件的构造函数在组件装载之前调用。如果没有显示的定义constructor，那么在实例化组件时会调用默认的constructor，
+如果在React.Component的子类中显示的定义了constructor，那么就要在constructor中最开始调用super(props).
+在构造函数中实例化state是一个很好的选择。下面举例一段代码
+constructor(props) {
+  super(props);
+  this.state = {
+    color: props.initialColor
+  };
+}
+在react中使用props初始化state是合法的，但是这存在一个问题：当props被更新时，state并不会被更新。解决的方法是：
+在组件的componentWillReceiveProps(nextProps)中用新的props更新state。虽然这能解决问题，但是并不推荐，推荐
+把state提升到最近的公共父组件中
+4.componentWillMount()
+当装载发生之前会立即调用componentWillMount,componentWillMount会在调用render之前被调用，所有在
+componentWillMount中修改state，不会导致组件的重新渲染。服务器端渲染才会调用这个方法，所有推荐通过constructor
+代替这个方法。
+5.componentDidMount()
+当组件被装载完成会立即触发componentDidMount，在这个函数中修改state被导致组件重新渲染。组件被装载之后才能操作
+DOM。如果你需要加载远程数据，在这个地方发送网络请求是个不错的主意
+6.componentWillReceiveProps(nextProps)
+当已经被转载的组件接受新的props之前componentWillReceiveProps会被触发。如果你需要更新state去响应props的更新，
+可以在这里通过setState方法更新state。当组件首次接受到props，这个方法不会被调用
+注意：props没有被改变也可能会调用这个方法，所有在这个方法中将当前的props去next props进行比较是很有必要的。
+7.shouldComponentUpdate(nextState,nextProps)
+当新的props或state被接受，在渲染之前会调用shouldComponentUpdate，这个方法默认是返回true，初次渲染和使用
+forceUpdate，不会调用这个方法。如果shouldComponentUpdate返回false,之后的componentWillUpdate,render
+以及componentDidMount不会被调用,组件以及他的子组件不会被重新渲染
+8.componentWillUpdate(nextProps, nextState)
+当接受到新的props或state，在重新渲染之前会立即调用这个方法。在这个方法中不能this.setState()，初次渲染不会调
+用这个方法
+9.componentDidUpdate(prevProps, prevState)
+当更新完成之后会立即调用这个方法，初次渲染不会调用这个方法。当组件被更新之后可以在这里操作DOM，当你发现现在的
+props与之前的props不一样，在这里发送网络请求是个不错的主意
+10.componentWillUnmount()
+组件被摧毁之前会立即调用这个方法，在这个方法中可以做一些必要的清理
+二.setState(updater,[callback])
+通过setState更新组件，该组件会使用新的state重新渲染。可以认为setState()是一个请求而不是立即更新组件的命令。react
+不会保证立即应用更新的state。通常setState()并不会立即更新组件，通常会打包或者稍后延迟更新。
+updater可以是对象，也可以是函数。callback是可选的参数，当setState完成并且组件被重新渲染就会立即执行这个函数。
+但是推荐使用componentDidUpdate钩子代替callback中的逻辑
+
+
+

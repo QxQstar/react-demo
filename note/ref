@@ -1,0 +1,12 @@
+1.在一些情况中，需要将子组件中的元素节点暴露到父组件中(这并不推荐)，但是当在父组件中需要让子组件中的元素取得焦点，或者管理子组件中元素的位置或大小
+时这很有用。我们可以给子组件设置ref，但是这并不是理想的解决方案，因为这仅仅得到了一个组件实例而不是DOM节点。代替的方案是：给子组件设置一个函数类型
+的prop，然后在子组件中将这个函数类型的prop设置到元素节点ref上。如下：
+    class ParentCom extends React.Component{
+        render(){
+            return <ChildrenCom propFunc={elem => this.input = elem}/>
+        }
+    }
+    function ChildrenCom(props){
+        return <input ref={props.propFunc}/>
+    }
+当ref回调是一个行内函数，这个函数在组件更新期间会调用两次，第一次调用时的参数时null，第二次调用时参数时DOM元素。

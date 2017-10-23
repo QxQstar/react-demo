@@ -1,0 +1,27 @@
+1.在React中有两种创建组件的方式，分别是函数形式的组件和类形式的组件
+    （1）函数形式：
+        function Welcome(props){
+            return <p>this is a page,{props.name}!</p>
+        }
+    (2)类形式
+        class Welcome extend React.Component{
+            render(){
+                return <p>this is a page,{{this.props.name}}!</p>
+            }
+        }
+    在下面都是以函数形式的组件为例
+2.元素除了能够表示DOM tags，也能表示自定义的组件
+    const element = <Welcome name='li'/>
+    ReactDOM.render(
+      element,
+      document.getElementById('root')
+    );
+    执行这段代码在页面中会显示：this is a page .li!
+    解释：
+        (1)带着<Welcome name='li'/>调用ReactDOM.render()
+        (2)React将{name:'li'}作为props去调用Welcome组件
+        (3)Welcome返回<p>this is a page,li!</p>
+        (4)更新DOM
+    通常自定义的组件已大写字母开头，组件只能返回一个根节点
+3.可以在一个组件中引入其他组件
+4.组件不能修改它的props

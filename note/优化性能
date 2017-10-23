@@ -1,0 +1,4 @@
+1.当组件的state或者props改变，React通过把新返回的组件和之前渲染的组件进行比较来确定是否需要DOM，如果不相等，就更新DOM
+2.在一些情况下，通过重写组件的shouldComponentUpdate钩子函数，可以提高性能。这个钩子函数在重新渲染组件之前被调用，这个钩子的默认行为时返回true，
+如果你确定在一些情况下，你的组件不需要更新，那么你可以让shouldComponentUpdate钩子返回false。在组件的shouldComponentUpdate钩子返回false
+这样会跳过整个渲染过程，组件不会调用render方法，也不会通过diff算法比较新返回的组件是否也之前的组件相同

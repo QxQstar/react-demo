@@ -1,0 +1,56 @@
+1.一些组件在此之前并不知道自己的children，尤其是像Sidebar和Dialog这通用'boxes'的组件。在这些组件中，我们推荐使用特别的children props直接将孩子元素传递到
+输出中。
+function FancyBorder(props){
+    return(
+        <div>
+            {props.children}
+        </div>
+    )
+}
+function WelcomeDialog(props){
+    return <FancyBorder>
+            <h1>Welcome</h1>
+            <p>Thank you for visiting our spacecraft!</p>
+        </FancyBorder>
+}
+在<FancyBorder>中的任何tag都将作为children props传递到FancyBorder组件中
+2.你除了可以通过children props直接向组件中传递子元素，你也可以按照你自己的习惯，而不是使用children
+function FancyBorder(props){
+    return <div>
+        {props.top}
+        {props.bottom}
+    </div>
+}
+function WelcomeDialog(props){
+    return <FancyBorder top={<Top/>} bottom={<Bottom/>} />
+}
+function Top(props){
+    return <p> I am top</p>
+}
+function Bottom(props){
+    return <p>I am bottom</p>
+}
+因为React 元素(如：<Top>,<Bottom>)只是对象，所以可以将它们作为props传递到其他数据中
+3.在某些情况下可能需要基于一个普通的组件创建出一个特别的组件。如通过Dialog组件创建出WelcomeDialog组件。在这里我们可以通过配置Dialog组件的props创建出特别的
+WelcomeDialog组件。
+function Dialog(props) {
+  return (
+    <FancyBorder color="blue">
+      <h1 className="Dialog-title">
+        {props.title}
+      </h1>
+      <p className="Dialog-message">
+        {props.message}
+      </p>
+    </FancyBorder>
+  );
+}
+
+function WelcomeDialog() {
+  return (
+    <Dialog
+      title="Welcome"
+      message="Thank you for visiting our spacecraft!" />
+  );
+}
+在React中，组件可以接受任意的props，如函数，对象，基本类型以及react元素

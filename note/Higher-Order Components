@@ -1,0 +1,212 @@
+1.在React中higher-order component (HOC)是一种重用组件逻辑的高级技术。HOC不是React API中的一部分。HOC是一个函数，该函数接收一个组件并且返回
+一个新组件
+2.在React中，组件是代码复用的基本单位
+3.为了解释HOC，下面举两个例子。
+ CommentList组件会渲染出一个comments列表，列表中的数据来自于外部。
+ class CommentList extends React.Component {
+   constructor() {
+     super();
+     this.handleChange = this.handleChange.bind(this);
+     this.state = {
+       // "DataSource" is some global data source
+       comments: DataSource.getComments()
+     };
+   }
+
+   componentDidMount() {
+     // Subscribe to changes
+     DataSource.addChangeListener(this.handleChange);
+   }
+
+   componentWillUnmount() {
+     // Clean up listener
+     DataSource.removeChangeListener(this.handleChange);
+   }
+
+   handleChange() {
+     // Update component state whenever the data source changes
+     this.setState({
+       comments: DataSource.getComments()
+     });
+   }
+
+   render() {
+     return (
+       <div>
+         {this.state.comments.map((comment) => (
+           <Comment comment={comment} key={comment.id} />
+         ))}
+       </div>
+     );
+   }
+ }
+ 接下来是BlogPost组件，这个组件用于展示一篇博客信息
+ class BlogPost extends React.Component {
+   constructor(props) {
+     super(props);
+     this.handleChange = this.handleChange.bind(this);
+     this.state = {
+       blogPost: DataSource.getBlogPost(props.id)
+     };
+   }
+
+   componentDidMount() {
+     DataSource.addChangeListener(this.handleChange);
+   }
+
+   componentWillUnmount() {
+     DataSource.removeChangeListener(this.handleChange);
+   }
+
+   handleChange() {
+     this.setState({
+       blogPost: DataSource.getBlogPost(this.props.id)
+     });
+   }
+
+   render() {
+     return <TextBlock text={this.state.blogPost} />;
+   }
+ }
+ 这两个组件是不一样的，它们调用了DataSource的不同方法，并且它们的输出也不一样，但是它们中的大部分实现是一样的:
+  1.装载完成后，给DataSource添加了一个change listener
+  2.当数据源发生变化后，在监听器内部调用setState
+  3.卸载之后，移除change listener
+可以想象在大型应用中，相同模式的访问DataSource和调用setState会一次又一次的发生。我们希望抽象这个过程，从而让我们只在一个地方定义这个逻辑，然后
+在多个组件中共享
+接下来我们写一个创建组件的函数，这个函数接受两个参数，其中一个参数是组件，另一个参数是函数。下面调用withSubscription函数
+const CommentListWithSubscription = withSubscription(
+  CommentList,
+  (DataSource) => DataSource.getComments()
+);
+
+const BlogPostWithSubscription = withSubscription(
+  BlogPost,
+  (DataSource, props) => DataSource.getBlogPost(props.id)
+);
+调用withSubscription传的第一个参数是wrapped 组件，第二个参数是一个函数，该函数用于检索数据。
+当CommentListWithSubscription和BlogPostWithSubscription被渲染，CommentList和BlogPost会接受一个叫做data的prop，data中保存了当前
+从DataSource中检索出的数据。withSubscription代码如下：
+// This function takes a component...
+function withSubscription(WrappedComponent, selectData) {
+  // ...and returns another component...
+  return class extends React.Component {
+    constructor(props) {
+      super(props);
+      this.handleChange = this.handleChange.bind(this);
+      this.state = {
+        data: selectData(DataSource, props)
+      };
+    }
+
+    componentDidMount() {
+      // ... that takes care of the subscription...
+      DataSource.addChangeListener(this.handleChange);
+    }
+
+    componentWillUnmount() {
+      DataSource.removeChangeListener(this.handleChange);
+    }
+
+    handleChange() {
+      this.setState({
+        data: selectData(DataSource, this.props)
+      });
+    }
+
+    render() {
+      // ... and renders the wrapped component with the fresh data!
+      // Notice that we pass through any additional props
+      return <WrappedComponent data={this.state.data} {...this.props} />;
+    }
+  };
+}
+HOC并没有修改输入的组件，也没有使用继承去重用它的行为。HOC只是一个函数。wrapped 组件接受了容器的所以props，同时还接受了一个新的prop(data),data
+用于渲染wrapped 组件的输出。HOC不关心数据怎么使用也不关心数据为什么使用，wrapped组件不关心数据是哪儿得到。
+因为withSubscription只是一个常规的函数，你能添加任意个数的参数。例如，你能让data prop的名字是可配置的，从而进一步将HOC与wrapped组件隔离。
+或者接受一个配置shouldComponentUpdate，或者配置数据源的参数
+4.不要修改原始组件
+有如下例子：
+function logProps(InputComponent) {
+  InputComponent.prototype.componentWillReceiveProps = function(nextProps) {
+    console.log('Current props: ', this.props);
+    console.log('Next props: ', nextProps);
+  };
+  // The fact that we're returning the original input is a hint that it has
+  // been mutated.
+  return InputComponent;
+}
+
+// EnhancedComponent will log whenever props are received
+const EnhancedComponent = logProps(InputComponent);
+这里存在一些问题，1.输入的组件不能与增强的组件单独重用。2.如果给EnhancedComponent应用其他的HOC，也会改变componentWillReceiveProps。
+这个HOC对函数类型的组件不适用，因为函数类型组件没有生命周期函数
+HOC应该使用合成代替修改——通过将输入的组件包裹到容器组件中。
+function logProps(WrappedComponent) {
+  return class extends React.Component {
+    componentWillReceiveProps(nextProps) {
+      console.log('Current props: ', this.props);
+      console.log('Next props: ', nextProps);
+    }
+    render() {
+      // Wraps the input component in a container, without mutating it. Good!
+      return <WrappedComponent {...this.props} />;
+    }
+  }
+}
+这个新的logProps与旧的logProps有相同的功能，同时新的logProps避免了潜在的冲突。对class类型的组件和函数类型额组件同样适用
+5.公约：给Wrapped 组件传递不相关的props
+HOCs会增加组件的功能。从HOCs返回的组件希望与Wrapped 组件具有相似的接口。HOCs应该传递与他具体关注不相关的props。通常HOCs都有如下的render
+render() {
+  // Filter out extra props that are specific to this HOC and shouldn't be
+  // passed through
+  const { extraProp, ...passThroughProps } = this.props;
+
+  // Inject props into the wrapped component. These are usually state values or
+  // instance methods.
+  const injectedProp = someStateOrInstanceMethod;
+
+  // Pass props to wrapped component
+  return (
+    <WrappedComponent
+      injectedProp={injectedProp}
+      {...passThroughProps}
+    />
+  );
+}
+这让HOCs更加的灵活和可重用
+6.公约：可组合性最大化
+并不是所有的HOCs看起来都是一样的，有的HOCs只接受一个参数(wrapped 组件)。通常HOCs会接受一个附加的参数，如：
+const CommentWithRelay = Relay.createContainer(Comment, config);
+config对象用于指定组件的数据依赖
+7.警告
+（1）不要在render方法中使用HOCs
+React的diff算法使用组件的身份去决定是应该更新已存在的子树还是拆除旧的子树并装载一个新的，如果从render方法中返回的组件与之前渲染的组件恒等(===)，
+那么React会通过diff算法更新之前渲染的组件，如果不相等，之前渲染的子树会完全卸载。
+render() {
+  // A new version of EnhancedComponent is created on every render
+  // EnhancedComponent1 !== EnhancedComponent2
+  const EnhancedComponent = enhance(MyComponent);
+  // That causes the entire subtree to unmount/remount each time!
+  return <EnhancedComponent />;
+}
+在组件定义的外部使用HOCs，以至于结果组件只被创建一次。在少数情况下，你需要动态的应用HOCs，你该在生命周期函数或者构造函数中做这件事
+（2）静态方法必须手动复制
+有的时候在React组件上定义静态方法是非常有用的。当你给某个组件应用HOCs，虽然原始组件被包裹在容器组件里，但是返回的新组件不会有任何原始组件的静态
+方法。
+// Define a static method
+WrappedComponent.staticMethod = function() {/*...*/}
+// Now apply an HOC
+const EnhancedComponent = enhance(WrappedComponent);
+
+// The enhanced component has no static method
+typeof EnhancedComponent.staticMethod === 'undefined' // true
+为了让返回的组件有原始组件的静态方法，就要在函数内部将原始组件的静态方法复制给新的组件。
+function enhance(WrappedComponent) {
+  class Enhance extends React.Component {/*...*/}
+  // Must know exactly which method(s) to copy :(
+  Enhance.staticMethod = WrappedComponent.staticMethod;
+  return Enhance;
+}
+(3)容器组件上的ref不会传递给wrapped component
+虽然容器组件上的props可以很简单的传递给wrapped component，但是容器组件上的ref不会传递到wrapped component

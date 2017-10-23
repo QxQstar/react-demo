@@ -1,0 +1,87 @@
+在React中HTML的from元素与其他的DOM元素有些不同。因为表单元素自然而然的会有一些内部state
+一.controlled components
+在HTML中，像input，select，textarea这些表单元素都会维持自己的状态，并且会基于用户输入更新状态。在React中，易变的状态通常保存在组件的state属性中，并且
+使用setState()方法去更新。如果一个表单元素的值被React控制，那么这个组件就称为'controlled components'
+在controlled component中，每一个state都有一个关联的handler方法，通过它可以直接的修改或者验证用户输入
+class NameFrom extend React.Component{
+    constructor(props){
+        super(props);
+        this.state = {name:''}
+    }
+    handleSubmit(event){
+        console.log(this.state.name);
+        event.preventDefault();
+    }
+    handleChange(event){
+        console.log(this.state.name);
+        this.setState({
+            name:event.target.value
+        });
+    }
+    render(){
+        return (
+            <from onSubmit={this.handleSubmit.bind(this)}>
+                <input type='text' name='name' value={this.state.name} onChange={this.handleChange.bind(this)}/><br>
+                <input type='submit' value='submit'>
+            </from>
+        )
+    }
+};
+二.textarea 标签
+在HTML中，textarea的文本信息定义在它的子元素中
+<textarea>there are text</textarea>
+在React中，textarea的文本信息用value属性定义.所以在表单中，textarea的写法与单行文本非常相似
+三.select 标签
+在React中在select元素上设置value属性，表示被选中的选项
+四.处理多个input
+当你需要处理多个controlled的input元素，你可以在每一个input元素上设置一个name属性，并且在handler函数中根据event.target.name的值去做不同的操作
+class MyFrom extend React.Component{
+    constructor(props){
+        super(props);
+        this.state = {
+            name:'',
+            age:''
+        };
+    }
+    handleChange(event){
+        let name = event.target.name;
+        this.setState({
+            [name]:event.target.value
+        });
+        console.log(this.state);
+    }
+    render(){
+        return (
+            <from>
+                <input type='text' name='name' value={this.state.name} onChange={this.handleChange.bind(this)}/>
+                <input type='text' name='age' value={this.state.age} onChange={this.handleChange.bind(this)}/>
+            </from>
+        )
+    }
+}
+五.Uncontrolled Components
+推荐在大多数时候都使用controlled Component实现表单，在controlled Component中，表单数据被react组件控制，在uncontrolled component中，数据被
+DOM自己控制。在uncontrolled component中不需要为每一个要更新的state写一个handler函数，而是通过ref从DOM中得到表单数据
+class Uncontrolled extend React.Component{
+    constructor(props){
+            super(props);
+    }
+    handleSubmit(event){
+        console.log(this.input.value);
+        event.preventDefault();
+    }
+    refFunc(input){
+        this.input = input;
+    }
+    render(){
+        return (
+            <from onSubmit={this.handleSubmit.bind(this)}>
+            <input type='text' name='name' ref={this.refFunc.bind(this)}/>
+            <input type='submit' value='提交'/>
+            </from>
+        )
+    }
+}
+如果在一个Uncontrolled Components上设置value属性会让该组件的成为一个只读组件，如果想给Uncontrolled <input type='text'>
+设置初始值可以使用defaultValue属性
+<input type="checkbox"> 和 <input type="radio"> 使用 defaultChecked,  <select> and <textarea> 使用 defaultValue.

@@ -1,0 +1,33 @@
+1.绑定在React元素上的事件与绑定在DOM元素上的事件非常相似，但是也有一个不同的地方
+    React事件使用驼峰命名法命名
+    在Jsx中通过函数作为事件处理程序
+    在HTML中
+    <button onclick='handle()'></button>
+    在React中
+    <button onClick={handle}></button>
+    在React中不能通过使用return false阻止事件的默认行为，必须显示的调用event.preventDefault()去阻止默认行为
+    function ActionLink(){
+        function handle(event){
+            event.preventDefault();
+        }
+        return <a href='#' onClick={handle}>link me</a>
+    }
+2.React中的event。react合成了事件对象，所以不需要考虑跨浏览器兼容的问题。在React中，通常当元素被创建之后，你不需要调用addEventListener
+为元素添加事件的监听器，而是在元素最初被渲染的时候添加监听器
+3.当使用class形式创建一个组件，事件处理程序通常是作为对象中的一个方法。
+class ToggleButton extend React.Component{
+    constructor(props){
+        super(props);
+        this.state = {swtich:false};
+        // 为了在handleClick中还能访问到this
+        this.handleClick=this.handleClick.bind(this);
+    },
+    render(){
+        return <button onClick={this.handelClick}>switch</button>
+    },
+    handleClick(event){
+        this.setState((prevStart) => {
+            return {swtich:!prevStart.swtich}
+        });
+    }
+}

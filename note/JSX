@@ -1,0 +1,26 @@
+1.要在Jsx中内嵌js表达式只需要将js表达式放在{}中，例如
+    const element = <h1>this is a Jsx {sayName()}</h1>
+    function sayName(){};
+2.在编译之后Jsx会成为一个常规的js对象。所以可以在if，for语句中使用Jsx，例如
+    function getName(firstname,lastname,all=false){
+        if(all){
+            return <p>{firstname} {lastname} </p>
+        }
+    }
+    注：使用jsx时，标签之间的内容会被当作字符串（{}中的会被当作js语句），如
+       <p>{name1} + ' ' + {name2}</p>
+       const name1 = 'li';
+       const name2 = 'hua';
+       会被渲染为li+' '+hua
+3.使用Jsx给元素添加属性，有两种方式：
+    (1) const element = <p title="page">this is page</p>
+    (2) const element = <p title={title}>this is page,too</p>
+        const title = 'page';
+    注：Jsx中的元素的属性使用驼峰命名法（class对应className）
+4.Jsx标签也能够包含子标签
+    const element = (
+        <div>
+            <h1>I am a header</h1>
+            <p> I am a page</p>
+        </div>
+    );

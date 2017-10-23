@@ -21,10 +21,10 @@ class Main extends Component {
     }
     addContact() {
         const {history} = this.props;
-        history.push('/external/add')
+        history.push('/attendence/external/add')
     }
      gotoDetail(){
-        this.props.history.push('/external/detail');
+        this.props.history.push('/attendence/external/detail');
     }
     render(){
         return (

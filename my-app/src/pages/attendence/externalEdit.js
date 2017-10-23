@@ -62,7 +62,7 @@ class Edit extends Component {
         };
         this.breadcrumb = [
             {
-                link:'/external/list',
+                link:'/attendence/external/list',
                 label:'外部联系人'
             },
             {
@@ -191,7 +191,7 @@ class Edit extends Component {
         this.save(this.gotoList);
     }
     gotoList(){
-        this.props.history.push('/external/list');
+        this.props.history.push('/attendence/external/list');
     }
     render(){
         return (

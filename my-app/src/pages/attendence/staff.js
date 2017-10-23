@@ -1,16 +1,19 @@
 import React,{Component} from 'react'
-import {Route} from 'react-router-dom'
+import {Route,Switch} from 'react-router-dom'
 import List from './staffList.js'
 import Detail from './detail.js'
 export default class  extends Component {
     componentDidMount(){
-        this.props.history.push('/staff/list')
+        this.props.history.push('/attendence/staff/list')
     }
     render(){
         return (
             <div>
-                <Route path='/staff/list' component={List}/>
-                <Route path='/staff/detail' render={(props) => <Detail {...props} type='staff'/>}/>
+                <Switch>
+                    <Route path='/attendence/staff/list' component={List}/>
+                    <Route path='/attendence/staff/detail' render={(props) => <Detail {...props} type='staff'/>}/>
+                    <Route component={List}/>
+                </Switch>
             </div>
         )
     }

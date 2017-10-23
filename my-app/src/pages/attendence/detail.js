@@ -45,10 +45,10 @@ class Detail extends Component {
     del(){
         this.props.delExter(this.props.data.member_id);
         this.props.delCommon(this.props.data);
-        this.props.history.push('/external/list');
+        this.props.history.push('/attendence/external/list');
     }
     edit(){
-        this.props.history.push('/external/edit');
+        this.props.history.push('/attendence/external/edit');
     }
     render(){
         const {data} = this.props;

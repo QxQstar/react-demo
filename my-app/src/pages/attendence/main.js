@@ -8,9 +8,9 @@ export default class extends Component{
         return (
             <div>
                 <Switch>
-                    <Route path='/staff' component={Staff}/>
-                    <Route path='/external' component={External}/>
-                    <Route path='/common' component={Common}/>
+                    <Route path='/attendence/staff' component={Staff}/>
+                    <Route path='/attendence/external' component={External}/>
+                    <Route path='/attendence/common' component={Common}/>
                     <Route component={Staff}/>
                 </Switch>
             </div>

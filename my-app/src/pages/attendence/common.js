@@ -4,15 +4,15 @@ import List from './commonList.js'
 import Detail from './detail.js'
 export default class extends Component {
     componentDidMount(){
-        this.props.history.push('/common/list')
+        this.props.history.push('/attendence/common/list')
     }
     render(){
         return (
             <div>
                 <Switch>
-                    <Route path='/common/list' component={List}/>
-                    <Route path='/common/detail' render={props => <Detail {...props} type='common'/>}/>
-                    <Route path='/common/' component={List}/>
+                    <Route path='/attendence/common/list' component={List}/>
+                    <Route path='/attendence/common/detail' render={props => <Detail {...props} type='common'/>}/>
+                    <Route component={List}/>
                 </Switch>
             </div>
         )

@@ -1,0 +1,24 @@
+.g-menu{
+    height: 100%;
+    background: #ffffff;
+    padding-top: 30px;
+    overflow: auto;
+}
+.g-menu .nav{
+    height: 40px;
+    line-height: 40px;
+    font-size: 14px;
+
+    cursor: pointer;
+}
+.g-menu .link{
+    padding-left: 1em;
+    display: block;
+    height: 100%;
+}
+.g-menu .nav:hover{
+    color: #8899a9;
+}
+.g-menu .nav a{
+    color: #282828;
+}

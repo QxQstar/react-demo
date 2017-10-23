@@ -19,7 +19,7 @@ class Main extends Component {
         this.setState({keyword});
     }
     gotoDetail(){
-        this.props.history.push('/common/detail');
+        this.props.history.push('/attendence/common/detail');
     }
     render(){
         return (

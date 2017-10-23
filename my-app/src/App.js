@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
+import Layout from './components/layout.js'
 import './App.css';
-import Router from './router/index.js'
-class App extends Component {
-    render() {
+import './css/leftNav.css'
+import Menu from './components/menu.js'
+import Main from './components/content.js'
+export default class  extends Component {
+    render(){
         return (
-            <Router/>
-        );
+            <Layout type={2} left={<Menu {...this.props}/>} right={<Main {...this.props}/>}></Layout>
+        )
     }
 }
-export default App;

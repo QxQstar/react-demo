@@ -1,10 +1,10 @@
 import React,{Component} from 'react'
 import {BrowserRouter as Router,Route} from 'react-router-dom'
-import Attendence from './../pages/attendence/index.js'
+import App from './../App.js'
 export default class  extends Component {
     render() {
         return <Router>
-            <Route component={Attendence}/>
+            <Route component={App}/>
         </Router>
     }
 }

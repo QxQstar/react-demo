@@ -67,6 +67,13 @@
     padding-right: 40px;
     text-align: right;
 }
+.g-from label{
+    margin-right: 20px;
+}
+.g-from input{
+    border: none;
+    border-bottom: 1px solid #8899a9;
+}
 .g-from button:focus{
     outline: none;
 }
@@ -101,7 +108,47 @@
 }
 .g-top-col{
      border-bottom: 1px solid #cadeee;
-        padding: 10px 0 10px 20px;
+    padding: 10px 0 10px 20px;
+}
+.g-list-warp{
+    border: 1px solid #f2f5f9;
+    border-radius: 4px;
+    height: 100%;
+}
+.g-list-warp .g-list-header{
+    line-height: 50px;
+    height: 50px;
+    padding-left: 20px;
+    font-size: 14px;
+    color: #333333;
+}
+.g-list-warp .g-list-table{
+    border-collapse: collapse;
+}
+.g-list-warp  td{
+    height: 48px;
+}
+.g-list-warp thead{
+    background: #f2f5f9;
+}
+.g-list-warp thead td{
+    color: #333333;
+    font-size: 14px;
+}
+.g-list-warp tbody td{
+    border-bottom: 1px solid #f2f5f9;
+}
+.g-list-warp tbody .action{
+    cursor: pointer;
+    font-size: 14px;
+    color: #24c875;
+    margin-right: 15px;
+}
+.g-list-warp tbody tr:hover{
+    background-color: #defef5;
+}
+.g-list-warp td{
+    padding: 0 20px;
 }
 .ant-btn-primary{
     background: #24c875;

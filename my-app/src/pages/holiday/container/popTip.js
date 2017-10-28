@@ -14,6 +14,10 @@ function Dialog(props) {
         delType:{
             title:'您是否要删除该假期类型?',
             info:'删除后员工请假不能选择该类型假期'
+        },
+        delAward:{
+            title:'您是否要删除该员工的调休?',
+            info:'删除后该员工的调休时间全部清零，将不能请调休'
         }
     };
     return <Modal visible={true} title={props.title} onCancel={props.onClose} onOk={props.onOk}>

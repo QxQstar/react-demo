@@ -150,6 +150,15 @@
 .g-list-warp td{
     padding: 0 20px;
 }
+.g-empty{
+    padding-top: 200px;
+    text-align: center;
+}
+.g-empty .word{
+    font-size: 14px;
+    margin-top: 20px;
+    color: #b8e0c8;
+}
 .ant-btn-primary{
     background: #24c875;
     border: none;

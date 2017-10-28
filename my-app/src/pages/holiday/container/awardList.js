@@ -2,7 +2,7 @@ import React from 'react'
 import List from './../components/list.js'
 import {connect} from 'react-redux'
 function AwardList(props) {
-    return <List cols={props.cols} data={props.data} title={props.title} selectAll={props.selectAll} onSelectAll={props.onSelectAll}/>
+    return <List cols={props.cols} data={props.data} title={props.title} onSelectAll={props.onSelectAll} onSelectOne={props.onSelectOne}/>
 }
 function filterData(data,keyword) {
     return data.filter(item => {
@@ -23,7 +23,12 @@ export default connect((state,ownsProps) => {
                     checked:flag
                 }
             });
-            ownsProps.onSelectAll(flag);
+        },
+        onSelectOne(params){
+            dispatch({
+                type:'selectOne_award',
+                params
+            })
         }
     }
 })(AwardList)

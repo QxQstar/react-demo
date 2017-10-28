@@ -98,6 +98,18 @@ function award(award=default_award,action) {
             return award.map((item) => {
                 return {...item,...action.params}
             });
+        case 'selectOne_award':
+            return award.map(item => {
+                if(item.id === action.params.id){
+                    return action.params;
+                } else {
+                    return item
+                }
+            });
+        case 'del_award':
+            return award.filter(item => {
+                return item.id !== action.params.id
+            });
         default:
             return award
     }

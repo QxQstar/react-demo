@@ -16,7 +16,7 @@ class List extends Component {
                 <ul className="list f-clearFix">{items}</ul>
             </div>
         } else {
-            return <div className="m-empty">
+            return <div className="g-empty">
                 <Icon type="frown-o" style={{color:'#b8e0c8',fontSize:'50px'}}/>
                 <p className="word">暂无数据</p>
             </div>

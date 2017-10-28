@@ -2,15 +2,20 @@ import React,{Component} from 'react'
 import GSearch from './../../components/g-search.js'
 import {Button} from 'antd'
 import List from './container/awardList.js'
+import PopTip from './container/popTip.js'
 export default class extends Component {
     constructor(props){
         super(props);
         this.state = {
             keyword:'',
-            selectAll:false
+            showPopTip:false
         };
         this.search = this.search.bind(this);
-        this.selectAllHandle = this.selectAllHandle.bind(this);
+        this.onClose = this.onClose.bind(this);
+        this.delAward = this.delAward.bind(this);
+        this.popTipTitle = '';
+        this.popTipType='';
+        this.popTipDispatch = '';
         this.cols = [
             {
                 type:'selection',
@@ -39,10 +44,10 @@ export default class extends Component {
             {
                 type:'action',
                 title:'操作',
-                render(item){
+                render:(item) =>{
                     return <div>
                         <span className='action'>编辑</span>
-                        <span className='action'>删除</span>
+                        <span onClick={() => this.delAward(item)} className='action'>删除</span>
                     </div>
                 }
             }
@@ -53,9 +58,24 @@ export default class extends Component {
             keyword:value
         })
     }
-    selectAllHandle(flag){
+    onClose(){
         this.setState({
-            selectAll:flag
+            showPopTip:false
+        });
+    }
+    delAward(item={},batch = false){
+        if(batch){
+            this.popTipTitle = '批量删除调休';
+            this.popTipType='delAwardBatch';
+            this.popTipDispatch = 'del_award_batch';
+        } else {
+            this.popTipTitle = '删除调休';
+            this.popTipType='delAward';
+            this.popTipDispatch = 'del_award';
+            this.popTipData = item
+        }
+        this.setState({
+           showPopTip:true
         })
     }
     render(){
@@ -64,7 +84,8 @@ export default class extends Component {
                 <GSearch placeholder='姓名/工号' search={this.search}/>
                 <Button type='primary' className='f-fr'>新增奖励假</Button>
             </div>
-            <List selectAll={this.state.selectAll} onSelectAll={this.selectAllHandle} keyword={this.state.keyword} title='奖励假时间' cols={this.cols}/>
+            <List keyword={this.state.keyword} title='奖励假时间' cols={this.cols}/>
+            {this.state.showPopTip ? <PopTip onClose={this.onClose} data={this.popTipData} title={this.popTipTitle} type={this.popTipType} dispatch={this.popTipDispatch}/>:null}
         </div>
     }
 }

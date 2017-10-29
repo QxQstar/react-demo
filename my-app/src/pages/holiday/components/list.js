@@ -18,7 +18,7 @@ export default class  extends Component {
             <div className='g-list-warp'>
                 <div className='g-list-header'>
                     {this.props.title}
-                    {this.props.data.filter((item) => {return item.checked}).length > 0 ? <Button style={{marginLeft:'20px'}}>批量删除</Button>:null}
+                    {this.props.data.filter((item) => {return item.checked}).length > 0 ? <Button style={{marginLeft:'20px'}} onClick={() => this.props.delAward({},true)}>批量删除</Button>:null}
                 </div>
                 {this.props.data.length > 0 ?
                     <div className='g-list-body'>

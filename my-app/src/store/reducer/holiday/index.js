@@ -110,6 +110,20 @@ function award(award=default_award,action) {
             return award.filter(item => {
                 return item.id !== action.params.id
             });
+        case 'del_award_batch':
+            return award.filter(item => {
+                return !item.checked
+            });
+        case 'add_award':
+            return [...award,{...action.params,...{id:new Date().getTime()}}]
+        case 'edit_award':
+            return award.map(item => {
+                if(item.id === action.params.id){
+                    return {...item,...action.params}
+                } else {
+                    return item
+                }
+            });
         default:
             return award
     }

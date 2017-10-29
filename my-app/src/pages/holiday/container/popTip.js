@@ -18,6 +18,10 @@ function Dialog(props) {
         delAward:{
             title:'您是否要删除该员工的调休?',
             info:'删除后该员工的调休时间全部清零，将不能请调休'
+        },
+        delAwardBatch:{
+            title:'您是否要删除这些员工的调休?',
+            info:'删除后这些员工的调休时间全部清零，将不能请调休'
         }
     };
     return <Modal visible={true} title={props.title} onCancel={props.onClose} onOk={props.onOk}>

@@ -2,7 +2,7 @@ import React from 'react'
 import List from './../components/list.js'
 import {connect} from 'react-redux'
 function AwardList(props) {
-    return <List cols={props.cols} data={props.data} title={props.title} onSelectAll={props.onSelectAll} onSelectOne={props.onSelectOne}/>
+    return <List delAward={props.delAward} cols={props.cols} data={props.data} title={props.title} onSelectAll={props.onSelectAll} onSelectOne={props.onSelectOne}/>
 }
 function filterData(data,keyword) {
     return data.filter(item => {

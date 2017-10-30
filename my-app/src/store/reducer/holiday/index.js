@@ -63,6 +63,29 @@ const default_award = [
         remove_day:10
     }
 ];
+const default_day_off = [
+    {
+        id:1,
+        member_name:'的房间打开',
+        department_name:'Web前端',
+        work_num:12,
+        remove_time:12
+    },
+    {
+        id:2,
+        member_name:'的打开',
+        department_name:'PHP开发',
+        work_num:14,
+        remove_time:12
+    },
+    {
+        id:3,
+        member_name:'房间打开',
+        department_name:'Ios开发',
+        work_num:13,
+        remove_time:12
+    }
+];
 function holiday_type(holiday_type=default_holiday_type,action) {
     switch (action.type){
         case 'add_type':
@@ -91,7 +114,6 @@ function holiday_type(holiday_type=default_holiday_type,action) {
             return holiday_type
     }
 }
-
 function award(award=default_award,action) {
     switch(action.type){
         case 'selectAll_award':
@@ -128,7 +150,44 @@ function award(award=default_award,action) {
             return award
     }
 }
+function day_off(day_off = default_day_off, action) {
+    switch (action.type){
+        case 'del_day_off':
+            return day_off.filter(item => {
+                return item.id !== action.params.id;
+            });
+        case 'del_day_off_batch':
+            return day_off.filter(item => {
+                return !item.checked
+            });
+        case 'selectAll_day_off':
+            return day_off.map((item) => {
+                return {...item,...action.params}
+            });
+        case 'add_day_off':
+            return [...day_off,{...action.params,...{id:new Date().getTime()}}]
+        case 'edit_day_off':
+            return day_off.map(item => {
+                if(item.id === action.params.id){
+                    return {...item,...action.params}
+                } else {
+                    return item
+                }
+            });
+        case 'selectOne_day_off':
+            return day_off.map(item => {
+                if(item.id === action.params.id){
+                    return action.params;
+                } else {
+                    return item
+                }
+            });
+        default:
+            return day_off
+    }
+}
 export default combineReducers({
     holiday_type,
-    award
+    award,
+    day_off
 })

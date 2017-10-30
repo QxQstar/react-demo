@@ -2,7 +2,7 @@ import React,{Component} from 'react'
 import { Checkbox ,Button,Icon} from 'antd';
 import './list.css'
 import fixHeight from './../../../global/fixHeight.js'
-const height = fixHeight({offset:55});
+const height = fixHeight({offset:145});
 export default class  extends Component {
     constructor(props){
         super(props);
@@ -18,7 +18,7 @@ export default class  extends Component {
             <div className='g-list-warp'>
                 <div className='g-list-header'>
                     {this.props.title}
-                    {this.props.data.filter((item) => {return item.checked}).length > 0 ? <Button style={{marginLeft:'20px'}} onClick={() => this.props.delAward({},true)}>批量删除</Button>:null}
+                    {this.props.data.filter((item) => {return item.checked}).length > 0 ? <Button style={{marginLeft:'20px'}} onClick={() => this.props.delHandle({},true)}>批量删除</Button>:null}
                 </div>
                 {this.props.data.length > 0 ?
                     <div className='g-list-body'>

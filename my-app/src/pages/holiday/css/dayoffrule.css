@@ -1,0 +1,12 @@
+.dayOffRuleShow .main{
+    padding: 20px 0 20px 20px;
+}
+.dayOffRuleShow .item{
+    margin-bottom: 10px;
+}
+.dayOffRuleShow .info{
+    display: inline-block;
+    width: 120px;
+    text-align: right;
+    margin-right: 40px;
+}

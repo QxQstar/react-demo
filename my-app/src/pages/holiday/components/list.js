@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import { Checkbox ,Button,Icon} from 'antd';
-import './list.css'
+import '../css/list.css'
 import fixHeight from './../../../global/fixHeight.js'
 const height = fixHeight({offset:145});
 export default class  extends Component {

@@ -74,6 +74,9 @@
     border: none;
     border-bottom: 1px solid #8899a9;
 }
+.g-from input.small{
+    width: 50px;
+}
 .g-from button:focus{
     outline: none;
 }
@@ -158,6 +161,9 @@
     font-size: 14px;
     margin-top: 20px;
     color: #b8e0c8;
+}
+.ant-tabs-bar{
+    margin: 20px 0 16px 20px;
 }
 .ant-btn-primary{
     background: #24c875;

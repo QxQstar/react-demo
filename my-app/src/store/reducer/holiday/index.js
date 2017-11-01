@@ -86,6 +86,9 @@ const default_day_off = [
         remove_time:12
     }
 ];
+const default_day_off_rule = {
+    type:1
+};
 function holiday_type(holiday_type=default_holiday_type,action) {
     switch (action.type){
         case 'add_type':
@@ -186,8 +189,17 @@ function day_off(day_off = default_day_off, action) {
             return day_off
     }
 }
+function day_off_rule(rule=default_day_off_rule, action) {
+    switch (action.type){
+        case "editDayOffRule":
+            return action.params;
+        default:
+            return rule
+    }
+}
 export default combineReducers({
     holiday_type,
     award,
-    day_off
+    day_off,
+    day_off_rule
 })

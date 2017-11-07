@@ -9,11 +9,13 @@ function EditModel(props) {
 export default connect(() => {return{}},(dispatch,ownProps) => {
     return {
         onOk(){
-            dispatch({
-                type:ownProps.type,
-                params:ownProps.data
-            });
-            ownProps.onClose();
+            if(ownProps.verifyFrom()){
+                dispatch({
+                    type:ownProps.type,
+                    params:ownProps.data
+                });
+                ownProps.onClose();
+            }
         }
     }
 })(EditModel)

@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import GSearch from './../../components/g-search.js'
-import {Button} from 'antd'
+import {Button,message} from 'antd'
 import List from './container/dayOffList.js'
 import PopTip from './container/popTip.js'
 import EditModel from './container/editModel.js'
@@ -84,7 +84,7 @@ export default class  extends Component{
                 <td className="in-h">
                     姓名<span className="in-star">*</span></td>
                 <td>
-                    <input type="text" value={this.state.editModelData.member_name} onChange={(event) => this.handleFromChange('member_name',event.target.value)} className="input"/>
+                    {this.editModelType.type === 'add_day_off'?<input type="text" value={this.state.editModelData.member_name} onChange={(event) => this.handleFromChange('member_name',event.target.value)} className="input"/>:this.state.editModelData.member_name}
                 </td>
             </tr>
             <tr>
@@ -92,26 +92,58 @@ export default class  extends Component{
                     部门<span className="in-star">*</span>
                 </td>
                 <td>
-                    <input type="text" value={this.state.editModelData.department_name} onChange={(event) => this.handleFromChange('department_name',event.target.value)} className="input"/>
+                    {this.editModelType.type === 'add_day_off'?<input type="text" value={this.state.editModelData.department_name} onChange={(event) => this.handleFromChange('department_name',event.target.value)} className="input"/> :this.state.editModelData.department_name}
                 </td>
             </tr>
             <tr>
                 <td className="in-h">工号</td>
                 <td>
-                    <input type="text" value={this.state.editModelData.work_num} onChange={(event) => this.handleFromChange('work_num',event.target.value)} className="input"/>
+                    <input type="text" value={this.state.editModelData.work_num} onChange={(event) => this.handleFromChange('work_num',event.target.value,'num')} className="input"/>
                 </td>
             </tr>
             <tr>
                 <td className="in-h">
                     剩余调休时间<span className="in-star">*</span></td>
                 <td>
-                    <input type="text" value={this.state.editModelData.remove_time} onChange={(event) => this.handleFromChange('remove_time',event.target.value)} className="input"/>(小时)
+                    <input type="text" value={this.state.editModelData.remove_time} onChange={(event) => this.handleFromChange('remove_time',event.target.value,'num',1)} className="input"/>(小时)
                 </td>
             </tr>
             </tbody>
         </table>
     }
-    handleFromChange(filed,value){
+    verifyFrom(){
+        if(this.trim(this.state.editModelData.member_name).length <= 0){
+            message.warning('请输入姓名');
+            return false;
+        } else if(this.trim(this.state.editModelData.department_name).length <= 0){
+            message.warning('请输入部门');
+            return false;
+        } else if(this.trim(this.state.editModelData.remove_time).length <= 0){
+            message.warning('请输入剩余调休时间');
+            return false;
+        }
+        else {
+            return true;
+        }
+    }
+    trim(value){
+        return (value + '').replace(/\s/g,'');
+    }
+    handleFromChange(filed,value,type='text',decimal=0){
+        if(type==='num' && decimal===0){
+            value = value.replace(/[^\d]/g,'')
+        }
+        if(type === 'num' && decimal > 0){
+            value = value.replace(/^\./,'');
+            value = value.replace(/[^\d\.]/g,'');
+            const valueArr = value.split('.');
+            if(valueArr[1] != undefined){
+                value = valueArr[0] +'.'+  valueArr[1].slice(0,decimal);
+            } else {
+                value = valueArr[0]
+            }
+
+        }
         this.setState(function (prevS) {
             return {
                 editModelData:{...prevS.editModelData,...{[filed]:value}}
@@ -134,7 +166,7 @@ export default class  extends Component{
             </div>
             <List keyword={this.state.keyword} cols={this.cols} title="调休时间" delHandle={this.delHandle}/>
             {this.state.showPopTip?<PopTip onClose={this.onClose} title={this.popTipTitle} data={this.popTipData} dispatch={this.popTipDispatch} type={this.popTipType}/>:null}
-            {this.state.showEditModel ? <EditModel onClose={this.onClose} title={this.editModelTitle} type={this.editModelType} data={this.state.editModelData} render={() => this.renderFrom()}/>:null}
+            {this.state.showEditModel ? <EditModel onClose={this.onClose} verifyFrom={this.verifyFrom} title={this.editModelTitle} type={this.editModelType} data={this.state.editModelData} render={() => this.renderFrom()}/>:null}
         </div>
     }
 }

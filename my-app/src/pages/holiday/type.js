@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Button} from 'antd'
+import {Button,message} from 'antd'
 import List from './container/typeList.js'
 import PopTip from './container/popTip.js'
 import EditModel from './container/editModel.js';
@@ -16,7 +16,7 @@ export default class extends Component {
                 key:'status'
             },
             {
-                title:'假期上限',
+                title:'假期上限(天)',
                 key:'max_time'
             },
             {
@@ -42,6 +42,7 @@ export default class extends Component {
         this.closePopTip = this.closePopTip.bind(this);
         this.actionHandle = this.actionHandle.bind(this);
         this.renderFrom = this.renderFrom.bind(this);
+        this.verifyFrom = this.verifyFrom.bind(this);
         this.popTipTitle = '';
         this.popTipType = '';
         this.popTipDispatch = '';
@@ -76,7 +77,7 @@ export default class extends Component {
                     假期上限 <span className='in-star'>*</span>
                 </td>
                  <td>
-                     <input type='text' className='input' onChange={(event) =>this.formValueChange('max_time',event.target.value) } value={this.state.editData.max_time}/>
+                     <input type='text' className='input' onChange={(event) =>this.formValueChange('max_time',event.target.value,'num') } value={this.state.editData.max_time}/>
                  </td>
             </tr>
             <tr className='item' height='40'>
@@ -101,6 +102,17 @@ export default class extends Component {
             </tbody>
         </table>
     }
+    verifyFrom(){
+        if(this.state.editData.type.replace(/\s/g,'').length <= 0){
+            message.warning('请输入假期类型');
+            return false
+        } else if ((this.state.editData.max_time + '').replace(/\s/g,'').length <= 0) {
+             message.warning('请输入假期上限');
+            return false
+        } else {
+            return true;
+        }
+    }
     actionHandle(title,type,dispatch,data){
       this.popTipTitle = title;
       this.popTipType = type;
@@ -110,7 +122,10 @@ export default class extends Component {
           showPopTip:true
       });
     }
-    formValueChange(filed,value){
+    formValueChange(filed,value,type='text'){
+        if(type === 'num'){
+            value = value.replace(/[^\d]/g,'')
+        }
         this.setState((prevS) => {
             Object.assign(prevS.editData,{[filed]:value});
             return {
@@ -133,7 +148,7 @@ export default class extends Component {
             </div>
             <List cols={this.cols} title='假期类型'/>
             {this.state.showPopTip ? <PopTip onClose={this.closePopTip} data={this.popTipData} title={this.popTipTitle} type={this.popTipType} dispatch={this.popTipDispatch}/>:null}
-            {this.state.showEditModel ? <EditModel onClose={this.closePopTip} render={() => this.renderFrom()} data={this.state.editData} title={this.editModelTitle} type={this.editModelType}/>:null}
+            {this.state.showEditModel ? <EditModel onClose={this.closePopTip} render={() => this.renderFrom()} verifyFrom={this.verifyFrom} data={this.state.editData} title={this.editModelTitle} type={this.editModelType}/>:null}
         </div>
     }
 }

@@ -1,6 +1,6 @@
 import React,{Component} from 'react'
 import GSearch from './../../components/g-search.js'
-import {Button} from 'antd'
+import {Button,message} from 'antd'
 import List from './container/awardList.js'
 import PopTip from './container/popTip.js'
 import EditModel from './container/editModel.js'
@@ -16,6 +16,7 @@ export default class extends Component {
         this.search = this.search.bind(this);
         this.onClose = this.onClose.bind(this);
         this.delAward = this.delAward.bind(this);
+        this.verifyFrom = this.verifyFrom.bind(this);
         this.popTipTitle = '';
         this.popTipType='';
         this.popTipDispatch = '';
@@ -98,20 +99,47 @@ export default class extends Component {
                     年假总额<span className="in-star">*</span>
                 </td>
                 <td>
-                    <input type="text" value={this.state.editModelData.total_day} onChange={(event) => this.handleFromChange('total_day',event.target.value)} className="input"/>(天)
+                    <input type="text" value={this.state.editModelData.total_day} onChange={(event) => this.handleFromChange('total_day',event.target.value,'num')} className="input"/>(天)
                 </td>
             </tr>
             <tr>
                 <td className="in-h">
                     剩余年假<span className="in-star">*</span></td>
                 <td>
-                    <input type="text" value={this.state.editModelData.remove_day} onChange={(event) => this.handleFromChange('remove_day',event.target.value)} className="input"/>(天)
+                    <input type="text" value={this.state.editModelData.remove_day} onChange={(event) => this.handleFromChange('remove_day',event.target.value,'num')} className="input"/>(天)
                 </td>
             </tr>
             </tbody>
         </table>
     }
-    handleFromChange(filed,value){
+    verifyFrom(){
+        if(this.trim(this.state.editModelData.member_name).length <= 0){
+            message.warning('请输入姓名');
+            return false;
+        } else if (this.trim(this.state.editModelData.department_name).length <= 0){
+            message.warning('请输入部门');
+            return false;
+        } else if(this.trim(this.state.editModelData.total_day).length <= 0){
+            message.warning('请输入年假总额');
+            return false;
+        } else if(this.trim(this.state.editModelData.remove_day).length <= 0){
+             message.warning('请输入剩余年假');
+            return false;
+        } else if(this.state.editModelData.remove_day > this.state.editModelData.total_day){
+            message.warning('年假总额小于剩余年假');
+            return false
+        }
+        else {
+            return true
+        }
+    }
+     trim(value){
+        return (value+'').replace(/\s/g,'')
+    }
+    handleFromChange(filed,value,type='text'){
+         if(type === 'num'){
+             value = value.replace(/[^\d]/g,'')
+         }
         this.setState(function (prevS) {
             return {
                 editModelData:{...prevS.editModelData,...{[filed]:value}}
@@ -149,7 +177,7 @@ export default class extends Component {
             </div>
             <List keyword={this.state.keyword} title='奖励假时间' cols={this.cols} delAward={this.delAward}/>
             {this.state.showPopTip ? <PopTip onClose={this.onClose} data={this.popTipData} title={this.popTipTitle} type={this.popTipType} dispatch={this.popTipDispatch}/>:null}
-            {this.state.showEditModel ? <EditModel onClose={this.onClose} data={this.state.editModelData} title={this.editModelTitle} type={this.editModelType} render={() => this.renderFrom()}/> :null}
+            {this.state.showEditModel ? <EditModel onClose={this.onClose} verifyFrom={this.verifyFrom} data={this.state.editModelData} title={this.editModelTitle} type={this.editModelType} render={() => this.renderFrom()}/> :null}
         </div>
     }
 }

@@ -77,7 +77,7 @@ export default class extends Component {
                 <td className="in-h">
                     姓名<span className="in-star">*</span></td>
                 <td>
-                    <input type="text" value={this.state.editModelData.member_name} onChange={(event) => this.handleFromChange('member_name',event.target.value)} className="input"/>
+                    {this.editModelType === 'add_award'?<input type="text" value={this.state.editModelData.member_name} onChange={(event) => this.handleFromChange('member_name',event.target.value)} className="input"/>:this.state.editModelData.member_name}
                 </td>
             </tr>
             <tr>
@@ -85,13 +85,13 @@ export default class extends Component {
                     部门<span className="in-star">*</span>
                 </td>
                 <td>
-                    <input type="text" value={this.state.editModelData.department_name} onChange={(event) => this.handleFromChange('department_name',event.target.value)} className="input"/>
+                    {this.editModelType === 'add_award'?<input type="text" value={this.state.editModelData.department_name} onChange={(event) => this.handleFromChange('department_name',event.target.value)} className="input"/>:this.state.editModelData.department_name}
                 </td>
             </tr>
             <tr>
                 <td className="in-h">工号</td>
                 <td>
-                    <input type="text" value={this.state.editModelData.work_num} onChange={(event) => this.handleFromChange('work_num',event.target.value)} className="input"/>
+                    {this.editModelType === 'add_award'?<input type="text" value={this.state.editModelData.work_num} onChange={(event) => this.handleFromChange('work_num',event.target.value)} className="input"/>:this.state.editModelData.work_num}
                 </td>
             </tr>
             <tr>

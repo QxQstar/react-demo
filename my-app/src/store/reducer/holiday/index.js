@@ -197,9 +197,27 @@ function day_off_rule(rule=default_day_off_rule, action) {
             return rule
     }
 }
+function annual_rules(rules=[],action) {
+    switch (action.type){
+        case 'edit_annual_rules':
+            return action.rules;
+        default:
+            return rules
+    }
+}
+function annual_type(annual_type=1, action) {
+    switch (action.type){
+        case 'edit_annual_type':
+            return action.state;
+        default:
+            return annual_type;
+    }
+}
 export default combineReducers({
     holiday_type,
     award,
     day_off,
-    day_off_rule
+    day_off_rule,
+    annual_rules,
+    annual_type
 })

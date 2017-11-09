@@ -1,19 +1,45 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
-import {Button} from 'antd'
+import {message} from 'antd'
 class DayOffRule extends Component{
     constructor(props){
         super(props);
         this.state = {
             editData:props.rule
-        }
+        };
+        this.submit = this.submit.bind(this);
     }
-    changeField(field,value){
+    changeField(field,value,type='text'){
+        if(type==='num') value = value.replace(/[^\d]/g,'');
         this.setState((prevS) => {
             return {
                 editData:{...prevS.editData,...{[field]:value}}
             }
         })
+    }
+    submit(){
+        if(this.verifyFrom()) this.props.submit(this.state.editData);
+    }
+    verifyFrom(){
+        if(this.trim(this.state.editData.weekday).length <= 0){
+            message.warning('请输入工作日加班兑换规则');
+            return false
+        } else if(this.trim(this.state.editData.weekend).length <= 0){
+            message.warning('请输入休息日加班兑换规则');
+            return false
+        } else if(this.trim(this.state.editData.holiday).length <= 0){
+            message.warning('请输入节假日加班兑换规则');
+            return false
+        } else if(this.trim(this.state.editData.convery).length <= 0){
+            message.warning('请输入日时长折算规则');
+            return false
+        }
+        else {
+            return true;
+        }
+    }
+    trim(value){
+        return (value + '').replace(/\s/g,'')
     }
     render(){
         return <table className="g-from dayOffRuleShow" style={{marginLeft:'50px'}}>
@@ -33,9 +59,9 @@ class DayOffRule extends Component{
                         加班兑换规则<span className="in-star">*</span>
                     </td>
                     <td height='80' style={{verticalAlign: 'top'}}>
-                        <div className="item">工作日加班1小时换<input type="text" className="small" value={this.state.editData.weekday} onChange={(event) => this.changeField('weekday',event.target.value)}/>小时调休</div>
-                        <div className="item">工休息日加班1小时换<input type="text" className="small" value={this.state.editData.weekend} onChange={(event) => this.changeField('weekend',event.target.value)}/>小时调休</div>
-                        <div className="item">法定节假日加班1小时换<input type="text" className="small" value={this.state.editData.holiday} onChange={(event) => this.changeField('holiday',event.target.value)}/>小时调休</div>
+                        <div className="item">工作日加班1小时换<input type="text" className="small input" value={this.state.editData.weekday} onChange={(event) => this.changeField('weekday',event.target.value,'num')}/>小时调休</div>
+                        <div className="item">休息日加班1小时换<input type="text" className="small input" value={this.state.editData.weekend} onChange={(event) => this.changeField('weekend',event.target.value,'num')}/>小时调休</div>
+                        <div className="item">法定节假日加班1小时换<input type="text" className="small input" value={this.state.editData.holiday} onChange={(event) => this.changeField('holiday',event.target.value,'num')}/>小时调休</div>
                     </td>
                 </tr>
             :null}
@@ -45,7 +71,7 @@ class DayOffRule extends Component{
                         日时长折算规则<span className="in-star">*</span>
                     </td>
                     <td>
-                        <input type="text" className="small" value={this.state.editData.convery} onChange={(event) => this.changeField('convery',event.target.value)}/>小时=1天
+                        <input type="text" className="small input" value={this.state.editData.convery} onChange={(event) => this.changeField('convery',event.target.value,'num')}/>小时=1天
                     </td>
                 </tr>
             :null
@@ -54,7 +80,7 @@ class DayOffRule extends Component{
                 <td></td>
                 <td height='50'>
                     <button className="cancel" onClick={() => this.props.changeState(false)}>取消</button>
-                    <button className="submit" onClick={() => this.props.submit(this.state.editData)} style={{marginLeft:'10px'}}>提交</button>
+                    <button className="submit" onClick={() => this.submit()} style={{marginLeft:'10px'}}>提交</button>
                 </td>
             </tr>
             </tbody>

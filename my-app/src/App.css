@@ -76,6 +76,7 @@
 }
 .g-from input.small{
     width: 50px;
+    text-align: center;
 }
 .g-from button:focus{
     outline: none;
@@ -194,5 +195,5 @@
     clear: both;
     overflow: hidden;
     height: 0;
-    visibility: 0;
+    visibility: hidden;
 }

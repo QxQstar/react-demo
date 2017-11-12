@@ -6,7 +6,6 @@ class HeaderImg extends Component{
         this.color = ['rgb(32, 167, 253)', 'rgb(255, 179, 52)', 'rgb(255, 131, 54)'];
         this.img = props.imgSrc ? props.imgSrc : props.member_name[0];
         this.style = Object.assign({background:this.color[props.member_id%3]},{...this.props.style});
-
     }
     render(){
         return (

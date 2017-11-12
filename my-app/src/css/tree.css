@@ -1,0 +1,52 @@
+.g-select-warp{
+    margin-top: 20px;
+}
+.g-select-warp .search-bar{
+    border: 1px solid #8899a9;
+    border-left: none;
+    border-right: none;
+    height: 30px;
+    margin:10px 0;
+}
+.g-select-warp .search-bar li{
+    width: 3.65%;
+    height: 30px;
+    line-height: 30px;
+    font-size: 12px;
+    cursor: pointer;
+    color: #8899a9;
+    text-align: center;
+}
+.g-select-warp .search-bar li:first-child{
+    width: 5%;
+}
+.g-select-warp .search-bar li.active{
+    color: #24c875;
+}
+.g-select-warp .m-baseTree,.g-select-warp .right-result{
+    width: 50%;
+}
+.g-select-warp .right-result{
+    background-color: rgba(215, 235, 251, 0.72);
+}
+.g-select-warp .m-baseTree{
+    padding-left: 10px;
+}
+.g-select-warp .m-baseTree li{
+    height: 30px;
+    line-height: 30px;
+}
+.g-select-warp .m-baseTree .m-headerImg {
+    margin: 0 10px;
+}
+.g-select-warp .m-baseTree li{
+    margin-top: 10px;
+}
+.g-select-warp .m-baseTree li *{
+    font-size: 14px;
+    vertical-align: middle;
+}
+.g-select-warp .data{
+    display: flex;
+    align-items:stretch;
+}

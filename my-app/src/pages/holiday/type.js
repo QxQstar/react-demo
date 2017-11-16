@@ -3,7 +3,7 @@ import {Button,message,Modal} from 'antd'
 import List from './container/typeList.js'
 import PopTip from './container/popTip.js'
 import EditModel from './container/editModel.js';
-import Tree from './../../components/g-selectDta.js'
+import Tree from '../../components/g-selectData.js'
 export default class extends Component {
     constructor(props){
         super(props);
@@ -148,7 +148,7 @@ export default class extends Component {
                 <Button onClick={() => this.editHandel('add_type','新增类型')}>新增类型</Button>
             </div>
             <Modal visible={true} width={661}>
-                <Tree type='staff'/>
+                <Tree type='dept_and_staff'/>
             </Modal>
             <List cols={this.cols} title='假期类型'/>
             {this.state.showPopTip ? <PopTip onClose={this.closePopTip} data={this.popTipData} title={this.popTipTitle} type={this.popTipType} dispatch={this.popTipDispatch}/>:null}

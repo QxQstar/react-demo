@@ -1,5 +1,6 @@
 .g-select-warp{
     margin-top: 20px;
+
 }
 .g-select-warp .search-bar{
     border: 1px solid #8899a9;
@@ -23,8 +24,12 @@
 .g-select-warp .search-bar li.active{
     color: #24c875;
 }
-.g-select-warp .m-baseTree,.g-select-warp .right-result{
+.g-select-warp .left-result ,.g-select-warp .right-result{
+    min-height: 200px;
     width: 50%;
+}
+.g-select-warp .left-result ul{
+    margin-bottom: 10px;
 }
 .g-select-warp .right-result{
     background-color: rgba(215, 235, 251, 0.72);

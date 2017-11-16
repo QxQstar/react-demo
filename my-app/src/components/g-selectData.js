@@ -39,7 +39,7 @@ class SelectData extends Component{
     createSearchBar(){
         return <ul className="search-bar f-clearFix">
             {this.searchBarVal.map((val,index) => {
-                return <li key={index} className={'f-fl '+ (val === this.state.letter?'active':'')} onClick={() => this.searchByLetter(val)}>{val}</li>
+                return <li key={index} className={'f-fl '+ (val === this.state.letter?'active':'')} onClick={() => this.searchByLetter(val ==='全部'?'':val)}>{val}</li>
             })}
         </ul>
     }
@@ -51,7 +51,9 @@ class SelectData extends Component{
                 </div>
                 {this.createSearchBar()}
                 <div className="data">
-                   <Tree type={this.props.type} keyword={this.state.keyword} letter={this.state.letter} selectedData={this.state.selectedData} changeSelectedData={this.changeSelectedData}/>
+                    <div className="left-result">
+                        <Tree type={this.props.type} keyword={this.state.keyword} letter={this.state.letter} selectedData={this.state.selectedData} changeSelectedData={this.changeSelectedData}/>
+                    </div>
                     <div className="right-result">
                         {this.state.selectedData.map(data => {
                             return <span key={data.member_id || data.dept_id}>{data.member_name}</span>

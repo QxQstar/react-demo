@@ -34,6 +34,17 @@
 .g-select-warp .right-result{
     background-color: rgba(215, 235, 251, 0.72);
 }
+.right-result .result{
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: #a6cccc;
+    margin: 5px;
+    cursor: pointer;
+}
+.right-result .result:hover{
+    background-color: #98d7c7;
+}
 .g-select-warp .m-baseTree{
     padding-left: 10px;
 }

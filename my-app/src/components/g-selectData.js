@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
 import GSearch from './g-search.js'
+import {Modal} from 'antd'
 import Tree from './container/baseDataTree.js'
 import './../css/tree.css'
 class SelectData extends Component{
@@ -31,6 +32,10 @@ class SelectData extends Component{
             letter
         })
     }
+    delSelectData(id){
+        const result = this.state.selectedData.filter((item) => item.member_id !== id);
+        this.changeSelectedData(result);
+    }
     changeSelectedData(selectedData){
         this.setState({
             selectedData
@@ -45,22 +50,24 @@ class SelectData extends Component{
     }
     render(){
         return (
-            <div className="g-select-warp">
-                <div className="search_inpt">
-                    <GSearch placeholder="请输入关键字" search={this.searchByKeyword} style={{width:'100%'}}/>
-                </div>
-                {this.createSearchBar()}
-                <div className="data">
-                    <div className="left-result">
-                        <Tree type={this.props.type} keyword={this.state.keyword} letter={this.state.letter} selectedData={this.state.selectedData} changeSelectedData={this.changeSelectedData}/>
+            <Modal visible={this.props.visible} width={661} onCancel={() => this.props.onChangeTree(false)}>
+                <div className="g-select-warp">
+                    <div className="search_inpt">
+                        <GSearch placeholder="请输入关键字" search={this.searchByKeyword} style={{width:'100%'}}/>
                     </div>
-                    <div className="right-result">
-                        {this.state.selectedData.map(data => {
-                            return <span key={data.member_id || data.dept_id}>{data.member_name}</span>
-                        })}
+                    {this.createSearchBar()}
+                    <div className="data">
+                        <div className="left-result">
+                            <Tree type={this.props.type} keyword={this.state.keyword} letter={this.state.letter} selectedData={this.state.selectedData} changeSelectedData={this.changeSelectedData}/>
+                        </div>
+                        <div className="right-result">
+                            {this.state.selectedData.map(data => {
+                                return <span key={data.member_id || data.dept_id} className="result" onClick={() => this.delSelectData(data.member_id)}>{data.member_name}</span>
+                            })}
+                        </div>
                     </div>
                 </div>
-            </div>
+            </Modal>
         );
     }
 }

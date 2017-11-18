@@ -3,7 +3,6 @@ import {Button,message,Modal} from 'antd'
 import List from './container/typeList.js'
 import PopTip from './container/popTip.js'
 import EditModel from './container/editModel.js';
-import Tree from '../../components/g-selectData.js'
 export default class extends Component {
     constructor(props){
         super(props);
@@ -44,6 +43,7 @@ export default class extends Component {
         this.actionHandle = this.actionHandle.bind(this);
         this.renderFrom = this.renderFrom.bind(this);
         this.verifyFrom = this.verifyFrom.bind(this);
+        this.changeTree = this.changeTree.bind(this);
         this.popTipTitle = '';
         this.popTipType = '';
         this.popTipDispatch = '';
@@ -53,7 +53,8 @@ export default class extends Component {
         this.state = {
             showPopTip:false,
             showEditModel:false,
-            editData:''
+            editData:'',
+            visible:true
         };
     }
     closePopTip(){
@@ -61,6 +62,11 @@ export default class extends Component {
             showEditModel:false,
             showPopTip:false
         })
+    }
+    changeTree(boolean){
+        this.setState({
+            visible:boolean
+        });
     }
     renderFrom(){
         return <table className='g-from'>
@@ -147,9 +153,6 @@ export default class extends Component {
             <div className="g-header">
                 <Button onClick={() => this.editHandel('add_type','新增类型')}>新增类型</Button>
             </div>
-            <Modal visible={true} width={661}>
-                <Tree type='dept_and_staff'/>
-            </Modal>
             <List cols={this.cols} title='假期类型'/>
             {this.state.showPopTip ? <PopTip onClose={this.closePopTip} data={this.popTipData} title={this.popTipTitle} type={this.popTipType} dispatch={this.popTipDispatch}/>:null}
             {this.state.showEditModel ? <EditModel onClose={this.closePopTip} render={() => this.renderFrom()} verifyFrom={this.verifyFrom} data={this.state.editData} title={this.editModelTitle} type={this.editModelType}/>:null}

@@ -5,6 +5,11 @@ import Day_off from './../day_off.js'
 import Award from './../award.js'
 import Annual from './../annual.js'
 export default class  extends Component{
+    constructor(props){
+        super(props);
+        const {history} = props;
+        history.push('/holiday/type');
+    }
     render(){
         return <div>
             <Switch>

@@ -1,0 +1,36 @@
+.m-group-edit{
+
+}
+.m-group-edit .g-header span{
+    margin: 0 5px;
+}
+.m-group-edit .g-header span.link{
+    color: #24c875;
+    cursor: pointer;
+}
+.m-group-edit .m-step{
+    padding: 20px 30px;
+    border-bottom: 1px solid #ebebeb;
+}
+.m-group-edit .m-from{
+    margin-left: 100px;
+    margin-top: 30px;
+}
+.m-group-edit .m-from label{
+    display: block;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #757575;
+}
+.m-group-edit .m-from input[type='radio']{
+    margin-right: 20px;
+}
+.m-group-edit .m-from td{
+    vertical-align: top
+}
+/*.m-group-edit .m-from .select0,.m-group-edit .m-from .select2{*/
+    /*margin-right: 10px;*/
+/*}*/
+.m-group-edit .m-from .select1,.m-group-edit .m-from .select3,.m-group-edit .m-from .select5{
+    display: block;
+}

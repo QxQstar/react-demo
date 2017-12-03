@@ -11,7 +11,7 @@ class SelectData extends Component{
         this.state = {
             keyword:'',
             letter:'',
-            selectedData:[...props.initData]
+            selectedData:[...props.selectedData]
         };
         this.searchByKeyword = this.searchByKeyword.bind(this);
         this.changeSelectedData = this.changeSelectedData.bind(this);
@@ -50,7 +50,7 @@ class SelectData extends Component{
     }
     render(){
         return (
-            <Modal visible={this.props.visible} width={661} onCancel={() => this.props.onChangeTree(false)}>
+            <Modal visible={this.props.visible} width={661} onCancel={() => this.props.onChangeTree(false)} onOk={() => {this.props.onOk(this.state.selectedData);this.props.onChangeTree(false)}}>
                 <div className="g-select-warp">
                     <div className="search_inpt">
                         <GSearch placeholder="请输入关键字" search={this.searchByKeyword} style={{width:'100%'}}/>
@@ -73,6 +73,6 @@ class SelectData extends Component{
 }
 SelectData.defaultProps = {
     type:'dept',
-    initData:[]
+    selectedData:[]
 };
 export default SelectData;

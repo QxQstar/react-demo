@@ -55,6 +55,17 @@
 .g-from{
     font-size: 14px;
 }
+.g-from .result-p{
+    display: inline-block;
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: #a6cccc;
+    margin: 5px;
+    cursor: pointer;
+}
+.g-from .result-p:hover{
+    background-color: #98d7c7;
+}
 .g-from tr{
     padding-bottom: 20px;
 }

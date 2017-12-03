@@ -6,6 +6,7 @@ class Menu extends Component {
         return <ul className="g-menu">
             <li className="nav"><Link to={`/attendence`} activeClassName='g-navActive' className='link'>通讯录</Link></li>
             <li className="nav"><Link to={`/holiday`} activeClassName='g-navActive' className='link'>假期管理</Link></li>
+            <li className="nav"><Link to={`/att`} activeClassName='g-navActive' className='link'>考勤分组</Link></li>
         </ul>
     }
 }

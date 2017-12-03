@@ -16,6 +16,7 @@
   "devDependencies": {
     "antd": "^2.13.6",
     "jquery": "^3.2.1",
+    "mongoose": "^4.13.6",
     "react-redux": "^5.0.6",
     "react-router-dom": "^4.2.2",
     "redux": "^3.7.2"

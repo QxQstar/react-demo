@@ -1,5 +1,5 @@
 import React,{Component} from 'react'
-import {Button,message,Modal} from 'antd'
+import {Button,message} from 'antd'
 import List from './container/typeList.js'
 import PopTip from './container/popTip.js'
 import EditModel from './container/editModel.js';

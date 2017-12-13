@@ -5,7 +5,7 @@ import LeftNav from './components/leftNav.js'
 export default class  extends Component{
     render(){
         return (
-            <Layout type={2} left={<LeftNav {...this.props}/>} right={<Main {...this.props}/>}></Layout>
+            <Layout type={2} left={<LeftNav {...this.props}/>} right={<Main {...this.props}/>}/>
         )
     }
 }

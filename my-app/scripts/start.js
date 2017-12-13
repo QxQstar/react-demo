@@ -16,7 +16,6 @@ require('../config/env');
 
 const path = require('path');
 const webpack = require('webpack');
-const clearConsole = require('react-dev-utils/clearConsole');
 const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 const proxyMiddleware = require('http-proxy-middleware');
 const express = require('express');

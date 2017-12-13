@@ -12,6 +12,7 @@ exports.deptList =  function (req, res) {
 }
 exports.addDept = function (req, res) {
   const reqBody = req.body;
+  console.log(req)
   if(!reqBody.department_name){
     res.status(1231).send('缺少部门名称，添加失败').end();
   }
@@ -21,7 +22,7 @@ exports.addDept = function (req, res) {
   });
   dept.save(function (err) {
     if(!err){
-      res.statusCode(200).send('部门添加成功').end();
+      res.statusCode(200).send({code:0,msg:'部门添加成功'}).end();
     }
     else{
       res.status(1233).send('部门添加失败').end();

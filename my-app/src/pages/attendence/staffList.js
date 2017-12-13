@@ -30,10 +30,6 @@ class Main extends Component {
             </div>
         )
     }
-  componentDidMount(){
-    this.$http.get('/staff/list').then((res) =>{
-        console.log(res);
-    });
-  }
+
 }
 export default Main;

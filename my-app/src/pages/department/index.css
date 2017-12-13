@@ -1,0 +1,22 @@
+.m-deptTree{
+    background: #e9eef1;
+    width: auto !important;
+    min-width: 200px;
+    height: 100%;
+    padding-top: 30px;
+}
+.m-deptTree .dept_name{
+    display: inline-block;
+    min-width: 200px;
+    cursor: pointer;
+    padding: 10px 0 ;
+    font-size: 16px;
+}
+.m-deptTree .dept_name:hover{
+    background: #cce7f7;
+}
+.m-deptTree .ellipsis{
+    float: right;
+    margin-top: 10px;
+    margin-right: 20px;
+}

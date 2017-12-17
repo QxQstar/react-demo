@@ -14,10 +14,7 @@ process.on('unhandledRejection', err => {
 // Ensure environment variables are read.
 require('../config/env');
 
-const path = require('path');
 const webpack = require('webpack');
-const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
-const proxyMiddleware = require('http-proxy-middleware');
 const express = require('express');
 const mongoose = require('mongoose');
 
@@ -25,13 +22,7 @@ const {
   choosePort
 } = require('react-dev-utils/WebpackDevServerUtils');
 const openBrowser = require('react-dev-utils/openBrowser');
-const paths = require('../config/paths');
 const config = require('../config/webpack.config.dev');
-
-// Warn and crash if required files are missing
-if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
-  process.exit(1);
-}
 
 const app = new express();
 require('./../route/index.js')(app);
@@ -56,7 +47,6 @@ choosePort(HOST, DEFAULT_PORT)
       // We have not found a port.
       return;
     }
-    const protocol = process.env.HTTPS === 'true' ? 'https' : 'http';
     // Create a webpack compiler that is configured with custom messages.
     const compiler = webpack(config);
     const devMiddleware = require('webpack-dev-middleware')(compiler, {
@@ -68,35 +58,19 @@ choosePort(HOST, DEFAULT_PORT)
       log: () => {},
       heartbeat: 2000
     });
-    compiler.plugin('compilation', function (compilation) {
-      compilation.plugin('html-webpack-plugin-after-emit', function (data, cb) {
-        hotMiddleware.publish({ action: 'reload' })
-        cb()
-      })
-    });
-    const proxyTable = {};
-    Object.keys(proxyTable).forEach(function (context) {
-      var options = proxyTable[context]
-      if (typeof options === 'string') {
-        options = { target: options }
-      }
-      app.use(proxyMiddleware(options.filter || context, options))
-    });
-    app.use(require('connect-history-api-fallback')());
     app.use(devMiddleware);
     app.use(hotMiddleware);
-    const staticPath = path.posix.join('/', 'public')
-    app.use(staticPath, express.static('./public'))
+    app.use(express.static('public'));
     const uri = 'http://localhost:' + port;
-    console.log('> Starting dev server...')
+    console.log('> Starting dev server...');
     devMiddleware.waitUntilValid(() => {
-      console.log('> Listening at ' + uri + '\n')
+      console.log('> Listening at ' + uri + '\n');
       // when env is testing, don't need open it
       if ( process.env.NODE_ENV !== 'testing') {
         openBrowser(uri);
       }
-    })
-    const server = app.listen(port)
+    });
+  app.listen(port)
   })
   .catch(err => {
     if (err && err.message) {

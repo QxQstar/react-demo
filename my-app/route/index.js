@@ -9,4 +9,5 @@ module.exports = function (app) {
   app.get('/dept/list',dept.deptList);
   app.post('/dept/add',dept.addDept);
   app.post('/dept/del',dept.delDept);
+  app.post('/dept/edit',dept.editDept)
 };

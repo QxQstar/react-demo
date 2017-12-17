@@ -4,11 +4,11 @@ import {Icon} from 'antd';
 import GHeaderImg from './../g-headerImg.js'
 class Person extends Component{
     render(){
-        const {data} = this.props;
+        const {data,type} = this.props;
         return <li>
             <input type="checkbox" checked={this.props.checked(data.member_id)} onChange={() => this.props.changeChecked(data)}/>
-            <GHeaderImg {...data} style={{height:'30px',width:'30px'}}/>
-            <span>{data.member_name}</span>
+            {type !== 'dept'?<GHeaderImg {...data} style={{height:'30px',width:'30px'}}/>:null}
+            <span>{type !== 'dept'?data.member_name:data.department_name}</span>
         </li>
     }
 }
@@ -18,13 +18,19 @@ class BaseDataTree extends Component{
         this.verifyChecked = this.verifyChecked.bind(this);
         this.changeChecked = this.changeChecked.bind(this);
     }
-    changeChecked(member){
-        const member_id = member.member_id;
+    changeChecked(data){
+        let filed;
+        if(this.props.type !== 'dept'){
+            filed = 'member_id';
+        }  else {
+            filed = 'department_id';
+        }
+        const id = data[filed];
         const len = this.props.selectedData.length;
         let index = -1;
         for(let i = 0;i<len;i++){
             const cur = this.props.selectedData[i];
-            if(member_id === cur.member_id){
+            if(id === cur[filed]){
                 index = i;
                 break;
             }
@@ -34,12 +40,15 @@ class BaseDataTree extends Component{
             data.splice(index,1);
             this.props.changeSelectedData(data);
         } else {
-            this.props.changeSelectedData([...this.props.selectedData,member]);
+            this.props.changeSelectedData([...this.props.selectedData,data]);
         }
     }
-    verifyChecked(member_id){
-        const member_ids = this.props.selectedData.map(data => data.member_id);
-        return member_ids.join(',').includes(member_id);
+    verifyChecked(id){
+        const ids = this.props.selectedData.map(data => {
+            if(this.props.type !== 'dept') return data.member_id;
+            else return data.department_id
+        });
+        return ids.join(',').includes(id);
     }
     render(){
         const props = this.props;
@@ -48,7 +57,15 @@ class BaseDataTree extends Component{
                 {props.type === 'staff' || props.keyword || props.letter?
                     <ul>
                         {props.staff.map((data,index) => {
-                            return <Person data={data} index={index} key={index} checked={this.verifyChecked} changeChecked={this.changeChecked}/>
+                            return <Person type={props.type}  data={data} index={index} key={index} checked={this.verifyChecked} changeChecked={this.changeChecked}/>
+                        })}
+                    </ul>
+                    :null
+                }
+                {props.type === 'dept'?
+                    <ul>
+                        {props.dataBaseDept.map((data,index) => {
+                            return <Person type={props.type} data={data} index={index} key={index} checked={this.verifyChecked} changeChecked={this.changeChecked}/>
                         })}
                     </ul>
                     :null
@@ -93,20 +110,6 @@ function getStaff(staffs,keyword,letter) {
 export default connect((state,ownProps) => {
     return {
         staff:getStaff(state.baseData.staff,ownProps.keyword,ownProps.letter),
-        dept:state.baseData.dept,
-        dept_and_staff:(function (staffs, depts) {
-            return depts.map(dept => {
-                const dept_id = dept.dept_id +'';
-                const children = staffs.filter(staff => staff.dept_id + '' === dept_id);
-                return {...dept,children:children};
-            })
-        })(state.baseData.staff,state.baseData.dept),
-        dept_obj:(function (dept) {
-            const obj = {};
-            dept.forEach(item => {
-                obj[item.dept_id] = item
-            });
-            return obj;
-        })(state.baseData.dept)
+        dept:state.baseData.dept
     }
 })(BaseDataTree)

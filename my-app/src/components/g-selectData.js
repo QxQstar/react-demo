@@ -33,7 +33,13 @@ class SelectData extends Component{
         })
     }
     delSelectData(id){
-        const result = this.state.selectedData.filter((item) => item.member_id !== id);
+        let result
+        if(this.props.type !== 'dept'){
+            result = this.state.selectedData.filter((item) => item.member_id !== id);
+        } else {
+            result = this.state.selectedData.filter((item) => item.department_id !== id);
+        }
+
         this.changeSelectedData(result);
     }
     changeSelectedData(selectedData){
@@ -62,7 +68,7 @@ class SelectData extends Component{
                         </div>
                         <div className="right-result">
                             {this.state.selectedData.map(data => {
-                                return <span key={data.member_id || data.dept_id} className="result" onClick={() => this.delSelectData(data.member_id)}>{data.member_name}</span>
+                                return <span key={data.member_id || data.department_id} className="result" onClick={() => this.delSelectData(this.props.type === 'dept'?data.department_id:data.member_id)}>{this.props.type !== 'dept'?data.member_name:data.department_name}</span>
                             })}
                         </div>
                     </div>

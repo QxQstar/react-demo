@@ -17,7 +17,7 @@ require('../config/env');
 const webpack = require('webpack');
 const express = require('express');
 const mongoose = require('mongoose');
-
+const bodyParser = require('body-parser');
 const {
   choosePort
 } = require('react-dev-utils/WebpackDevServerUtils');
@@ -25,6 +25,8 @@ const openBrowser = require('react-dev-utils/openBrowser');
 const config = require('../config/webpack.config.dev');
 
 const app = new express();
+app.use(bodyParser.json()); // for parsing application/json
+app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 require('./../route/index.js')(app);
 // connect to database
 mongoose.connect('mongodb://localhost/react');

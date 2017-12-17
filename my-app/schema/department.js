@@ -3,9 +3,12 @@ const Schema = mongoose.Schema;
 // 部门Schema
 const deptSchema = new Schema({
   department_name:String,
-  department_id:Schema.Types.ObjectId,
+  department_id:{
+    type:Number,
+    unique:true
+  },
   department_pid:{
-    type:Schema.Types.ObjectId,
+    type:Number,
     default:0
   }
  });

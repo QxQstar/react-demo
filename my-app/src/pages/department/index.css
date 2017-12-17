@@ -6,14 +6,20 @@
     padding-top: 30px;
 }
 .m-deptTree .dept_name{
+    position: relative;
     display: inline-block;
-    min-width: 200px;
+    min-width: 100%;
     cursor: pointer;
-    padding: 10px 0 ;
+    padding: 10px 0 10px 10px;
     font-size: 16px;
+
 }
-.m-deptTree .dept_name:hover{
-    background: #cce7f7;
+.m-deptTree .dept_name .arrow{
+    position: absolute;
+    font-size: 14px;
+    color: #8b9fcb;
+    top:18px;
+    left: -7px;
 }
 .m-deptTree .ellipsis{
     float: right;

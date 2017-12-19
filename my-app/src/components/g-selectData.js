@@ -64,7 +64,7 @@ class SelectData extends Component{
                     {this.createSearchBar()}
                     <div className="data">
                         <div className="left-result">
-                            <Tree type={this.props.type} keyword={this.state.keyword} letter={this.state.letter} selectedData={this.state.selectedData} changeSelectedData={this.changeSelectedData}/>
+                            <Tree dataBaseDept={this.props.dataBaseDept} type={this.props.type} keyword={this.state.keyword} letter={this.state.letter} selectedData={this.state.selectedData} changeSelectedData={this.changeSelectedData}/>
                         </div>
                         <div className="right-result">
                             {this.state.selectedData.map(data => {
@@ -79,6 +79,7 @@ class SelectData extends Component{
 }
 SelectData.defaultProps = {
     type:'dept',
-    selectedData:[]
+    selectedData:[],
+    dataBaseDept:[]
 };
 export default SelectData;

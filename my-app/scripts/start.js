@@ -52,9 +52,7 @@ choosePort(HOST, DEFAULT_PORT)
     // Create a webpack compiler that is configured with custom messages.
     const compiler = webpack(config);
     const devMiddleware = require('webpack-dev-middleware')(compiler, {
-      publicPath: config.output.publicPath,
-      quiet: true,
-      lazy: true
+      publicPath: config.output.publicPath
     });
     const hotMiddleware = require('webpack-hot-middleware')(compiler, {
       log: () => {},

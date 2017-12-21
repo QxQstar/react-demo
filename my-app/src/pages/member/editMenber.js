@@ -1,4 +1,4 @@
-import React ,{Component} from 'react';
+﻿import React ,{Component} from 'react';
 import {Button,message} from 'antd';
 import OptDept from './../../components/g-selectData.js';
 export default class  extends Component {
@@ -14,6 +14,10 @@ export default class  extends Component {
         };
         this.onChangeTree = this.onChangeTree.bind(this);
         this.getOptDept = this.getOptDept.bind(this);
+	this.curDept = [];
+	if(this.props.department_id && this.props.department_name){
+	   this.curDept = [{department_id:this.props.department_id,department_name:this.props.department_name}]
+	}
     }
     changeVal(filed,val){
         this.setState({
@@ -25,11 +29,12 @@ export default class  extends Component {
             optDept:flag
         })
     }
-    getOptDept(data ={}){
+    getOptDept(data = []){
         this.setState({
-            department_id:data.department_id || '',
-            department_name:data.department_name || ''
+            department_id:data[0].department_id || '',
+            department_name:data[0].department_name || ''
         })
+        this.curDept = data;
     }
     render(){
         return (
@@ -46,7 +51,7 @@ export default class  extends Component {
                         <td>
                             <Button onClick={() => this.onChangeTree(true)}>部门</Button>
                             {this.state.department_name?<span className='result-p' onClick={() => this.getOptDept()}>{this.state.department_name}</span>:null}
-                            <OptDept type='dept' dataBaseDept={this.depts} visible={this.stats.optDept} onOk={this.getOptDept} onChangeTree={this.onChangeTree} selectedData={{department_id:this.state.department_id,department_name:this.state.department_name}}/>
+                            <OptDept maxNum={1} type='dept' dataBaseDept={this.depts} visible={this.state.optDept} onOk={this.getOptDept} onChangeTree={this.onChangeTree} selectedData={this.curDept}/>
                         </td>
                     </tr>
                     <tr>
@@ -58,7 +63,7 @@ export default class  extends Component {
                     <tr>
                         <td className='in-h'></td>
                         <td>
-                            <button type='button' className='submit'>确定</button>
+                            <button type='button' className='submit' style={{marginRight:'10px'}}>确定</button>
                             <button type='button' className='cancel' onClick={() => this.props.changeState('list')}>取消</button>
                         </td>
                     </tr>
@@ -67,7 +72,7 @@ export default class  extends Component {
         )
     }
     componentDidMount(){
-        this.$http.get('/dept/list').then((res) => {
+        this.$http.post('/dept/list').then((res) => {
             const resData = res.data || {};
             if(resData.code + '' === '0'){
                 this.depts = resData.data || [];

@@ -1,7 +1,9 @@
 import React ,{Component} from 'react';
 import {Button,Table,message} from 'antd'
-import EditMenber from './editMenber.js'
-export default class  extends Component {
+import EditMember from './editMenber.js'
+import Layout from './../../components/layout.js';
+import './index.css'
+export default class extends Component {
     constructor(props){
         super(props);
         this.state = {
@@ -42,9 +44,9 @@ export default class  extends Component {
     }
     handle(type,data={}){
         if(type !== 'del'){
-
-        } else {
             this.changeState('edit');
+        } else {
+
         }
     }
     changeState(status){
@@ -53,7 +55,7 @@ export default class  extends Component {
         })
     }
     fetchData(){
-        this.$http.get('/staff/list').then((res) => {
+        this.$http.post('/staff/list').then((res) => {
             const resData = res.data || {};
             if(resData.code + '' === '0'){
                 this.setState({
@@ -66,14 +68,17 @@ export default class  extends Component {
     }
     render(){
         return (
-            <div className='m-members'>
-                {this.state.status === 'list'?<div className='m-list'>
-                    <div className='g-header'>
-                        <Button type="primary" onClick={this.handle('add')}>新增员工</Button>
-                    </div>
-                    <Table columns={this.columns} dataSource={this.state.tb_data}/>
-                </div>:null}
-            </div>
+            <Layout type={1}>
+                <div className='m-members'>
+                    {this.state.status === 'list'?<div className='m-list'>
+                        <div className='g-header'>
+                            <Button type="primary" onClick={() => this.handle('add')}>新增员工</Button>
+                        </div>
+                        <Table columns={this.columns} dataSource={this.state.tb_data}/>
+                    </div>:null}
+                    {this.state.status ==='edit'?<EditMember changeState={this.changeState}/>:null}
+                </div>
+            </Layout>
         )
     }
     componentDidMount(){

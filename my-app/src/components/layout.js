@@ -5,8 +5,8 @@ const height = fixHeight();
 class Layout extends Component {
     render(){
         if(this.props.type * 1 === 2){
-            return <div className="g-layout g-clearfix">
-                <div className="g-left" style={{height:height+'px'}}>
+            return <div className="g-layout g-clearfix" style={{height:height+'px'}}>
+                <div className="g-left" >
                     {this.props.left ? this.props.left:'暂无内容'}
                 </div>
                 <div className="g-right">
@@ -22,7 +22,7 @@ class Layout extends Component {
             } else {
                 content = '暂无内容'
             }
-            return <div className="g-layout">
+            return <div className="g-layout" style={{height:height+'px'}}>
                 <div className="g-content">
                     {content}
                 </div>

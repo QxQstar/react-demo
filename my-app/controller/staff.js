@@ -7,7 +7,7 @@ exports.staffList = function (req, res) {
       if(err){
         res.status(err.status).end();
       } else {
-        res.json(staffs);
+        res.json({code :0,data:staffs});
       }
     });
 }

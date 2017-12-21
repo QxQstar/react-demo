@@ -15,9 +15,9 @@ export default class  extends Component{
                 <Route path='/attendence' component={Attendence}/>
                 <Route path='/holiday' component={Holiday}/>
                 <Route path='/att' component={Att}/>
-                <Route paht='/department' component={Department}/>
+                <Route path='/department' component={Department}/>
                 <Route path='/member' component={Member}/>
-                <Route componen={Attendence}/>
+                <Route component={Attendence}/>
             </Switch>
         </div>
     }

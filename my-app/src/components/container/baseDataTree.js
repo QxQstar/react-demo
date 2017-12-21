@@ -5,8 +5,10 @@ import GHeaderImg from './../g-headerImg.js'
 class Person extends Component{
     render(){
         const {data,type} = this.props;
+        let key = type==='dept'?'department_id':'member_id'
+
         return <li>
-            <input type="checkbox" checked={this.props.checked(data.member_id)} onChange={() => this.props.changeChecked(data)}/>
+            <input type="checkbox" checked={this.props.checked(data[key])} onChange={() => this.props.changeChecked(data)}/>
             {type !== 'dept'?<GHeaderImg {...data} style={{height:'30px',width:'30px'}}/>:null}
             <span>{type !== 'dept'?data.member_name:data.department_name}</span>
         </li>

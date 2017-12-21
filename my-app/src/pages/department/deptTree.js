@@ -147,7 +147,7 @@ export default class  extends Component{
     }
     // 获取部门列表
     fetchData(){
-        this.$http.get('/dept/list').then(res => {
+        this.$http.post('/dept/list').then(res => {
             const resData = res.data || {};
             if(resData.code + '' === '0'){
                 this.setState({

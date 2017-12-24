@@ -8,14 +8,15 @@ export default class  extends Component{
         super(props);
         this.state = {
             dept_id:0
-        }
+        };
+        this.selectDept = this.selectDept.bind(this);
     }
-    changeDept(dept_id){
+    selectDept(dept_id){
         this.setState({
             dept_id
         })
     }
     render(){
-        return <Layout left={<DeptTree changeDept={this.changeDept}/>} type='2' right={<RightList dept_id={this.state.dept_id}/>} />
+        return <Layout left={<DeptTree selected_id={this.state.dept_id} selectDept={this.selectDept}/>} type='2' right={<RightList dept_id={this.state.dept_id}/>} />
     }
 }

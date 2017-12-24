@@ -1,8 +1,15 @@
 var StaffModel = require('./../model/staff.js');
 // 获取职员列表
 exports.staffList = function (req, res) {
+    const dept_id = req.body.department_id;
+    let param = {};
+    if(dept_id){
+        param = {
+            department_id:dept_id
+        };
+    }
   StaffModel
-    .find()
+    .find(param)
     .populate('Department','department_name')
     .exec(function (err, staffs) {
       if(err){

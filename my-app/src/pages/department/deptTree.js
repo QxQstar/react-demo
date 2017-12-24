@@ -61,14 +61,14 @@ class Dept extends Component {
                     props.depts.map(dept => {
                         if(dept.department_pid * 1 === props.pid * 1){
                             return <div key={dept.department_id} style={{paddingLeft:8*props.level + 'px'}}>
-                                <span className='dept_name'>
-                                    { this.checkChildren(dept.department_id) ? <Icon className ='arrow' type={dept.spread?'caret-down':'caret-right'} onClick={() => this.changeCaretState(dept)}/> :null}
-                                    {dept.department_name}
-                                    <Dropdown overlay={this.getMenu(dept.department_id,dept.department_name)} trigger={['click']}>
-                                        <Icon type="edit" className='ellipsis'/>
+                                <span className='dept_name' onClick={(event) => {event.stopPropagation();props.selectDept(dept.department_id)}}>
+                                    { this.checkChildren(dept.department_id) ? <Icon style={{color:dept.department_id === props.selected_id?'#25c870':''}} className ='arrow' type={dept.spread?'caret-down':'caret-right'} onClick={() => this.changeCaretState(dept)}/> :null}
+                                    <span style={{color:dept.department_id === props.selected_id?'#25c870':''}}>{dept.department_name}</span>
+                                    <Dropdown overlay={this.getMenu(dept.department_id,dept.department_name)} trigger={['click']} >
+                                        <Icon type="edit" className='ellipsis' style={{color:dept.department_id === props.selected_id?'#25c870':''}}/>
                                     </Dropdown>
                                 </span>
-                                {dept.spread?<Dept pid={dept.department_id} changeDept={props.changeDept} depts={props.depts} level={props.level + 1}/>:null}
+                                {dept.spread?<Dept selected_id={props.selected_id} pid={dept.department_id} selectDept={props.selectDept } changeDept={props.changeDept} depts={props.depts} level={props.level + 1}/>:null}
                             </div>
                         }
                     })
@@ -185,7 +185,7 @@ export default class  extends Component{
     render(){
         return (
             <div className='m-deptTree'>
-                <Dept pid={-1} depts={this.state.depts} changeDept={this.changeDept} level={1}/>
+                <Dept pid={-1} selected_id={this.props.selected_id} selectDept={this.props.selectDept } depts={this.state.depts} changeDept={this.changeDept} level={1}/>
                 {this.state.addDeptModel?<Modal onOk={this.okAction} onCancel={this.closeModel} width={400} visible={true}>
                     {this.modelType !== 'del'
                         ?<table className='g-from' style={{marginTop:'30px'}}>

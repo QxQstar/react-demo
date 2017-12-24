@@ -102,7 +102,7 @@ export default class extends Component {
                         <div className='g-header'>
                             <Button type="primary" onClick={() => this.handle('add')}>新增员工</Button>
                         </div>
-                        <Table scroll={{ x: true, y: height }} columns={this.columns} dataSource={this.state.tb_data} pagination={false}/>
+                        <Table scroll={{ x: true, y: height }} bordered={true} columns={this.columns} dataSource={this.state.tb_data} pagination={false}/>
                     </div>:null}
                     {this.state.status ==='edit'?<EditMember meberMsg={this.rowData} changeState={this.changeState}/>:null}
                     {this.state.delModel?<Modal onOk={this.del} onCancel={() => this.setState({delModel:false})} visible={true}>

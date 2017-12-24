@@ -4,10 +4,10 @@ const Schema = mongoose.Schema;
 const staffSchema = new Schema({
   member_name:String,
   member_id:{
-    type:Schema.Types.ObjectId
+    type:Number
   },
-  department_name:String,
-  department_id:Schema.Types.ObjectId,
-  mobile:Number
+  department_id:Number,
+  work_num:[String,Number],
+  department_name:String
 });
 module.exports =  staffSchema;

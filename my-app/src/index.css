@@ -68,3 +68,6 @@ input:focus{
     font-size: 16px;
     cursor: pointer;
 }
+.ant-modal-body{
+   padding-top: 50px !important;
+}

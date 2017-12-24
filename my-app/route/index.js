@@ -5,6 +5,7 @@ module.exports = function (app) {
   app.post('/staff/list',staff.staffList);
   app.post('/staff/add',staff.addStaff);
   app.post('/staff/del',staff.delStaff);
+  app.post('/staff/edit',staff.editStaff)
 
   app.post('/dept/list',dept.deptList);
   app.post('/dept/add',dept.addDept);

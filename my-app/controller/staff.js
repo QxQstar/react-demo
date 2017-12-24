@@ -3,6 +3,7 @@ var StaffModel = require('./../model/staff.js');
 exports.staffList = function (req, res) {
   StaffModel
     .find()
+    .populate('Department','department_name')
     .exec(function (err, staffs) {
       if(err){
         res.status(err.status).end();
@@ -15,41 +16,65 @@ exports.staffList = function (req, res) {
 exports.addStaff =  function (req, res) {
   const reqBody = req.body;
   if(!reqBody.member_name){
-    res.status(1230).send('缺少员工姓名，添加失败').end();
-  }
-  if(!reqBody.department_name){
-    res.status(1231).send('缺少部门名称，添加失败').end();
+    res.status(200).send({code:124,msg:'缺少员工姓名'}).end();
   }
   if(!reqBody.department_id){
-    res.status(1232).send('缺少部门id，添加失败').end();
+    res.status(200).send({code:125,msg:'缺少部门id'}).end();
   }
-  const staff = new StaffModel({
-    member_name:reqBody.member_name,
-    department_name:reqBody.department_name,
-    department_id:reqBody.department_id
-  });
-  staff.save(function (err) {
-    if(!err){
-      res.statusCode(200).send('员工添加成功').end();
-    }
-    else{
-      res.status(1233).send('员工添加失败').end();
-    }
-  });
+  StaffModel.find().exec().then(data => {
+      const staff = new StaffModel({
+          member_name:reqBody.member_name,
+          work_num:reqBody.work_num,
+          department_id:reqBody.department_id,
+          member_id:(data.length || 0)+1,
+          department_name:reqBody.department_name
+      });
+      staff.save(function (err) {
+          if(!err){
+              res.status(200).send({code:0,msg:'员工添加成功'}).end();
+          }
+          else{
+              res.status(200).send({code:125,msg:'员工添加失败'}).end();
+          }
+      });
+  }).catch(() => {
+    res.status(200).send({msg:'获取部门人数失败',code :125}).end();
+  })
+
+
 };
 // 删除员工
 exports.delStaff =  function (req, res) {
   const resBody = req.body;
   if(!resBody.member_id){
-    res.status(1331).send('缺少员工id，删除失败').end();
+    res.status(200).send({msg:'缺少员工id',code:134}).end();
   }
   StaffModel.remove({
     member_id:resBody.member_id
   },function (err) {
-    if(!err){
-      res.status(1332).send('删除职员失败').end();
+    if(err){
+      res.status(200).send({code:126,msg:'删除职员失败'}).end();
     } else {
-      res.statusCode(200).send('删除职员成功').end();
+      res.status(200).send({code:0,msg:'删除职员成功'}).end();
     }
   });
-}
+};
+// 编辑员工
+exports.editStaff = function (req, res) {
+  const reqBody = req.body;
+  if(!reqBody.member_id){
+    res.status(200).send({code:123,msg:'缺少员工id'}).end();
+  }
+  StaffModel.findOneAndUpdate({member_id:reqBody.member_id},{
+    member_name:reqBody.member_name,
+    department_id:reqBody.department_id,
+    work_num:reqBody.work_num,
+      department_name:reqBody.department_name
+  },{new:false},function (err, result) {
+      if(!err){
+        res.status(200).send({code:0,data:result}).end();
+      } else {
+        res.status(200).send({code:124,msg:'部门编辑失败'}).end();
+      }
+  })
+};

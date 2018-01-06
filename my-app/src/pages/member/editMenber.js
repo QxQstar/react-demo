@@ -85,7 +85,7 @@ export default class  extends Component {
                             <td>
                                 <Button onClick={() => this.onChangeTree(true)}>部门</Button>
                                 {this.state.department_name?<span className='result-p'>{this.state.department_name}</span>:null}
-                                <OptDept maxNum={1} type='dept' visible={this.state.optDept} onOk={this.getOptDept} onChangeTree={this.onChangeTree} selectedData={this.curDept}/>
+                                {this.state.optDept?<OptDept maxNum={1} type='dept' visible={this.state.optDept} onOk={this.getOptDept} onChangeTree={this.onChangeTree} selectedData={this.curDept}/>:null}
                             </td>
                         </tr>
                         <tr>

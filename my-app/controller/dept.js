@@ -1,7 +1,14 @@
 var DeptModel = require('./../model/department.js');
 exports.deptList =  function (req, res) {
+    const department_id = req.body.department_id;
+    let param = {};
+    if(department_id){
+        param = {
+            department_id:department_id
+        };
+    }
   DeptModel
-    .find()
+    .find(param)
     .exec(function (err, depts) {
       if(err){
         res.status(err.status).json({code:122,msg:'部门列表获取失败'});
@@ -9,7 +16,7 @@ exports.deptList =  function (req, res) {
         res.json({data:depts,code:0,msg:'部门列表获取成功'});
       }
     });
-}
+};
 exports.addDept = function (req, res) {
   const reqBody = req.body;
   if(!reqBody.department_name){
@@ -47,7 +54,19 @@ exports.editDept = function (req, res) {
     if(!resBody.department_id){
         res.status(200).send({code:123,msg:'缺少部门id，编辑失败'}).end();
     }
-    DeptModel.findOneAndUpdate({department_id:resBody.department_id},{department_name:resBody.department_name},{new:false},function (err,result) {
+    let updateParm = {};
+    if(resBody.department_name !== undefined){
+        updateParm.department_name = resBody.department_name;
+    }
+    if(resBody.leader_member_name !== undefined){
+        updateParm.leader_member_name = resBody.leader_member_name;
+    }
+    if(resBody.leader_member_id !== undefined){
+        updateParm.leader_member_id = resBody.leader_member_id;
+    }
+    DeptModel.findOneAndUpdate({
+        department_id:resBody.department_id
+    },updateParm,{new:false},function (err,result) {
       if(!err){
         res.status(200).send({code:0,msg:'部门编辑成功',data:result}).end();
       }else{

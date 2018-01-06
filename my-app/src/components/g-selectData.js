@@ -45,7 +45,8 @@ class SelectData extends Component{
     }
     onOk(){
       if(!this.props.maxNum || this.state.selectedData.length <= this.props.maxNum){
-	 this.props.onOk(this.state.selectedData);
+         this.props.onOk(this.state.selectedData);
+
          this.props.onChangeTree(false)
        }
     }
@@ -71,7 +72,7 @@ class SelectData extends Component{
                     {this.createSearchBar()}
                     <div className="data">
                         <div className="left-result">
-                            <Tree dataBaseDept={this.props.dataBaseDept} type={this.props.type} keyword={this.state.keyword} letter={this.state.letter} selectedData={this.state.selectedData} changeSelectedData={this.changeSelectedData}/>
+                            <Tree type={this.props.type} keyword={this.state.keyword} letter={this.state.letter} selectedData={this.state.selectedData} changeSelectedData={this.changeSelectedData}/>
                         </div>
                         <div className="right-result">
                              {this.props.maxNum?<p style={{margin:'10px 0 10px 10px',color:this.state.selectedData.length > this.props.maxNum?'red':'#444'}}>
@@ -89,7 +90,6 @@ class SelectData extends Component{
 }
 SelectData.defaultProps = {
     type:'dept',
-    selectedData:[],
-    dataBaseDept:[]
+    selectedData:[]
 };
 export default SelectData;

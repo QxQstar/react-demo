@@ -10,5 +10,5 @@ module.exports = function (app) {
   app.post('/dept/list',dept.deptList);
   app.post('/dept/add',dept.addDept);
   app.post('/dept/del',dept.delDept);
-  app.post('/dept/edit',dept.editDept)
+  app.post('/dept/edit',dept.editDept);
 };

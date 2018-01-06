@@ -1,5 +1,6 @@
 import React,{Component} from 'react';
-import {Icon,Dropdown,Menu,Modal,message} from 'antd'
+import {Icon,Dropdown,Menu,Modal,message} from 'antd';
+import store from './../../store/index.js';
 // 递归遍历出部门的树状结构
 class Dept extends Component {
     constructor(props){
@@ -106,7 +107,8 @@ export default class  extends Component{
                 info:{
                     error:'部门添加失败',
                     success:'部门添加成功'
-                }
+                },
+                title:'新增子部门'
             },
             edit:{
                 'url':'/dept/edit',
@@ -116,7 +118,8 @@ export default class  extends Component{
                 info:{
                     error:'部门编辑失败',
                     success:'部门编辑成功'
-                }
+                },
+                title:'编辑部门'
             },
             del:{
                 'url':'/dept/del',
@@ -126,7 +129,8 @@ export default class  extends Component{
                 info:{
                     error:'部门删除失败',
                     success:'部门删除成功'
-                }
+                },
+                title:'删除部门'
             }
         }[type];
         this.setState({
@@ -161,6 +165,10 @@ export default class  extends Component{
                         ...resData.data
                     ]
                 });
+                store.dispatch({
+                    type:'getDept',
+                    data:resData.data || []
+                })
             }else {
                 message.error('获取部门列表失败');
             }
@@ -186,9 +194,9 @@ export default class  extends Component{
         return (
             <div className='m-deptTree'>
                 <Dept pid={-1} selected_id={this.props.selected_id} selectDept={this.props.selectDept } depts={this.state.depts} changeDept={this.changeDept} level={1}/>
-                {this.state.addDeptModel?<Modal onOk={this.okAction} onCancel={this.closeModel} width={400} visible={true}>
+                {this.state.addDeptModel?<Modal title={this.param.title} onOk={this.okAction} onCancel={this.closeModel} width={400} visible={true}>
                     {this.modelType !== 'del'
-                        ?<table className='g-from' style={{marginTop:'30px'}}>
+                        ?<table className='g-from'>
                             <tbody>
                                 <tr>
                                     <td className='in-h'>部门名称</td>

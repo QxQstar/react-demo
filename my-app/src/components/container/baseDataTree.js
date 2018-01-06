@@ -66,7 +66,7 @@ class BaseDataTree extends Component{
                 }
                 {props.type === 'dept'?
                     <ul>
-                        {props.dataBaseDept.map((data,index) => {
+                        {props.dept.map((data,index) => {
                             return <Person type={props.type} data={data} index={index} key={index} checked={this.verifyChecked} changeChecked={this.changeChecked}/>
                         })}
                     </ul>

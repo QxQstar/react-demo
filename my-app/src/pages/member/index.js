@@ -3,6 +3,7 @@ import {Button,Table,message,Modal} from 'antd'
 import EditMember from './editMenber.js'
 import Layout from './../../components/layout.js';
 import getHeight from './../../global/fixHeight.js';
+import store from './../../store/index.js';
 import './index.css'
 const height = getHeight({offset:120});
 export default class extends Component {
@@ -88,6 +89,10 @@ export default class extends Component {
                 const data = (resData.data || []).map(data => ({...data,key:data.member_id}));
                 this.setState({
                     tb_data:data
+                });
+                store.dispatch({
+                    type:'getStaff',
+                    data:resData.data || []
                 })
             } else {
                 message.error('获取员工列表失败')
@@ -105,7 +110,7 @@ export default class extends Component {
                         <Table scroll={{ x: true, y: height }} bordered={true} columns={this.columns} dataSource={this.state.tb_data} pagination={false}/>
                     </div>:null}
                     {this.state.status ==='edit'?<EditMember meberMsg={this.rowData} changeState={this.changeState}/>:null}
-                    {this.state.delModel?<Modal onOk={this.del} onCancel={() => this.setState({delModel:false})} visible={true}>
+                    {this.state.delModel?<Modal title='删除部门' onOk={this.del} onCancel={() => this.setState({delModel:false})} visible={true}>
                         确定删除该员工，删除之后数据将无法恢复？
                     </Modal>:null}
                 </div>

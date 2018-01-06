@@ -1,4 +1,5 @@
 import {combineReducers} from 'redux';
+
 const defaultDept = [
     {
         dept_id:0,
@@ -54,14 +55,18 @@ const defaultStaff = [
 ];
 function dept(dept = defaultDept, action) {
     switch (action.type){
+        case 'getDept':
+            return action.data;
         default:
-            return dept
+            return dept;
     }
 }
 function staff(staff = defaultStaff, action) {
     switch (action.type){
+        case 'getStaff':
+            return action.data;
         default:
-            return staff
+            return staff;
     }
 }
 export default combineReducers({

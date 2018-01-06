@@ -31,11 +31,11 @@ export default class  extends Component {
         });
     }
     getOptDept(data = []){
-        this.setState({
-            department_id:data[0].department_id || '',
-            department_name:data[0].department_name || ''
-        });
         this.curDept = data;
+        this.setState({
+            department_id:(data[0] || {}).department_id || '',
+            department_name:(data[0] || {}).department_name || ''
+        });
     }
     submit(){
         const param = {
@@ -84,8 +84,8 @@ export default class  extends Component {
                             <td className='in-h'>部门<span className='in-star'>*</span></td>
                             <td>
                                 <Button onClick={() => this.onChangeTree(true)}>部门</Button>
-                                {this.state.department_name?<span className='result-p' onClick={() => this.getOptDept()}>{this.state.department_name}</span>:null}
-                                <OptDept maxNum={1} type='dept' dataBaseDept={this.depts} visible={this.state.optDept} onOk={this.getOptDept} onChangeTree={this.onChangeTree} selectedData={this.curDept}/>
+                                {this.state.department_name?<span className='result-p'>{this.state.department_name}</span>:null}
+                                <OptDept maxNum={1} type='dept' visible={this.state.optDept} onOk={this.getOptDept} onChangeTree={this.onChangeTree} selectedData={this.curDept}/>
                             </td>
                         </tr>
                         <tr>
@@ -105,15 +105,5 @@ export default class  extends Component {
                 </table>
             </div>
         )
-    }
-    componentDidMount(){
-        this.$http.post('/dept/list').then((res) => {
-            const resData = res.data || {};
-            if(resData.code + '' === '0'){
-                this.depts = resData.data || [];
-            } else {
-                message.error('获取部门列表失败');
-            }
-        })
     }
 }

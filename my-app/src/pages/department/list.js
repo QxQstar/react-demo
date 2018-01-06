@@ -1,11 +1,16 @@
 import React,{Component} from 'react';
-import {Table} from 'antd'
+import {Table,Button} from 'antd';
+import SelectLeader from './../../components/g-selectData.js';
 export default class  extends Component{
     constructor(props){
         super(props);
         this.state = {
-            tb_data:[]
+            tb_data:[],
+            dept_leader:'',
+            visible:false
         };
+        this.onChangeTree = this.onChangeTree.bind(this);
+        this.onOk = this.onOk.bind(this);
         this.columns = [
             {
                 title:'姓名',
@@ -27,8 +32,21 @@ export default class  extends Component{
             }
         ]
     }
+    onChangeTree(flag){
+        this.setState({
+            visible:flag
+        });
+    }
+    // 修改部门负责人
+    onOk(){}
     render(){
-        return <div style={{padding:'20px'}}>
+        return <div style={{padding:'0 20px'}} className='m-dept-member'>
+            {this.props.dept_id * 1?<div className='g-header'>
+                <span>部门负责人:</span>
+                {this.state.dept_leader}
+                <Button className="primary opt-leader" onClick={() => {this.onChangeTree(true)}}>{!this.state.dept_leader?'选择部门负责人':'修改部门负责人'}</Button>
+                <SelectLeader type='staff' maxNum={1} visible={this.state.visible} onChangeTree={this.onChangeTree} onOk={this.onOk}/>
+            </div>:null}
             <Table dataSource={this.state.tb_data} columns={this.columns} bordered={true} pagination={false}/>
         </div>
     }

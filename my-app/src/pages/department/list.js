@@ -1,15 +1,19 @@
 import React,{Component} from 'react';
-import {Table,Button,message} from 'antd';
+import {Table,Button,message,Modal} from 'antd';
 import SelectLeader from './../../components/g-selectData.js';
-import {updateDept} from './../../global/initBaseData.js';
+import {updateDept,updateStaff} from './../../global/initBaseData.js';
+import FilterDept from './../../components/g-filter-dept.js';
 export default class  extends Component{
     constructor(props){
         super(props);
         this.state = {
-            visible:false
+            visible:false,
+            changeDept:false
         };
         this.onChangeTree = this.onChangeTree.bind(this);
         this.onOk = this.onOk.bind(this);
+        this.action = this.action.bind(this);
+        this.onChange = this.onChange.bind(this);
         this.columns = [
             {
                 title:'姓名',
@@ -28,6 +32,17 @@ export default class  extends Component{
                 key:'work_num',
                 dataIndex:'work_num',
                 width:300
+            },
+            {
+                title:'操作',
+                key:'action',
+                render:(text,record) => {
+                    return (
+                        <div>
+                            <Button type="primary" onClick={() => this.handle(record)}>修改部门</Button>
+                        </div>
+                    )
+                }
             }
         ]
     }
@@ -35,6 +50,34 @@ export default class  extends Component{
         this.setState({
             visible:flag
         });
+    }
+    // 修改部门
+    handle(member){
+        this.member = member;
+        this.setState({
+            changeDept:true
+        })
+    }
+    action(){
+        this.$http.post('/staff/edit',{
+            ...this.member,
+            ...this.optDept
+        }).then(res => {
+            const resData = res.data || {};
+            if(resData.code + '' === '0'){
+                message.success('修改员工部门成功');
+                this.setState({
+                    changeDept:false
+                })
+                updateStaff.bind(this)();
+                this.props.updateList();
+            } else {
+                message.error('修改员工部门失败');
+            }
+        });
+    }
+    onChange(data){
+        this.optDept = JSON.parse(data);
     }
     // 修改部门负责人
     onOk(leader){
@@ -61,11 +104,29 @@ export default class  extends Component{
                 <Button className="primary opt-leader" onClick={() => {this.onChangeTree(true)}}>{!this.props.dept_leader?'选择部门负责人':'修改部门负责人'}</Button>
                 {this.state.visible?<SelectLeader type='staff' maxNum={1} visible={this.state.visible} onChangeTree={this.onChangeTree} onOk={this.onOk}/>:null}
             </div>:null}
-            <Table dataSource={this.props.tb_data} columns={this.columns} bordered={true} pagination={false}/>
+            <Table className='tab-list' dataSource={this.props.tb_data} columns={this.columns} bordered={true} pagination={false}/>
+            {this.state.changeDept?
+                <Modal onOk={this.action} onCancel={() => {this.setState({changeDept:false})}} width={470} visible={true} title={'修改部门'} closable={true}>
+                    <table className='g-from'>
+                        <tbody>
+                            <tr>
+                                <td className='in-h' width="100">姓名</td>
+                                <td>{this.member.member_name}</td>
+                            </tr>
+                            <tr>
+                                <td className='in-h'>部门</td>
+                                <td>{this.member.department_name}</td>
+                            </tr>
+                            <tr>
+                                <td className='in-h'>新部门</td>
+                                <td>
+                                    <FilterDept onChange={this.onChange}/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </Modal>
+            :null}
         </div>
-    }
-
-    componentDidMount(){
-
     }
 }

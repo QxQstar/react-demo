@@ -26,9 +26,12 @@
     margin-top: 10px;
     margin-right: 20px;
 }
-.m-dept-member .g-header{
-    margin-bottom: 10px;
-}
+/*.m-dept-member .g-header{*/
+    /*margin-bottom: 10px;*/
+/*}*/
 .m-dept-member .g-header .opt-leader{
     margin-left: 20px;
+}
+.m-dept-member .tab-list{
+    margin-top: 10px;
 }

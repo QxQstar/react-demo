@@ -14,12 +14,13 @@ export default class  extends Component{
         };
         this.selectDept = this.selectDept.bind(this);
         this.getDeptLeader = this.getDeptLeader.bind(this);
+        this.fetchData = this.fetchData.bind(this);
     }
     selectDept(dept_id){
         this.fetchData(dept_id);
         this.getDeptLeader(dept_id);
     }
-    fetchData(dept_id){
+    fetchData(dept_id=this.state.dept_id){
         this.$http.post('/staff/list',{
             department_id:dept_id * 1?dept_id * 1:undefined
         }).then(res => {
@@ -59,6 +60,6 @@ export default class  extends Component{
         this.getDeptLeader(this.state.dept_id);
     }
     render(){
-        return <Layout left={<DeptTree selected_id={this.state.dept_id} selectDept={this.selectDept}/>} type='2' right={<RightList getDeptLeader={this.getDeptLeader} dept_leader={this.state.leader_member_name} tb_data={this.state.staff} dept_id={this.state.dept_id}/>} />
+        return <Layout left={<DeptTree selected_id={this.state.dept_id} selectDept={this.selectDept}/>} type='2' right={<RightList updateList={this.fetchData} getDeptLeader={this.getDeptLeader} dept_leader={this.state.leader_member_name} tb_data={this.state.staff} dept_id={this.state.dept_id}/>} />
     }
 }

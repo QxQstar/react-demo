@@ -191,6 +191,17 @@
     color: #555;
     border: 1px solid #8899a9;
 }
+.g-filter-depts{
+    outline: none;
+}
+.g-filter-depts .ant-select-selection{
+    border-style: none none solid none;
+    border-radius: 0;
+    box-shadow: none;
+}
+.g-filter-depts .name{
+    font-size: 14px;
+}
 .f-di{
     display: inline-block;
 }

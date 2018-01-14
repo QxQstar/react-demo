@@ -8,8 +8,8 @@ class AnnualList extends Component {
 }
 export default connect((state,props) => {
     return {
-        data:(function (annnal, keyword) {
-            return annnal.filter(item => {
+        data:(function (annal, keyword) {
+            return annal.filter(item => {
                 if(!keyword) return true;
                 else return item.member_name.indexOf(keyword) >= 0 || (item.work_num + '').indexOf(keyword) >= 0;
             })

@@ -30,6 +30,10 @@ function Dialog(props) {
         del_day_off:{
             title:'您是否要删除该员工的调休?',
             info:'删除后该员工的调休时间全部清零,将不能请调休'
+        },
+        del_ann:{
+            title:'您是否要删除该员工的年假?',
+            info:'删除后该员工的年假时间全部清零,将不能请年假'
         }
     };
     return <Modal visible={true} title={props.title} onCancel={props.onClose} onOk={props.onOk}>

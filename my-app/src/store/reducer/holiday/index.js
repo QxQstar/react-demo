@@ -86,7 +86,16 @@ const default_day_off = [
         remove_time:12
     }
 ];
-const default_annual = [];
+const default_annual = [
+    {
+        id:1,
+        member_name:'qxq',
+        department_name:'web',
+        work_num:12,
+        remove_time:12,
+        all_time:12
+    }
+];
 const default_day_off_rule = {
     type:1
 };
@@ -156,11 +165,11 @@ function award(award=default_award,action) {
 }
 function annual(annual=default_annual,action) {
     switch (action.type){
-        case 'del':
+        case 'del_ann':
             return annual.filter(item => item.id !== action.params.id);
-        case 'add':
-            return [...annual,action.params];
-        case 'edit':
+        case 'add_ann':
+            return [...annual,{...action.params,...{id:new Date().getTime()}}];
+        case 'edit_ann':
             return annual.map(item => {
                 if(item.id === action.params.id){
                     return action.params;

@@ -86,6 +86,7 @@ const default_day_off = [
         remove_time:12
     }
 ];
+const default_annual = [];
 const default_day_off_rule = {
     type:1
 };
@@ -153,6 +154,24 @@ function award(award=default_award,action) {
             return award
     }
 }
+function annual(annual=default_annual,action) {
+    switch (action.type){
+        case 'del':
+            return annual.filter(item => item.id !== action.params.id);
+        case 'add':
+            return [...annual,action.params];
+        case 'edit':
+            return annual.map(item => {
+                if(item.id === action.params.id){
+                    return action.params;
+                } else {
+                    return item;
+                }
+            });
+        default:
+            return annual;
+    }
+}
 function day_off(day_off = default_day_off, action) {
     switch (action.type){
         case 'del_day_off':
@@ -213,11 +232,13 @@ function annual_type(annual_type=1, action) {
             return annual_type;
     }
 }
+
 export default combineReducers({
     holiday_type,
     award,
     day_off,
     day_off_rule,
     annual_rules,
-    annual_type
+    annual_type,
+    annual
 })

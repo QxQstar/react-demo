@@ -23,7 +23,7 @@ exports.addDept = function (req, res) {
     res.status(200).send('缺少部门名称，添加失败').end();
   }
     const MS = new Date().getTime();
-    const uid = (MS + '').slice(-3) * 1 + (Math.random() * (MS + '').slice(0,3) + '').replace('0.','') * 1;
+    const uid = (MS + '').slice(-3) * 1 + (Math.random() * (MS + '').slice(0,3) + '').replace('.','') * 1;
   // 获得现在存在的部门数
   //   DeptModel.find({}).exec()
   //       .then(data => {

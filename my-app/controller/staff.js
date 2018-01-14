@@ -29,7 +29,7 @@ exports.addStaff =  function (req, res) {
     res.status(200).send({code:125,msg:'缺少部门id'}).end();
   }
   const MS = new Date().getTime();
-  const uid = (MS + '').slice(-3) * 1 + (Math.random() * (MS + '').slice(0,3) + '').replace('0.','') * 1;
+  const uid = (MS + '').slice(-3) * 1 + (Math.random() * (MS + '').slice(0,3) + '').replace('.','') * 1;
       const staff = new StaffModel({
           member_name:reqBody.member_name,
           work_num:reqBody.work_num,

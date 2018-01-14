@@ -3,7 +3,8 @@ import {Table,Button,message,Modal} from 'antd';
 import SelectLeader from './../../components/g-selectData.js';
 import {updateDept,updateStaff} from './../../global/initBaseData.js';
 import FilterDept from './../../components/g-filter-dept.js';
-export default class  extends Component{
+import {connect} from 'react-redux';
+ class List extends Component{
     constructor(props){
         super(props);
         this.state = {
@@ -68,9 +69,8 @@ export default class  extends Component{
                 message.success('修改员工部门成功');
                 this.setState({
                     changeDept:false
-                })
+                });
                 updateStaff.bind(this)();
-                this.props.updateList();
             } else {
                 message.error('修改员工部门失败');
             }
@@ -89,7 +89,6 @@ export default class  extends Component{
             const resData = res.data || {};
             if(resData.code + '' === '0'){
                 message.success('修改部门负责人成功');
-                this.props.getDeptLeader();
                 updateDept.bind(this)();
             } else {
                 message.error('修改部门负责人失败');
@@ -130,3 +129,24 @@ export default class  extends Component{
         </div>
     }
 }
+export default connect((state,props) => {
+    return {
+        tb_data:((staffs) => {
+            const resultStaff = [];
+            staffs.forEach(staff => {
+                if(!props.dept_id){
+                    resultStaff.push({...staff,key:staff.member_id});
+                } else if(staff.department_id * 1 === props.dept_id * 1){
+                    resultStaff.push({...staff,key:staff.member_id});
+                }
+            });
+            return resultStaff;
+        })(state.baseData.staff),
+        dept_leader:(depts => {
+            const curDept = depts.find(dept => {
+                return dept.department_id * 1 === props.dept_id * 1;
+            });
+            return (curDept || {}).leader_member_name;
+        })(state.baseData.dept)
+    }
+})(List);

@@ -1,6 +1,7 @@
 import React,{Component} from 'react';
 import {Icon,Dropdown,Menu,Modal,message} from 'antd';
-import store from './../../store/index.js';
+import {updateDept} from '../../global/initBaseData.js';
+import {connect} from 'react-redux';
 // 递归遍历出部门的树状结构
 class Dept extends Component {
     constructor(props){
@@ -81,7 +82,7 @@ class Dept extends Component {
 
 
 
-export default class  extends Component{
+class Tree extends Component{
     constructor(props){
         super(props);
         this.modelType = '';
@@ -149,30 +150,8 @@ export default class  extends Component{
             addDeptModel:false
         })
     }
-    // 获取部门列表
-    fetchData(){
-        this.$http.post('/dept/list').then(res => {
-            const resData = res.data || {};
-            if(resData.code + '' === '0'){
-                this.setState({
-                    depts:[
-                        {
-                            department_name:'QxQstar',
-                            department_pid:-1,
-                            department_id:0,
-                            spread:true
-                        },
-                        ...resData.data
-                    ]
-                });
-                store.dispatch({
-                    type:'getDept',
-                    data:resData.data || []
-                })
-            }else {
-                message.error('获取部门列表失败');
-            }
-        })
+    updateList(){
+        updateDept.bind(this)();
     }
     // 确认操作
     okAction(){
@@ -183,7 +162,7 @@ export default class  extends Component{
             const resData = res.data || {};
             if(resData.code + '' ==='0'){
                 message.success(this.param.info.success);
-                this.fetchData();
+                this.updateList();
                 this.closeModel();
             }else {
                 message.error(this.param.info.error);
@@ -193,7 +172,7 @@ export default class  extends Component{
     render(){
         return (
             <div className='m-deptTree'>
-                <Dept pid={-1} selected_id={this.props.selected_id} selectDept={this.props.selectDept } depts={this.state.depts} changeDept={this.changeDept} level={1}/>
+                <Dept pid={-1} selected_id={this.props.selected_id} selectDept={this.props.selectDept } depts={this.props.depts} changeDept={this.changeDept} level={1}/>
                 {this.state.addDeptModel?<Modal title={this.param.title} onOk={this.okAction} onCancel={this.closeModel} width={400} visible={true}>
                     {this.modelType !== 'del'
                         ?<table className='g-from'>
@@ -211,7 +190,20 @@ export default class  extends Component{
             </div>
         )
     }
-    componentDidMount(){
-        this.fetchData();
-    }
 }
+export default connect((state) => {
+    return {
+        depts:(function (depts) {
+            const formatDepts = [
+                {
+                    department_name:'QxQstar',
+                    department_pid:-1,
+                    department_id:0,
+                    spread:true
+                },
+                ...depts
+            ];
+            return formatDepts.map(dept => ({...dept,key:dept.department_id}));
+        })(state.baseData.dept)
+    }
+})(Tree);

@@ -28,12 +28,13 @@ exports.addStaff =  function (req, res) {
   if(!reqBody.department_id){
     res.status(200).send({code:125,msg:'缺少部门id'}).end();
   }
-  StaffModel.find().exec().then(data => {
+  const MS = new Date().getTime();
+  const uid = (MS + '').slice(-3) * 1 + (Math.random() * (MS + '').slice(0,3) + '').replace('0.','') * 1;
       const staff = new StaffModel({
           member_name:reqBody.member_name,
           work_num:reqBody.work_num,
           department_id:reqBody.department_id,
-          member_id:(data.length || 0)+1,
+          member_id:uid,
           department_name:reqBody.department_name
       });
       staff.save(function (err) {
@@ -44,10 +45,6 @@ exports.addStaff =  function (req, res) {
               res.status(200).send({code:125,msg:'员工添加失败'}).end();
           }
       });
-  }).catch(() => {
-    res.status(200).send({msg:'获取部门人数失败',code :125}).end();
-  })
-
 
 };
 // 删除员工

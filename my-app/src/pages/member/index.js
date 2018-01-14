@@ -1,11 +1,10 @@
 import React ,{Component} from 'react';
-import {Button,Table,message,Modal} from 'antd'
+import {Button,message,Modal} from 'antd'
 import EditMember from './editMenber.js'
 import Layout from './../../components/layout.js';
-import getHeight from './../../global/fixHeight.js';
-import store from './../../store/index.js';
-import './index.css'
-const height = getHeight({offset:120});
+import {updateStaff} from './../../global/initBaseData.js';
+import './index.css';
+import ListMember from './listMember.js';
 export default class extends Component {
     constructor(props){
         super(props);
@@ -60,6 +59,9 @@ export default class extends Component {
             })
         }
     }
+    updateList(){
+        updateStaff.bind(this)();
+    }
     del(){
         this.$http.post('/staff/del',{
             member_id:this.rowData.member_id
@@ -70,7 +72,7 @@ export default class extends Component {
                 this.setState({
                     delModel:false
                 });
-                this.fetchData();
+                this.updateList();
             } else {
                 message.error('员工删除失败');
             }
@@ -80,24 +82,7 @@ export default class extends Component {
         this.setState({
             status
         });
-        update && this.fetchData();
-    }
-    fetchData(){
-        this.$http.post('/staff/list').then((res) => {
-            const resData = res.data || {};
-            if(resData.code + '' === '0'){
-                const data = (resData.data || []).map(data => ({...data,key:data.member_id}));
-                this.setState({
-                    tb_data:data
-                });
-                store.dispatch({
-                    type:'getStaff',
-                    data:resData.data || []
-                })
-            } else {
-                message.error('获取员工列表失败')
-            }
-        })
+        update && this.updateList();
     }
     render(){
         return (
@@ -107,17 +92,14 @@ export default class extends Component {
                         <div className='g-header'>
                             <Button type="primary" onClick={() => this.handle('add')}>新增员工</Button>
                         </div>
-                        <Table scroll={{ x: true, y: height }} bordered={true} columns={this.columns} dataSource={this.state.tb_data} pagination={false}/>
+                        <ListMember columns={this.columns}/>
                     </div>:null}
                     {this.state.status ==='edit'?<EditMember meberMsg={this.rowData} changeState={this.changeState}/>:null}
-                    {this.state.delModel?<Modal title='删除部门' onOk={this.del} onCancel={() => this.setState({delModel:false})} visible={true}>
+                    {this.state.delModel?<Modal title='删除员工' onOk={this.del} onCancel={() => this.setState({delModel:false})} visible={true}>
                         确定删除该员工，删除之后数据将无法恢复？
                     </Modal>:null}
                 </div>
             </Layout>
         )
-    }
-    componentDidMount(){
-        this.fetchData();
     }
 }

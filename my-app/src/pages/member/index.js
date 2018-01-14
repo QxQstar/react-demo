@@ -41,8 +41,8 @@ export default class extends Component {
                 render:(text,record) => {
                     return (
                         <div>
-                            <Button type="primary" onClick={() => this.handle('edit',record)}>编辑</Button>
-                            <Button style={{marginLeft:'10px'}} onClick={() => this.handle('del',record)}>删除</Button>
+                            <span className="action" onClick={() => this.handle('edit',record)}>编辑</span>
+                            <span className="action" style={{marginLeft:'10px'}} onClick={() => this.handle('del',record)}>删除</span>
                         </div>
                     )
                 }

@@ -2,6 +2,8 @@
     padding-top: 50px;
     padding-left: 50px;
 }
-.m-list{
-
+.m-list .action{
+    cursor: pointer;
+    font-size: 14px;
+    color: #24c875;
 }

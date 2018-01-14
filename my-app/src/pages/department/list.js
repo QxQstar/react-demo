@@ -40,7 +40,7 @@ import {connect} from 'react-redux';
                 render:(text,record) => {
                     return (
                         <div>
-                            <Button type="primary" onClick={() => this.handle(record)}>修改部门</Button>
+                            <span className='action' onClick={() => this.handle(record)}>修改部门</span>
                         </div>
                     )
                 }

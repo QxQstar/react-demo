@@ -147,25 +147,25 @@ class Edit extends Component {
             member_name: {
                 label:'姓名',
                 value:Edit.clearTrim(this.state.member_name),
-                exp:/\w+/,
+                exp:/.+/,
                 required:true
             },
             phone: {
                 label:'手机号',
                 value:Edit.clearTrim(this.state.phone),
-                exp:/^1[3478]\d{9}$/,
+                exp:/^1[34578]\d{9}$/,
                 required:true
             },
             dept: {
                 label:'部门',
                 value:Edit.clearTrim(this.state.dept),
-                exp:/^(\w+|\s*)$/,
+                exp:/.+/,
                 required:false
             },
             position: {
                 label:'职位',
                 value:Edit.clearTrim(this.state.position),
-                exp:/^(\w+|\s*)$/,
+                exp:/.+/,
                 required:false
             }
         };

@@ -50,7 +50,7 @@ class BaseDataTree extends Component{
             if(this.props.type !== 'dept') return data.member_id;
             else return data.department_id
         });
-        return ids.join(',').includes(id);
+        return ids.some(curId => id *1 === curId * 1);
     }
     render(){
         const props = this.props;

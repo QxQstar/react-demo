@@ -46,6 +46,8 @@ export default class  extends Component {
                                                 return <td key={index} width={col.width&&col.width}>
                                                     <Checkbox onChange={() => this.props.onSelectOne({...item,...{checked:!item.checked}})} checked={item.checked}/>
                                                 </td>
+                                            } else if(col.render){
+                                                return <td key={index} width={col.width&&col.width}>{col.render(item)}</td>
                                             } else {
                                                 return <td key={index} width={col.width&&col.width}>{item[col.key+'_text']?item[col.key+'_text']:item[col.key]}</td>
                                             }

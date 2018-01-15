@@ -78,6 +78,9 @@
     padding-right: 40px;
     text-align: right;
 }
+.g-from td{
+    height: 48px;
+}
 .g-from label{
     margin-right: 20px;
 }

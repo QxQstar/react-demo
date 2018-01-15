@@ -3,6 +3,7 @@
     background: #ffffff;
     padding-top: 30px;
     overflow: auto;
+    border-right: 1px solid #ebebeb;
 }
 .g-menu .nav{
     height: 40px;

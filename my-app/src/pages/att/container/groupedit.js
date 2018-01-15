@@ -1,38 +1,29 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
+import {Select} from 'antd';
 import { Steps,Button } from 'antd';
 import SelectPerson from './../../../components/g-selectData.js'
 import './../css/groupedit.css'
+import Detail from './groupdetail.js';
 const Step = Steps.Step;
+const Option = Select.Option;
 class Edit extends Component{
     constructor(props){
         super(props);
         this.state = {
             step:0,
             selectPerson:false,
-            fromData:{
+            fromData:this.props.fromData || {
                 group_name:'',
-                person:[],
-                is_att:1,
+                members:[],
                 att_type:1,
                 is_flexible:0,
-                banci:['','','','','','',''],
+                ex_time:30,
+                last_time:30,
+                att_class:2
             }
         };
-        this.att_banci = [
-            {
-                value:'1',
-                option:'班次一(9:00~18:00)'
-            },
-            {
-                value:'2',
-                option:'班次二(12:00~21:00)'
-            },
-            {
-                value:'3',
-                option:'休息'
-            }
-        ];
+        this.submit = this.submit.bind(this);
     }
     selectPerson(boolean){
         this.setState({selectPerson:boolean});
@@ -46,9 +37,9 @@ class Edit extends Component{
         });
     }
     delPerson(index){
-        const person = this.state.fromData.person;
+        const person = this.state.fromData.members;
         person.splice(index,1);
-        this.changeFromData('person',person);
+        this.changeFromData('members',person);
     }
     changeStep(falg){
         this.setState(prevState=>{
@@ -56,6 +47,10 @@ class Edit extends Component{
                step:prevState.step+falg
             }
         })
+    }
+    submit(){
+        this.props.submit(this.state.fromData);
+        this.props.onChangeState();
     }
     render(){
         return (
@@ -66,7 +61,7 @@ class Edit extends Component{
                 <div className="m-step">
                     <Steps current={this.state.step}>
                         <Step title="分组基本信息" />
-                        {this.state.fromData.is_att?<Step title="设置规则" />:null}
+                        <Step title="设置规则" />
                         <Step title="提交发布" />
                     </Steps>
                 </div>
@@ -83,23 +78,12 @@ class Edit extends Component{
                                 <td className="in-h">考勤分组成员<span className="in-star">*</span></td>
                                 <td style={{height:'50px'}}>
                                     <Button className="primary" onClick={() => {this.selectPerson(true)}}>选择人员</Button>
-                                    {this.state.fromData.person.map((p,index)=> {
+                                    {this.state.fromData.members.map((p,index)=> {
                                         return <span key={p.member_id} className="result-p" onClick={() => this.delPerson(index)}>{p.member_name}</span>
                                     })}
                                 </td>
                             </tr>
                             <tr>
-                                <td className="in-h">是否考勤<span className="in-star">*</span></td>
-                                <td style={{height:'80px'}}>
-                                    <label>
-                                        <input type="radio" name="is_att" checked={this.state.fromData.is_att === 1} onChange={() => this.changeFromData('is_att',1)}/>考勤
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="is_att" checked={this.state.fromData.is_att === 0} onChange={() => this.changeFromData('is_att',0)}/>不考勤
-                                    </label>
-                                </td>
-                            </tr>
-                            {this.state.fromData.is_att === 1?<tr>
                                 <td className="in-h">考勤类型<span className="in-star">*</span></td>
                                 <td style={{height:'100px'}}>
                                     <label>
@@ -109,55 +93,87 @@ class Edit extends Component{
                                         <input type="radio" name="att_type" checked={this.state.fromData.att_type === 2} onChange={() => this.changeFromData('att_type',2)}/>固定班制-每日不同班次 （如周一09:00-18:00，周二08:00-19:00，工作日有不同班次，按周循环）
                                     </label>
                                     <label>
-                                        <input type="radio" name="att_type" checked={this.state.fromData.att_type === 3} onChange={() => this.changeFromData('att_type',3)}/>（每天的考勤时间不固定，可以灵活的设置考勤时间）
+                                        <input type="radio" name="att_type" checked={this.state.fromData.att_type === 3} onChange={() => this.changeFromData('att_type',3)}/>排版制（每天的考勤时间不固定，可以灵活的设置考勤时间）
                                     </label>
                                 </td>
-                            </tr>:null}
-                            {this.state.fromData.is_att === 1?<tr>
-                                <td className="in-h">是否弹性</td>
-                                <td style={{height:'80px'}}>
-                                    <label>
-                                        <input type="radio" name="is_flexible" checked={this.state.fromData.is_flexible === 0} onChange={() => this.changeFromData('is_flexible',0)}/>无弹性(严格按照上下班时间考勤)
-                                    </label>
-                                    <label>
-                                        <input type="radio" name="is_flexible" checked={this.state.fromData.is_flexible === 1} onChange={() => this.changeFromData('is_flexible',1)}/>部分弹性(上下班时间前后弹性一段时间
-                                    </label>
-                                </td>
-                            </tr>:null}
+                            </tr>
                             <tr>
                                 <td className="in-h"></td>
                                 <td>
-                                    <Button className="cancel">取消</Button>
+                                    <Button className="cancel" onClick={this.props.onChangeState}>取消</Button>
                                     {this.state.step > 0?<Button className="submit" style={{margin:'0 10px'}} onClick={() => this.changeStep(-1)}>上一步</Button>:null}
                                     <Button className="submit" style={{margin:'0 10px'}} onClick={() => this.changeStep(1)}>保存并进入下一步</Button>
                                 </td>
                             </tr>
                         </tbody>:null}
                         {this.state.step === 1 ? <tbody>
-                            <tr>
-                                <td className="in-h">考勤班次<span className="in-star">*</span></td>
-                                <td>
-                                    {this.state.fromData.banci.map((item,index) => {
-                                        return <span key={index} className={'select'+index}>
-                                            <select value={item} >{
-                                                this.att_banci.map(item => {
-                                                    return <option value={item.value} key={item.value}>{item.option}</option>
-                                                })
-                                            }</select>
-                                        </span>
-                                    })}
+                           <tr>
+                                <td className="in-h">是否弹性</td>
+                                <td style={{height:'80px'}}>
+                                    <label>
+                                        <input type="radio" name="is_flexible" checked={this.state.fromData.is_flexible === 0} onChange={() => this.changeFromData('is_flexible',0)}/>无弹性(严格按照上下班时间考勤)
+                                    </label>
+                                    <label>
+                                        <input type="radio" name="is_flexible" checked={this.state.fromData.is_flexible === 1} onChange={() => this.changeFromData('is_flexible',1)}/>部分弹性(上下班时间前后弹性一段时间)
+                                    </label>
+                                    {this.state.fromData.is_flexible === 1?
+                                        <div>
+                                            上下班之前的弹性时长<input type='text' value={this.state.fromData.ex_time} onChange={(event) => this.changeFromData('ex_time',event.target.value)} className='input small'/>分钟，
+                                            上下班之后的弹性时长<input type='text' value={this.state.fromData.last_time} onChange={(event) => this.changeFromData('last_time',event.target.value)} className='input small'/>分钟
+                                        </div>
+                                    :null}
                                 </td>
                             </tr>
+                            <tr style={{height:'50px'}}>
+                                <td className="in-h">考勤班次<span className="in-star">*</span></td>
+                                <td>
+                                    <Select style={{ width: 300 }} defaultValue='2' placeholder='请选择考勤班次' dropdownClassName={'filterOpt'} className='g-filter-depts' onChange={(val) => this.changeFromData('att_class',val)}>
+                                        {this.props.att_class.map(cls => {
+                                            return <Option key={cls.id}>
+                                                <span className='name'>{cls.type}</span>
+                                            </Option>
+                                        })}
+                                    </Select>
+                                </td>
+                            </tr>
+                           <tr >
+                               <td className="in-h"></td>
+                               <td>
+                                   <Button className="cancel" onClick={this.props.onChangeState}>取消</Button>
+                                   {this.state.step > 0?<Button className="submit" style={{margin:'0 10px'}} onClick={() => this.changeStep(-1)}>上一步</Button>:null}
+                                   <Button className="submit" style={{margin:'0 10px'}} onClick={() => this.changeStep(1)}>保存并进入下一步</Button>
+                               </td>
+                           </tr>
                         </tbody>:null}
+                        {this.state.step === 2 ? <tbody>
+                            <tr>
+                                <td>
+                                    <Detail {...this.state.fromData}/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <Button className="cancel" onClick={this.props.onChangeState}>取消</Button>
+                                    {this.state.step > 0?<Button className="submit" style={{margin:'0 10px'}} onClick={() => this.changeStep(-1)}>上一步</Button>:null}
+                                    <Button className="submit" style={{margin:'0 10px'}} onClick={this.submit}>提交</Button>
+                                </td>
+                            </tr>
+                        </tbody> : null}
                     </table>
                 </div>
-                {this.state.selectPerson?<SelectPerson visible={this.state.selectPerson} type="staff" selectedData={this.state.fromData.person} onChangeTree={() => this.selectPerson(false)} onOk={(data) => this.changeFromData('person',data)}/>:null}
+                {this.state.selectPerson?<SelectPerson visible={this.state.selectPerson} type="staff" selectedData={this.state.fromData.members} onChangeTree={() => this.selectPerson(false)} onOk={(data) => this.changeFromData('members',data)}/>:null}
             </div>
         )
     }
 }
 export default connect((state) => {
     return {
-
+        att_class:state.att.att_class
+    }
+},(dispatch) => {
+    return {
+        submit(data){
+            dispatch({type:'edit_att_group',data:data})
+        }
     }
 })(Edit)

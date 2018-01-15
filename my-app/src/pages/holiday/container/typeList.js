@@ -2,7 +2,7 @@ import React from 'react'
 import {connect} from 'react-redux'
 import List from '../../../components/g-list.js'
 function TypeList(props) {
-    return <List cols={props.cols} title={props.title} data={props.list}/>
+    return <List offset={55} cols={props.cols} title={props.title} data={props.list}/>
 }
 function getTypeList(state) {
     return state.holiday.holiday_type.map(type => {

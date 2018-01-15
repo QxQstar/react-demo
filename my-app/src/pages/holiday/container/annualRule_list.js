@@ -9,7 +9,7 @@ function ListRule(props) {
                 <Button type='primary' onClick={() => props.changeState('edit')}>修改规则</Button>
             </div>
             <div style={{padding:'20px 20px 0 20px'}}>{props.ruleType === 1?'手动维护':'手动维护+司龄（自动累加）+工龄（自动累加)'}</div>
-            {props.ruleType === 2?<List data={props.data} cols={props.cols}/>:null}
+            {props.ruleType === 2?<List data={props.data} cols={props.cols} offset={162}/>:null}
         </div>
     )
 }

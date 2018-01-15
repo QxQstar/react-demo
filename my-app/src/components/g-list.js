@@ -2,19 +2,19 @@ import React,{Component} from 'react'
 import { Checkbox ,Button,Icon} from 'antd';
 import '../pages/holiday/css/list.css'
 import fixHeight from './../global/fixHeight.js'
-const height = fixHeight({offset:145});
 export default class  extends Component {
     constructor(props){
         super(props);
         this.selectAll = this.selectAll.bind(this);
         this.selectedAll = '';
+        this.height = fixHeight({offset:props.offset || 0})
     }
     selectAll(){
         this.props.onSelectAll(!this.selectedAll);
     }
     render(){
         this.selectedAll = this.props.data.filter((item) => {return item.checked}).length >= this.props.data.length;
-        return <div className='holiday_list' style={{height:height+'px'}}>
+        return <div className='holiday_list' style={{height:this.height+'px'}}>
             <div className='g-list-warp'>
                 <div className='g-list-header'>
                     {this.props.title}

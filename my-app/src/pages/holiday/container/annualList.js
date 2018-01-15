@@ -3,7 +3,7 @@ import {connect} from 'react-redux'
 import List from '../../../components/g-list.js';
 class AnnualList extends Component {
     render(){
-        return <List data={this.props.data} cols={this.props.cols} title={this.props.title}/>
+        return <List data={this.props.data} cols={this.props.cols} title={this.props.title} offset={123}/>
     }
 }
 export default connect((state,props) => {

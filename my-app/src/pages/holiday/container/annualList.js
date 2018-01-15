@@ -1,6 +1,6 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux'
-import List from './../components/list.js';
+import List from '../../../components/g-list.js';
 class AnnualList extends Component {
     render(){
         return <List data={this.props.data} cols={this.props.cols} title={this.props.title}/>

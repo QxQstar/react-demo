@@ -1,5 +1,6 @@
 import React ,{Component} from 'react';
 import Edit from './container/groupedit.js';
+import List from './container/grouplist.js';
 import {Button} from 'antd'
 class Group extends Component {
     constructor(props){
@@ -21,6 +22,7 @@ class Group extends Component {
                     <Button type='primary' className='f-fr' onClick={() => this.changeState('edit')}>新增分组</Button>
                 </div>:null}
                 {this.state.status === 'edit'?<Edit onChangeState={() => this.changeState('list')}/>:null}
+                {this.state.status === 'list'?<List/>:null}
             </div>
         )
     }

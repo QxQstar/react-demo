@@ -1,5 +1,5 @@
 import React from 'react'
-import List from './../components/list.js'
+import List from '../../../components/g-list.js'
 import {connect} from 'react-redux'
 function AwardList(props) {
     return <List delHandle={props.delAward} cols={props.cols} data={props.data} title={props.title} onSelectAll={props.onSelectAll} onSelectOne={props.onSelectOne}/>

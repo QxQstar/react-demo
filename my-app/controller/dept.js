@@ -25,8 +25,6 @@ exports.addDept = function (req, res) {
     const MS = new Date().getTime();
     const uid = (MS + '').slice(-3) * 1 + (Math.random() * (MS + '').slice(0,3) + '').replace('.','') * 1;
   // 获得现在存在的部门数
-  //   DeptModel.find({}).exec()
-  //       .then(data => {
           const dept = new DeptModel({
               department_name:reqBody.department_name,
               department_pid:reqBody.department_pid,
@@ -40,16 +38,6 @@ exports.addDept = function (req, res) {
                   res.status(200).send({code:111,msg:'部门添加成功'}).end();
               }
           });
-        // })
-        // .catch(() => {
-        //   res
-        //     .status(200)
-        //     .send({
-        //       code:123,
-        //       msg:'获取部门数量失败'
-        //     })
-        //     .end()
-        // })
 };
 exports.editDept = function (req, res) {
     const resBody = req.body;

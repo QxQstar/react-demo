@@ -1,7 +1,7 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {Button} from 'antd'
-import List from './../components/list.js'
+import List from '../../../components/g-list.js'
 function ListRule(props) {
     return (
         <div>

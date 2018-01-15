@@ -1,5 +1,5 @@
 import React from 'react'
-import List from './../components/list.js'
+import List from '../../../components/g-list.js'
 import {connect} from 'react-redux'
 function dayOffList(props) {
     return <List delHandle={props.delHandle} data={props.data} cols={props.cols} title={props.title} onSelectAll={props.onSelectAll} onSelectOne={props.onSelectOne}/>

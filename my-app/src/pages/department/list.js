@@ -19,8 +19,7 @@ import {connect} from 'react-redux';
             {
                 title:'姓名',
                 key:'member_name',
-                dataIndex:'member_name',
-                width:400
+                dataIndex:'member_name'
             },
             {
                 title:'部门',
@@ -37,6 +36,7 @@ import {connect} from 'react-redux';
             {
                 title:'操作',
                 key:'action',
+                width:100,
                 render:(text,record) => {
                     return (
                         <div>

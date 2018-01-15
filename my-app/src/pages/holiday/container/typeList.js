@@ -1,6 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
-import List from '../components/list.js'
+import List from '../../../components/g-list.js'
 function TypeList(props) {
     return <List cols={props.cols} title={props.title} data={props.list}/>
 }

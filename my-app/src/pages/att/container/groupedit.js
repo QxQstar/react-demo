@@ -1,7 +1,7 @@
 import React,{Component} from 'react'
 import {connect} from 'react-redux'
 import {Select} from 'antd';
-import { Steps,Button } from 'antd';
+import { Steps,Button,message } from 'antd';
 import SelectPerson from './../../../components/g-selectData.js'
 import Detail from './groupdetail.js';
 const Step = Steps.Step;
@@ -40,10 +40,47 @@ class Edit extends Component{
         person.splice(index,1);
         this.changeFromData('members',person);
     }
-    changeStep(falg){
+
+    verifyFromData(step){
+        const needVerifyData = {
+            0:{
+                group_name:{
+                    is_required: true,
+                    msg:'请输入考勤分组名称'
+                },
+                members:{
+                    is_required: !this.state.fromData.is_default,
+                    msg:'请选择考勤分组成员'
+                }
+            },
+            1:{
+                ex_time:{
+                    is_required: !!this.state.fromData.is_flexible,
+                    msg:'请输入上/下班时间之前的弹性时间'
+                },
+                last_time:{
+                    is_required: !!this.state.fromData.is_flexible,
+                    msg:'请输入上/下班时间之后的弹性时间'
+                }
+            }
+        }[step];
+        const verifyKey = Object.keys(needVerifyData);
+        const len = verifyKey.length;
+        for(let i = 0;i < len ;i++){
+            const curKey = verifyKey[i];
+            const is_required = needVerifyData[curKey].is_required;
+            if(is_required && (this.state.fromData[curKey] + '').length <= 0){
+                message.warning(needVerifyData[curKey].msg);
+                return false;
+            }
+        }
+        return true;
+    }
+    changeStep(flag){
+        if(flag > 0 && !this.verifyFromData(this.state.step)) return;
         this.setState(prevState=>{
             return {
-               step:prevState.step+falg
+               step:prevState.step+flag
             }
         })
     }

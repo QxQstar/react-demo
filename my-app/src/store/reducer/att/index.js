@@ -43,6 +43,8 @@ function att_group(group=default_group,action) {
                     }
                 })
             }
+        case 'del_att_group':
+            return group.filter(item => item.id !== action.data.id);
         default:
             return group
     }

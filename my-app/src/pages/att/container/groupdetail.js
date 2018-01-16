@@ -5,12 +5,15 @@ import React,{Component} from 'react';
 import {connect} from 'react-redux';
 class Detail extends Component {
     getAttType(){
-        if (this.props.att_type * 1 === 1){
-            return <span>固定班制-每日相同班次</span>
-        } else if(this.props.att_type * 1 === 2){
-            return <span>固定班制-每日不同班次</span>
-        } else {
-            return <span>排班制</span>
+        switch (this.props.att_type + ''){
+            case "1":
+                return <span>固定班制-每日相同班次</span>;
+            case "2":
+                return <span>固定班制-每日不同班次</span>;
+            case "3":
+                return <span>排班制</span>;
+            default:
+                return <span>未知</span>
         }
     }
     getIsFlexible(){
@@ -22,37 +25,50 @@ class Detail extends Component {
     }
     getAttClass(){
         const curClass = this.props.att_classes.find(item => item.id * 1 === this.props.att_class * 1 );
-        return (curClass || {}).type;
+        return (curClass || {}).type || '未知';
     }
     getMembers(){
-        return this.props.members.map(member => member.member_name);
+        if(this.props.members && this.props.members.length > 0) {
+            return this.props.members.map(member => member.member_name).join(',');
+        } else {
+            return '未加入其它分组的全体員工';
+        }
+
     }
     render(){
-        return <table className="g-from">
-            <tbody>
-                <tr>
-                    <td className="in-h">分组名称</td>
-                    <td>{this.props.group_name}</td>
-                </tr>
-                <tr>
-                    <td className="in-h">考勤类型</td>
-                    <td>{this.getAttType()}</td>
-                </tr>
-                <tr>
-                    <td className="in-h">弹性</td>
-                    <td>{this.getIsFlexible()}</td>
-                </tr>
-                <tr>
-                    <td className="in-h">考勤班次</td>
-                    <td>{this.getAttClass()}</td>
-                </tr>
-                <tr>
-                    <td className="in-h">分组成员</td>
-                    <td>{this.getMembers()}</td>
-                </tr>
-            </tbody>
-        </table>
+        return <div className={"m-group-detail" + ' '+this.props.className}>
+            {this.props.showBread? <div className="g-header">
+                <span className="link bread" onClick={this.props.onChangeState}>考勤分组</span> > <span className="bread">考勤分组详情</span>
+            </div>:null}
+            <table className="g-from">
+                <tbody>
+                    <tr>
+                        <td className="in-h">分组名称</td>
+                        <td>{this.props.group_name}</td>
+                    </tr>
+                    <tr>
+                        <td className="in-h">考勤类型</td>
+                        <td>{this.getAttType()}</td>
+                    </tr>
+                    <tr>
+                        <td className="in-h">弹性</td>
+                        <td>{this.getIsFlexible()}</td>
+                    </tr>
+                    <tr>
+                        <td className="in-h">考勤班次</td>
+                        <td>{this.getAttClass()}</td>
+                    </tr>
+                    <tr>
+                        <td className="in-h">分组成员</td>
+                        <td>{this.getMembers()}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     }
+}
+Detail.defaultProps = {
+    showBread:false
 }
 export default connect((state) => {
     return {

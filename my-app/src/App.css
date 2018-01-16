@@ -4,6 +4,15 @@
     padding: 13px 20px;
     border-bottom: 1px solid #ebebeb;
 }
+.g-header .link.bread{
+    color: #24c875;
+    cursor: pointer;
+}
+.g-header .bread{
+    margin: 0 5px;
+    font-size: 14px;
+    color: #8899a9;
+}
 .g-search{
     width: 200px;
 }
@@ -129,7 +138,7 @@
     padding: 10px 0 10px 20px;
 }
 .g-list-warp{
-    border: 1px solid #f2f5f9;
+    border: 1px solid #b7c8d0;
     border-radius: 4px;
     height: 100%;
 }
@@ -145,6 +154,8 @@
 }
 .g-list-warp  td{
     height: 48px;
+    color: #8899a9;
+    font-size: 14px;
 }
 .g-list-warp thead{
     background: #f2f5f9;
@@ -154,7 +165,7 @@
     font-size: 14px;
 }
 .g-list-warp tbody td{
-    border-bottom: 1px solid #f2f5f9;
+    border-bottom: 1px solid #e9eaec;
 }
 .g-list-warp tbody .action{
     cursor: pointer;

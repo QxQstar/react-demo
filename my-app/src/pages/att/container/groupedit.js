@@ -3,7 +3,6 @@ import {connect} from 'react-redux'
 import {Select} from 'antd';
 import { Steps,Button } from 'antd';
 import SelectPerson from './../../../components/g-selectData.js'
-import './../css/groupedit.css'
 import Detail from './groupdetail.js';
 const Step = Steps.Step;
 const Option = Select.Option;
@@ -52,12 +51,16 @@ class Edit extends Component{
         this.props.submit(this.state.fromData);
         this.props.onChangeState();
     }
+    createHader(){
+       const text = this.props.fromData.id?'编辑考勤分组':'新增考勤分组';
+       return <div className="g-header">
+           <span className="bread link" onClick={this.props.onChangeState}>考勤分组</span> > <span className="bread">{text}</span>
+       </div>
+    }
     render(){
         return (
             <div className="m-group-edit">
-                <div className="g-header">
-                    <span className="link" onClick={this.props.onChangeState}>考勤分组</span> > <span>新增考勤分组</span>
-                </div>
+                {this.createHader()}
                 <div className="m-step">
                     <Steps current={this.state.step}>
                         <Step title="分组基本信息" />
@@ -127,7 +130,7 @@ class Edit extends Component{
                             <tr style={{height:'50px'}}>
                                 <td className="in-h">考勤班次<span className="in-star">*</span></td>
                                 <td>
-                                    <Select style={{ width: 300 }} defaultValue='2' placeholder='请选择考勤班次' dropdownClassName={'filterOpt'} className='g-filter-depts' onChange={(val) => this.changeFromData('att_class',val)}>
+                                    <Select style={{ width: 300 }} defaultValue={this.state.fromData.att_class + ''} placeholder='请选择考勤班次' dropdownClassName={'filterOpt'} className='g-filter-depts' onChange={(val) => this.changeFromData('att_class',val)}>
                                         {this.props.att_class.map(cls => {
                                             return <Option key={cls.id}>
                                                 <span className='name'>{cls.type}</span>

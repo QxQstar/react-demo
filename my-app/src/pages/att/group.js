@@ -1,15 +1,19 @@
 import React ,{Component} from 'react';
 import Edit from './container/groupedit.js';
 import List from './container/grouplist.js';
-import {Button} from 'antd'
+import Detail from './container/groupdetail.js';
+import DelGroup from './container/delGroup.js';
+import './css/att_group.css'
 class Group extends Component {
     constructor(props){
         super(props);
         this.state = {
-            status:'list'
+            status:'list',
+            delGroup:false
         };
         this.fromData = '';
         this.changeState = this.changeState.bind(this);
+        this.changeModelState = this.changeModelState.bind(this);
         this.cols = [
             {
                 title:'分组名称',
@@ -58,15 +62,15 @@ class Group extends Component {
                 width:200,
                 render:(item) => {
                     return <div>
-                        <span className="action" onClick={() => this.changeState('edit',() => {this.initEditData(item)})}>编辑</span>
-                        {!item.is_default?<span className="action">删除</span>:null}
-                        <span className="action">详情</span>
+                        <span className="action" onClick={() => this.changeState('edit',() => {this.getRowData(item)})}>编辑</span>
+                        {!item.is_default?<span className="action" onClick={() => this.changeModelState(true,() => {this.getRowData(item)})}>删除</span>:null}
+                        <span className="action" onClick={() => this.changeState('detail',() => {this.getRowData(item)})}>详情</span>
                     </div>
                 }
             }
         ];
     }
-    initEditData(data=''){
+    getRowData(data=''){
         this.fromData = data;
     }
     changeState(status,callback){
@@ -75,14 +79,19 @@ class Group extends Component {
             status
         });
     }
+    changeModelState(flag=false,callback){
+        callback && callback();
+        this.setState({
+            delGroup:flag
+        })
+    }
     render(){
         return (
             <div className="m-att-group">
-                {this.state.status !== 'edit' ? <div className="g-header f-clearFix">
-                    <Button type='primary' className='f-fr' onClick={() => this.changeState('edit',() => {this.initEditData('')})}>新增分组</Button>
-                </div>:null}
                 {this.state.status === 'edit'?<Edit onChangeState={() => this.changeState('list')} fromData={this.fromData}/>:null}
-                {this.state.status === 'list'?<List cols={this.cols} title='考勤分组'/>:null}
+                {this.state.status === 'list'?<List cols={this.cols} title='考勤分组' onChangeState={() => this.changeState('edit',() => {this.getRowData('')})}/>:null}
+                {this.state.status === 'detail' ?<Detail {...this.fromData} showBread={true} onChangeState={() => this.changeState('list')} className='m-att_detail-page'/>:null}
+                {this.state.delGroup?<DelGroup data={this.fromData} onCancel={this.changeModelState}/>:null}
             </div>
         )
     }

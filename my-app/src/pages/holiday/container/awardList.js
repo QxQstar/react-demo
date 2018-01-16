@@ -14,7 +14,7 @@ export default connect((state,ownsProps) => {
     return {
         data:filterData(state.holiday.award,ownsProps.keyword)
     }
-},(dispatch,ownsProps) => {
+},(dispatch) => {
     return {
         onSelectAll(flag){
             dispatch({

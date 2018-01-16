@@ -1,13 +1,11 @@
 import React,{Component} from 'react';
 import {connect} from 'react-redux';
-import getHeight from './../../global/fixHeight.js';
-import {Table} from 'antd';
-const height = getHeight({offset:120});
+import Table from './../../components/g-list.js'
 
 class List extends Component{
     render(){
         const {columns,tb_data} = this.props;
-        return <Table scroll={{ x: true, y: height }} bordered={true} columns={columns} dataSource={tb_data} pagination={false}/>
+        return <Table cols={columns} data={tb_data} offset={55}/>
     }
 }
 export default connect((state) => {

@@ -1,8 +1,9 @@
 import React,{Component} from 'react';
-import {Table,Button,message,Modal} from 'antd';
+import {Button,message,Modal} from 'antd';
 import SelectLeader from './../../components/g-selectData.js';
 import {updateDept,updateStaff} from './../../global/initBaseData.js';
 import FilterDept from './../../components/g-filter-dept.js';
+import Table from './../../components/g-list.js';
 import {connect} from 'react-redux';
  class List extends Component{
     constructor(props){
@@ -36,8 +37,8 @@ import {connect} from 'react-redux';
             {
                 title:'操作',
                 key:'action',
-                width:100,
-                render:(text,record) => {
+                width:150,
+                render:(record) => {
                     return (
                         <div>
                             <span className='action' onClick={() => this.handle(record)}>修改部门</span>
@@ -96,14 +97,15 @@ import {connect} from 'react-redux';
         })
     }
     render(){
-        return <div style={{padding:'0 20px'}} className='m-dept-member'>
+        return <div className='m-dept-member'>
             {this.props.dept_id * 1?<div className='g-header'>
                 <span>部门负责人:</span>
                 {this.props.dept_leader}
+                {this.offset}
                 <Button className="primary opt-leader" onClick={() => {this.onChangeTree(true)}}>{!this.props.dept_leader?'选择部门负责人':'修改部门负责人'}</Button>
                 {this.state.visible?<SelectLeader type='staff' maxNum={1} visible={this.state.visible} onChangeTree={this.onChangeTree} onOk={this.onOk}/>:null}
             </div>:null}
-            <Table className='tab-list' dataSource={this.props.tb_data} columns={this.columns} bordered={true} pagination={false}/>
+            <Table cols={this.columns} offset={this.props.offset} data={this.props.tb_data}/>
             {this.state.changeDept?
                 <Modal onOk={this.action} onCancel={() => {this.setState({changeDept:false})}} width={470} visible={true} title={'修改部门'} closable={true}>
                     <table className='g-from'>
@@ -135,13 +137,14 @@ export default connect((state,props) => {
             const resultStaff = [];
             staffs.forEach(staff => {
                 if(!props.dept_id){
-                    resultStaff.push({...staff,key:staff.member_id});
+                    resultStaff.push(staff);
                 } else if(staff.department_id * 1 === props.dept_id * 1){
-                    resultStaff.push({...staff,key:staff.member_id});
+                    resultStaff.push(staff);
                 }
             });
             return resultStaff;
         })(state.baseData.staff),
+        offset:props.dept_id * 1?60:0,
         dept_leader:(depts => {
             const curDept = depts.find(dept => {
                 return dept.department_id * 1 === props.dept_id * 1;

@@ -21,7 +21,7 @@ export default class extends Component {
                 title:'姓名',
                 key:'member_name',
                 dataIndex:'member_name',
-                width:400
+                width:200
             },
             {
                 title:'部门',
@@ -38,7 +38,7 @@ export default class extends Component {
             {
                 title:'操作',
                 key:'action',
-                render:(text,record) => {
+                render:(record) => {
                     return (
                         <div>
                             <span className="action" onClick={() => this.handle('edit',record)}>编辑</span>
@@ -96,7 +96,7 @@ export default class extends Component {
                     </div>:null}
                     {this.state.status ==='edit'?<EditMember meberMsg={this.rowData} changeState={this.changeState}/>:null}
                     {this.state.delModel?<Modal wrapClassName='g-popup-sure' closable={false} title='删除员工' onOk={this.del} onCancel={() => this.setState({delModel:false})} visible={true}>
-                        <p className="title">确定删除该员工，删除之后数据将无法恢复？</p>
+                        <p className="info">确定删除该员工，删除之后数据将无法恢复？</p>
                     </Modal>:null}
                 </div>
             </Layout>

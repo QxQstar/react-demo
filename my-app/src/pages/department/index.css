@@ -4,21 +4,29 @@
     min-width: 200px;
     height: 100%;
     padding-top: 30px;
+    padding-left: 10px;
+}
+.m-deptTree >.name{
+    color: #333;
+    font-weight: bold;
+    font-size: 14px;
+    /*padding-left: 20px;*/
 }
 .m-deptTree .dept_name{
     position: relative;
     display: inline-block;
     min-width: 100%;
     cursor: pointer;
+    color: #555;
     padding: 10px 0 10px 10px;
-    font-size: 16px;
+    font-size: 14px;
 
 }
 .m-deptTree .dept_name .arrow{
     position: absolute;
-    font-size: 14px;
+    font-size: 12px;
     color: #8b9fcb;
-    top:18px;
+    top:15px;
     left: -7px;
 }
 .m-deptTree .ellipsis{

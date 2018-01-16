@@ -127,7 +127,7 @@ class Edit extends Component {
         return true;
     }
     static clearTrim(value){
-        if(value == undefined) return;
+        if(value === undefined) return;
         if(Array.isArray(value)){
             value = value.filter(item =>{
                 item = Edit.clearTrim(item);

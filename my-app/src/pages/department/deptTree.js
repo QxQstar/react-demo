@@ -172,6 +172,7 @@ class Tree extends Component{
     render(){
         return (
             <div className='m-deptTree'>
+                <div className="name">部门管理</div>
                 <Dept pid={-1} selected_id={this.props.selected_id} selectDept={this.props.selectDept } depts={this.props.depts} changeDept={this.changeDept} level={1}/>
                 {this.state.addDeptModel?<Modal wrapClassName='g-popup-sure' closable={false} title={this.param.title} onOk={this.okAction} onCancel={this.closeModel} width={400} visible={true}>
                     {this.modelType !== 'del'

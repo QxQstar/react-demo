@@ -5,7 +5,7 @@ import Table from './../../components/g-list.js'
 class List extends Component{
     render(){
         const {columns,tb_data} = this.props;
-        return <Table cols={columns} data={tb_data} offset={55}/>
+        return <Table cols={columns} data={tb_data} offset={55} title='员工管理'/>
     }
 }
 export default connect((state) => {

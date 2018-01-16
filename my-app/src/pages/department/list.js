@@ -105,7 +105,7 @@ import {connect} from 'react-redux';
                 <Button className="primary opt-leader" onClick={() => {this.onChangeTree(true)}}>{!this.props.dept_leader?'选择部门负责人':'修改部门负责人'}</Button>
                 {this.state.visible?<SelectLeader type='staff' maxNum={1} visible={this.state.visible} onChangeTree={this.onChangeTree} onOk={this.onOk}/>:null}
             </div>:null}
-            <Table cols={this.columns} offset={this.props.offset} data={this.props.tb_data}/>
+            <Table cols={this.columns} offset={this.props.offset} data={this.props.tb_data} title={this.props.dept_name}/>
             {this.state.changeDept?
                 <Modal onOk={this.action} onCancel={() => {this.setState({changeDept:false})}} width={470} visible={true} title={'修改部门'} closable={true}>
                     <table className='g-from'>
@@ -145,6 +145,12 @@ export default connect((state,props) => {
             return resultStaff;
         })(state.baseData.staff),
         offset:props.dept_id * 1?60:0,
+        dept_name:(depts => {
+            const curDept = depts.find(dept => {
+                return dept.department_id * 1 === props.dept_id * 1;
+            });
+            return (curDept || {}).department_name || '全公司';
+        })(state.baseData.dept),
         dept_leader:(depts => {
             const curDept = depts.find(dept => {
                 return dept.department_id * 1 === props.dept_id * 1;

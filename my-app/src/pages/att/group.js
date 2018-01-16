@@ -23,7 +23,7 @@ class Group extends Component {
             {
                 title:'考勤类型',
                 key:'att_type',
-                width:180,
+                width:200,
                 render:(item) => {
                     const text = {
                         1:'固定班制-每日相同班次',

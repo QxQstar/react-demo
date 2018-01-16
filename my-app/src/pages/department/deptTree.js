@@ -173,7 +173,7 @@ class Tree extends Component{
         return (
             <div className='m-deptTree'>
                 <Dept pid={-1} selected_id={this.props.selected_id} selectDept={this.props.selectDept } depts={this.props.depts} changeDept={this.changeDept} level={1}/>
-                {this.state.addDeptModel?<Modal title={this.param.title} onOk={this.okAction} onCancel={this.closeModel} width={400} visible={true}>
+                {this.state.addDeptModel?<Modal wrapClassName='g-popup-sure' closable={false} title={this.param.title} onOk={this.okAction} onCancel={this.closeModel} width={400} visible={true}>
                     {this.modelType !== 'del'
                         ?<table className='g-from'>
                             <tbody>
@@ -184,7 +184,7 @@ class Tree extends Component{
                             </tbody>
 
                         </table>
-                        :<p>部门中的职员也会被删除，确定删除该部门？</p>
+                        :<p className="title">部门中的职员也会被删除，确定删除该部门？</p>
                     }
                 </Modal>:null}
             </div>

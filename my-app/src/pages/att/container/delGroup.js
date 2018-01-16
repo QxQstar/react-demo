@@ -5,9 +5,9 @@ import React from 'react';
 import {connect} from 'react-redux';
 import {Modal} from 'antd';
 function DelGroup(props) {
-    return <Modal visible={true} onCancel={() => props.onCancel()} onOk={() => props.del(props.data)} title='删除考勤分组'>
-        <p>您是否要删除该考勤分组？</p>
-        <p>删除后该组成员将会根据规则自动进入其他分组
+    return <Modal visible={true} wrapClassName='g-popup-sure' closable={false} onCancel={() => props.onCancel()} onOk={() => props.del(props.data)} title='删除考勤分组'>
+        <p className="title">您是否要删除该考勤分组？</p>
+        <p className="info">删除后该组成员将会根据规则自动进入其他分组
             规则：员工>部门>默认分组</p>
     </Modal>
 }

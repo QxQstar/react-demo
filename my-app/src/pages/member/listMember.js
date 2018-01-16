@@ -10,7 +10,7 @@ class List extends Component{
         return <Table scroll={{ x: true, y: height }} bordered={true} columns={columns} dataSource={tb_data} pagination={false}/>
     }
 }
-export default connect((state,props) => {
+export default connect((state) => {
     return {
         tb_data:(function(staff){
             return staff.map(data => ({...data,key:data.member_id}))

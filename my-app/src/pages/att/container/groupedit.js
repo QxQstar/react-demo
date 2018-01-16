@@ -17,6 +17,7 @@ class Edit extends Component{
                 members:[],
                 att_type:1,
                 is_flexible:0,
+                // 默认值为30分钟
                 ex_time:30,
                 last_time:30,
                 att_class:2
@@ -28,6 +29,10 @@ class Edit extends Component{
         this.setState({selectPerson:boolean});
     }
     changeFromData(filed,value){
+        if(filed === 'is_flexible') {
+            this.changeFromData('ex_time',30);
+            this.changeFromData('last_time',30);
+        }
         this.setState((prevState) => {
             const fromData = {...prevState.fromData,[filed]:value};
             return {
@@ -88,7 +93,7 @@ class Edit extends Component{
         this.props.submit(this.state.fromData);
         this.props.onChangeState();
     }
-    createHader(){
+    createHeader(){
        const text = this.props.fromData.id?'编辑考勤分组':'新增考勤分组';
        return <div className="g-header">
            <span className="bread link" onClick={this.props.onChangeState}>考勤分组</span> > <span className="bread">{text}</span>
@@ -97,7 +102,7 @@ class Edit extends Component{
     render(){
         return (
             <div className="m-group-edit">
-                {this.createHader()}
+                {this.createHeader()}
                 <div className="m-step">
                     <Steps current={this.state.step}>
                         <Step title="分组基本信息" />

@@ -95,8 +95,8 @@ export default class extends Component {
                         <ListMember columns={this.columns}/>
                     </div>:null}
                     {this.state.status ==='edit'?<EditMember meberMsg={this.rowData} changeState={this.changeState}/>:null}
-                    {this.state.delModel?<Modal title='删除员工' onOk={this.del} onCancel={() => this.setState({delModel:false})} visible={true}>
-                        确定删除该员工，删除之后数据将无法恢复？
+                    {this.state.delModel?<Modal wrapClassName='g-popup-sure' closable={false} title='删除员工' onOk={this.del} onCancel={() => this.setState({delModel:false})} visible={true}>
+                        <p className="title">确定删除该员工，删除之后数据将无法恢复？</p>
                     </Modal>:null}
                 </div>
             </Layout>

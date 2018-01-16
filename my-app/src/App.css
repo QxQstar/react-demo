@@ -205,6 +205,25 @@
     color: #555;
     border: 1px solid #8899a9;
 }
+.ant-modal-header{
+    border-bottom: none;
+}
+.ant-modal-footer{
+    border-top: none;
+}
+.ant-modal-footer .ant-btn{
+    border: none;
+    color: #555555;
+}
+.ant-modal-footer .ant-btn-primary{
+    background: transparent;
+    color: #24c875;
+}
+.ant-modal-title{
+    font-size: 14px;
+    font-weight: bold;
+    color: #444;
+}
 .g-filter-depts{
     outline: none;
 }
@@ -215,6 +234,15 @@
 }
 .g-filter-depts .name{
     font-size: 14px;
+}
+.g-popup-sure .title{
+    color: #333;
+    font-size: 14px;
+}
+.g-popup-sure .info{
+    font-size: 14px;
+    color: #8899a9;
+    margin-top: 8px;
 }
 .f-di{
     display: inline-block;

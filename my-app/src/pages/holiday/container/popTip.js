@@ -36,7 +36,7 @@ function Dialog(props) {
             info:'删除后该员工的年假时间全部清零,将不能请年假'
         }
     };
-    return <Modal visible={true} title={props.title} onCancel={props.onClose} onOk={props.onOk}>
+    return <Modal visible={true} wrapClassName='g-popup-sure' closable={false} title={props.title} onCancel={props.onClose} onOk={props.onOk}>
         <div>
             <p className='title'>{popTips[props.type].title}</p>
             <p className='info'>{popTips[props.type].info}</p>

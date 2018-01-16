@@ -2,7 +2,7 @@ import React from 'react'
 import {Modal} from 'antd'
 import {connect} from 'react-redux'
 function EditModel(props) {
-    return <Modal onOk={props.onOk} onCancel={props.onClose} visible={true} title={props.title} closable={true}>
+    return <Modal onOk={props.onOk} onCancel={props.onClose} visible={true} title={props.title} closable={false}>
         {props.render()}
     </Modal>
 }

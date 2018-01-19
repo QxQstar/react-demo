@@ -15,6 +15,7 @@
 * mongodb
 * axios
 ## 项目架构
+```
 .
 ├─ exampleImg/            # 截图
 ├─ note/             # 学习笔记
@@ -41,6 +42,8 @@
 |   |   |── App.js
 |   |   |── index.css
 |   |   |── index.js          # 入口
+```
+
 ## 截图
 > 通讯录
 ![通讯录-公司职员列表截图](./exampleImg/addressBook.png)

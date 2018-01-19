@@ -13,22 +13,27 @@ export default class extends Component {
             },
             {
                 title:'状态',
-                key:'status'
+                key:'status',
+                width:100
             },
             {
                 title:'假期上限(天)',
-                key:'max_time'
+                key:'max_time',
+                width:150
             },
             {
                 title:'周期',
-                key:'period'
+                key:'period',
+                width:150
             },
             {
                 title:'附件证明',
-                key:'attachment'
+                key:'attachment',
+                width:100
             },
             {
                 type:'action',
+                width:200,
                 title:'操作',
                 render:(item) => {
                     return <div className='action'>

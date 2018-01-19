@@ -34,14 +34,17 @@ export default class  extends Component{
             },
             {
                 title:'部门',
-                key:'department_name'
+                key:'department_name',
+                width:200,
             },
             {
                 title:'可调休时间(小时)',
-                key:'remove_time'
+                key:'remove_time',
+                width:200
             },
             {
                 type:'action',
+                width:200,
                 render:(item) => {
                     return <div>
                         <span className="action" onClick={() => this.editDayOff('编辑调休','edit_day_off',item)}>编辑</span>

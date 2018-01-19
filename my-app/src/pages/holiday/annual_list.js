@@ -25,23 +25,28 @@ export default class extends Component{
             },
             {
                 title:'部门',
-                key:'department_name'
+                key:'department_name',
+                width:200,
             },
             {
                 title:'工号',
-                key:'work_num'
+                key:'work_num',
+                width:100,
             },
             {
                 title:'年假总额(小时)',
-                key:'all_time'
+                key:'all_time',
+                width:150,
             },
             {
                 title:'剩余年假(小时)',
-                key:'remove_time'
+                key:'remove_time',
+                width:150,
             },
             {
                 title:'操作',
                 type:'action',
+                width:150,
                 render:(item) => {
                     return <div>
                         <span className="action" onClick={() => this.editAnn('编辑年假','edit_ann',item)}>编辑</span>

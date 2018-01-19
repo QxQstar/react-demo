@@ -33,23 +33,28 @@ export default class extends Component {
             },
             {
                 title:'工号',
-                key:'work_num'
+                key:'work_num',
+                width:100
             },
             {
                 title:'部门',
-                key:'department_name'
+                key:'department_name',
+                width:150
             },
             {
-                title:'奖励假总天数(天)',
-                key:'total_day'
+                title:'总天数(天)',
+                key:'total_day',
+                width:150
             },
             {
                 title:'剩余时长(天)',
-                key:'remove_day'
+                key:'remove_day',
+                width:150
             },
             {
                 type:'action',
                 title:'操作',
+                width:150,
                 render:(item) =>{
                     return <div>
                         <span className='action' onClick={() => this.editAward('编辑奖励假','edit_award',item)}>编辑</span>

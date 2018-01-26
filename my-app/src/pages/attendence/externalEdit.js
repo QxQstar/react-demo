@@ -159,13 +159,13 @@ class Edit extends Component {
             dept: {
                 label:'部门',
                 value:Edit.clearTrim(this.state.dept),
-                exp:/.+/,
+                exp:/.*/,
                 required:false
             },
             position: {
                 label:'职位',
                 value:Edit.clearTrim(this.state.position),
-                exp:/.+/,
+                exp:/.*/,
                 required:false
             }
         };

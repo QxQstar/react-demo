@@ -35,7 +35,7 @@ export default connect((state,ownProps) => {
     return {
         data:getData(state,ownProps)
     }
-},(dispatch) => {
+},(dispatch,ownProps) => {
     return{
         setCommon(flag,member_id){
             dispatch({
@@ -48,12 +48,20 @@ export default connect((state,ownProps) => {
             dispatch({
                 type:'addCommon',
                 member
+            });
+            dispatch({
+                type:'exitExternal',
+                params:{...member,like:!member.like * 1}
             })
         },
         delCommon(member){
             dispatch({
                 type:'delCommon',
-                member
+                member,
+            });
+            dispatch({
+                type:'exitExternal',
+                params:{...member,like:!member.like * 1}
             })
         },
         changeCur(member){

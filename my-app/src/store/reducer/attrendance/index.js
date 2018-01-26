@@ -39,37 +39,7 @@ const defaultStaffs =  [
                     dpart_name:'web'
                 }
             ];
-const defaultCommon = [
-                {
-                    member_id:5,
-                    member_name:'QxQstar5',
-                    phone:12345678,
-                    leader:false,
-                    letter:'Q',
-                    position:'研究员',
-                    like:1,
-                    dpart_name:'web'
-                },
-                {
-                    member_id:6,
-                    member_name:'DQxQstar6',
-                    letter:'D',
-                    phone:12345878,
-                    leader:true,
-                    like:1,
-                    dpart_name:'web'
-                },
-                {
-                    member_id:7,
-                    member_name:'张家界7',
-                    phone:12345678,
-                    leader:true,
-                    letter:'Q',
-                    position:'研究员',
-                    like:1,
-                    dpart_name:'web'
-                },
-            ];
+const defaultCommon = [];
 const defaultExter = [
                 {
                     member_id:8,

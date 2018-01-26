@@ -6,9 +6,6 @@ import Att from './../pages/att/index.js';
 import Department from './../pages/department/index.js';
 import Member from './../pages/member/index.js';
 export default class  extends Component{
-    componentDidMount(){
-        this.props.history.push('/attendence')
-    }
     render(){
         return <div>
             <Switch>

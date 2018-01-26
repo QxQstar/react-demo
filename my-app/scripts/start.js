@@ -25,6 +25,7 @@ const openBrowser = require('react-dev-utils/openBrowser');
 const config = require('../config/webpack.config.dev');
 
 const app = new express();
+const compiler = webpack(config);
 app.use(bodyParser.json()); // for parsing application/json
 app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 require('./../route/index.js')(app);
@@ -32,10 +33,14 @@ require('./../route/index.js')(app);
 mongoose.connect('mongodb://localhost/react');
 mongoose.connection
     .on('open',function () {
+        process.env.connect_database = 1;
         console.log('connection successful');
+
     })
     .on('error',function () {
+        process.env.connect_database = 0;
       console.log('connection error');
+
     });
 // Tools like Cloud9 rely on this.
 const DEFAULT_PORT = parseInt(process.env.PORT, 10) || 3000;
@@ -50,7 +55,7 @@ choosePort(HOST, DEFAULT_PORT)
       return;
     }
     // Create a webpack compiler that is configured with custom messages.
-    const compiler = webpack(config);
+
     const devMiddleware = require('webpack-dev-middleware')(compiler, {
       publicPath: config.output.publicPath
     });

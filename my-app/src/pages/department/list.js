@@ -104,10 +104,10 @@ import {connect} from 'react-redux';
         return <div className='m-dept-member'>
             {this.props.dept_id * 1?<div className='g-header'>
                 <span>部门负责人:</span>
-                {this.props.dept_leader}
+                {this.props.dept_leader.member_name}
                 {this.offset}
                 <Button className="primary opt-leader" onClick={() => {this.onChangeTree(true)}}>{!this.props.dept_leader?'选择部门负责人':'修改部门负责人'}</Button>
-                {this.state.visible?<SelectLeader type='staff' maxNum={1} visible={this.state.visible} onChangeTree={this.onChangeTree} onOk={this.onOk}/>:null}
+                {this.state.visible?<SelectLeader type='staff' selectedData={this.props.dept_leader.member_id?[this.props.dept_leader]:[]} maxNum={1} visible={this.state.visible} onChangeTree={this.onChangeTree} onOk={this.onOk}/>:null}
             </div>:null}
             <Table cols={this.columns} offset={this.props.offset} data={this.props.tb_data} title={this.props.dept_name}/>
             {this.state.changeDept?
@@ -159,7 +159,10 @@ export default connect((state,props) => {
             const curDept = depts.find(dept => {
                 return dept.department_id * 1 === props.dept_id * 1;
             });
-            return (curDept || {}).leader_member_name;
+            return {
+                member_name:(curDept || {}).leader_member_name,
+                member_id:(curDept || {}).leader_member_id
+            }
         })(state.baseData.dept)
     }
 })(List);

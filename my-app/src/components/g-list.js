@@ -16,10 +16,10 @@ export default class  extends Component {
         this.selectedAll = this.props.data.filter((item) => {return item.checked}).length >= this.props.data.length;
         return <div className='holiday_list'>
             <div className='g-list-warp'>
-                <div className='g-list-header'>
+                {this.props.data.length > 0?<div className='g-list-header'>
                     {this.props.title}
                     {this.props.data.filter((item) => {return item.checked}).length > 0 ? <Button style={{marginLeft:'20px'}} onClick={() => this.props.delHandle({},true)}>批量删除</Button>:null}
-                </div>
+                </div>:null}
                 {this.props.data.length > 0 ?
                     <div className='g-list-body'>
                         <table className='g-list-table g-list-table-head'>

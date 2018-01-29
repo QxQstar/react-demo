@@ -20,7 +20,10 @@ export default class  extends Component {
            this.curDept = [{department_id:props.meberMsg.department_id,department_name:props.meberMsg.department_name}];
         }
     }
-    changeVal(filed,val){
+    changeVal(filed,val,type='text'){
+        if(type === 'num'){
+            val = val.replace(/[^\d]/g,'');
+        }
         this.setState({
             [filed]:val
         });
@@ -37,13 +40,25 @@ export default class  extends Component {
             department_name:(data[0] || {}).department_name || ''
         });
     }
+    verifyFrom(param){
+        if(!param.member_name){
+            message.warning('请输入员工姓名');
+            return false;
+        } else if(!param.department_name || !param.department_id){
+            message.warning('请选择员工部门');
+            return false;
+        } else {
+            return true;
+        }
+    }
     submit(){
         const param = {
-            member_name:this.state.member_name,
+            member_name:this.state.member_name.replace(/^\s+|\s+$/g,''),
             department_id:this.state.department_id,
             work_num:this.state.work_num ,
             department_name:this.state.department_name
         };
+        if(!this.verifyFrom(param)) return false;
         const type = this.state.member_id?'edit':'add';
         const data = {
             add:{
@@ -91,7 +106,7 @@ export default class  extends Component {
                         <tr>
                             <td className='in-h'>工号</td>
                             <td>
-                                <input className='input' value={this.state.work_num} onChange={(event) => this.changeVal('work_num',event.target.value)}/>
+                                <input className='input' value={this.state.work_num} onChange={(event) => this.changeVal('work_num',event.target.value,'num')}/>
                             </td>
                         </tr>
                         <tr>

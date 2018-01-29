@@ -82,6 +82,10 @@ import {connect} from 'react-redux';
     }
     // 修改部门负责人
     onOk(leader){
+        if(this.props.dept_id * 1 && leader.length <= 0) {
+            message.warning('请选择部门负责人');
+            return false;
+        }
         this.$http.post('/dept/edit',{
             department_id:this.props.dept_id,
             leader_member_name:(leader[0]||{}).member_name || '',

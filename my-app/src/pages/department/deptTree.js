@@ -153,11 +153,20 @@ class Tree extends Component{
     updateList(){
         updateDept.bind(this)();
     }
+    verifyFrom(dept_name){
+        if(!dept_name){
+            message.warning('请输入部门名称');
+            return false;
+        } else {
+            return true;
+        }
+    }
     // 确认操作
     okAction(){
+        if(this.modelType !== 'del' && !this.verifyFrom(this.state.dept_name.replace(/^\s+|\s+$/g,''))) return false;
         this.$http.post(this.param.url,{
             ...this.param.params,
-            department_name:this.state.dept_name
+            department_name:this.state.dept_name.replace(/^\s+|\s+$/g,''),
         }).then((res) => {
             const resData = res.data || {};
             if(resData.code + '' ==='0'){
@@ -179,7 +188,7 @@ class Tree extends Component{
                         ?<table className='g-from'>
                             <tbody>
                                 <tr>
-                                    <td className='in-h'>部门名称</td>
+                                    <td className='in-h'>部门名称<span className="in-star">*</span></td>
                                     <td><input value={this.state.dept_name} className='input'  onChange={(event) => {this.changeDeptName(event)}}/></td>
                                 </tr>
                             </tbody>
